@@ -15,6 +15,13 @@ router.get('/health', (req, res) => {
   });
 });
 
+router.get('/health-check', (req, res) => {
+  res.send({
+    status: 200,
+    message: 'API is healthy and responding'
+  });
+});
+
 router.post('/api/users', async (req, res) => {
   try {
     if(!req?.body?.username || !req?.body?.password || !req?.body?.email) {
