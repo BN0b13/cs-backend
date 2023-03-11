@@ -15,18 +15,11 @@ router.get('/health', (req, res) => {
   });
 });
 
-router.get('/health-check', (req, res) => {
-  res.send({
-    status: 200,
-    message: 'API is healthy and responding'
-  });
-});
-
 router.post('/api/users', async (req, res) => {
   try {
     if(!req?.body?.username || !req?.body?.password || !req?.body?.email) {
       return res.send({
-        status: 400,
+        status: 404,
         error: 'Missing Fields'
       });
     }
@@ -53,17 +46,20 @@ router.post('/api/users', async (req, res) => {
       await createUser.save();
 
       res.send({
+        status: 201,
         token: createUser.token,
         message: `User ${username} was created successfully.`,
-        result: createUser
+        data: 'no user data to return'
       });
     } else {
       res.send({
+        status: 409,
         message: 'User already exists'
       });
     }
   } catch (err) {
     res.send({
+      status: 500,
       message: 'There was an error',
       error: err
     });
@@ -74,6 +70,7 @@ router.post('/api/login', async (req, res) => {
   try {
     if(!req?.body?.username || !req?.body?.password) {
       return res.send({
+        status: 404,
         error: 'Missing Fields'
       });
     }
@@ -92,12 +89,14 @@ router.post('/api/login', async (req, res) => {
       await User.updateOne({_id: userCheck[0]._id }, { $set: {token}});
 
       res.send({
+        status: 200,
         token,
-        message: 'Login Successful'
+        message: 'Login Successful',
+        data: 'no user data to return'
       });
     } else {
       res.send({
-        status: 403,
+        status: 404,
         message: 'Username/Password incorrect'
       });
     }
