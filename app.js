@@ -24,7 +24,7 @@ app.use(session({
   resave: false,
   saveUninitialized: false,
   store: MongoStore.create({ mongoUrl: process.env.CONNECTIONSTRING }),
-}))
+}));
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 app.use(
@@ -32,7 +32,10 @@ app.use(
     contentSecurityPolicy: false,
   })
 );
-app.use(cors());
+app.use(cors({
+  origin: 'https://cosmicstrains.com'
+}));
+
 app.disable('x-powered-by');
 
 //Import Routes
