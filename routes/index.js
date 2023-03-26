@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken');
 const router = express.Router();
 const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
 
+const Contact = require('../models/Contact');
 const Post = require('../models/Post');
 const Comment = require('../models/Comment');
 const User = require('../models/User');
@@ -15,7 +16,7 @@ router.get('/health', (req, res) => {
   });
 });
 
-router.post('/api/users', async (req, res) => {
+router.post('/users', async (req, res) => {
   try {
     if(!req?.body?.username || !req?.body?.password || !req?.body?.email) {
       return res.send({
@@ -66,7 +67,7 @@ router.post('/api/users', async (req, res) => {
   }
 });
 
-router.post('/api/login', async (req, res) => {
+router.post('/login', async (req, res) => {
   try {
     if(!req?.body?.username || !req?.body?.password) {
       return res.send({
@@ -105,6 +106,39 @@ router.post('/api/login', async (req, res) => {
       status: 500,
       message: 'There was an error'
     });
+  }
+});
+
+router.post('/contact', async (req, res) => {
+  try {
+    const {
+      firstName,
+      lastName,
+      phone,
+      email,
+      message
+    } = req.body;
+    
+    const contactForm = new Contact({
+      firstName,
+      lastName,
+      phone,
+      email,
+      message
+    });
+  
+    await contactForm.save();
+  
+    res.send({
+      status: 201,
+      message: `Contact Message received.`,
+      data: 'no user data to return'
+    });
+  } catch (err) {
+    res.send({
+      err,
+      message: 'There was an error'
+    })
   }
 });
 
