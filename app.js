@@ -11,20 +11,20 @@ const app = express();
 const port = process.env.PORT;
 
 app.use(cookieParser());
-// mongoose.connect(process.env.CONNECTIONSTRING, { 
-//   useNewUrlParser: true,
-//   useUnifiedTopology: true,
-//   }).then(() => {
-//     console.log('DB Connected');
-//   }).catch(err=>{
-//     return console.log(err);
-// });
-// app.use(session({
-//   secret: process.env.SESSION_SECRET,
-//   resave: false,
-//   saveUninitialized: false,
-//   store: MongoStore.create({ mongoUrl: process.env.CONNECTIONSTRING }),
-// }));
+mongoose.connect(process.env.CONNECTIONSTRING, { 
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  }).then(() => {
+    console.log('DB Connected');
+  }).catch(err=>{
+    return console.log(err);
+});
+app.use(session({
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: false,
+  store: MongoStore.create({ mongoUrl: process.env.CONNECTIONSTRING }),
+}));
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 app.use(
@@ -32,10 +32,12 @@ app.use(
     contentSecurityPolicy: false,
   })
 );
-app.use(cors());
-// app.use(cors({
-//   origin: 'https://cosmicstrains.com'
-// }));
+//Local
+// app.use(cors());
+// Prod
+app.use(cors({
+  origin: 'https://cosmicstrains.com'
+}));
 
 app.disable('x-powered-by');
 
