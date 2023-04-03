@@ -1,35 +1,35 @@
-const mongoose = require('mongoose');
-
-
-const UserSchema = mongoose.Schema({
-  username: {
-    type: String,
-    required: true
-  },
-  password: {
-    type: String,
-    required: true
-  },
-  email: {
-    type: String,
-    required: true
-  },
-  isAdmin: {
-    type: Boolean,
-    required: true
-  },
-  token: {
-    type: String,
-    required: false
-  },
-  creationDate: {
-    type: Date,
-    default: Date.now
+'use strict';
+import {
+  Model
+} from 'sequelize';
+export default (sequelize, DataTypes) => {
+  class User extends Model {
+    /**
+     * Helper method for defining associations.
+     * This method is not a part of Sequelize lifecycle.
+     * The `models/index` file will call this method automatically.
+     */
+    static associate(models) {
+      // define association here
+    }
   }
-  
-});
-
-
-
-// first parameter is folder name in DB Collection, second is const/function called
-module.exports = mongoose.model('users', UserSchema);
+  User.init({
+    username: DataTypes.STRING,
+    password: DataTypes.STRING,
+    roleId: DataTypes.NUMBER,
+    firstName: DataTypes.STRING,
+    lastName: DataTypes.STRING,
+    phone: DataTypes.NUMBER,
+    email: DataTypes.STRING,
+    address: DataTypes.STRING,
+    city: DataTypes.STRING,
+    state: DataTypes.STRING,
+    zipCode: DataTypes.NUMBER,
+    emailList: DataTypes.BOOLEAN,
+    emailVerified: DataTypes.BOOLEAN
+  }, {
+    sequelize,
+    modelName: 'User',
+  });
+  return User;
+};

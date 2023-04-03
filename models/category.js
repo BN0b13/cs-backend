@@ -3,7 +3,7 @@ import {
   Model
 } from 'sequelize';
 export default (sequelize, DataTypes) => {
-  class Contact extends Model {
+  class Category extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -13,14 +13,13 @@ export default (sequelize, DataTypes) => {
       // define association here
     }
   }
-  Contact.init({
-    userId: DataTypes.INTEGER,
-    message: DataTypes.STRING,
-    status: DataTypes.STRING,
-    replied: DataTypes.BOOLEAN
+  Category.init({
+    name: DataTypes.STRING,
+    description: DataTypes.STRING,
+    status: DataTypes.BOOLEAN
   }, {
     sequelize,
-    modelName: 'Contact',
+    modelName: 'Category',
   });
-  return Contact;
+  return Category;
 };

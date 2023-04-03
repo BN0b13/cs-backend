@@ -1,9 +1,9 @@
 'use strict';
 import {
   Model
-} from 'sequelize';
-export default (sequelize, DataTypes) => {
-  class Contact extends Model {
+}from 'sequelize';
+module.exports = (sequelize, DataTypes) => {
+  class Order extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -13,14 +13,14 @@ export default (sequelize, DataTypes) => {
       // define association here
     }
   }
-  Contact.init({
+  Order.init({
     userId: DataTypes.INTEGER,
-    message: DataTypes.STRING,
-    status: DataTypes.STRING,
-    replied: DataTypes.BOOLEAN
+    products: DataTypes.ARRAY(Sequelize.INTEGER),
+    total: DataTypes.INTEGER,
+    couponId: DataTypes.INTEGER
   }, {
     sequelize,
-    modelName: 'Contact',
+    modelName: 'Order',
   });
-  return Contact;
+  return Order;
 };

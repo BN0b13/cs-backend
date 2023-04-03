@@ -3,8 +3,13 @@
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
+  "type": "module",
   "scripts": {
-    "start": "nodemon app.js"
+    "start": "nodemon app.js && npm run migrate",
+    "up": "docker-compose -f ./docker-compose.yml -p cosmic_strains up",
+    "down": "docker-compose -f ./docker-compose.yml -p cosmic_strains down",
+    "destroy": "docker-compose -f ./docker-compose.yml -p cosmic_strains down -v --remove-orphans",
+    "migrate": "sequelize-cli db:migrate"
   },
   "repository": {
     "type": "git",
@@ -28,9 +33,11 @@
     "helmet": "^6.0.1",
     "jsonwebtoken": "^9.0.0",
     "mongoose": "^7.0.1",
-    "node-fetch": "^3.3.0"
+    "pg": "^8.10.0",
+    "sequelize": "^6.30.0"
   },
   "devDependencies": {
-    "nodemon": "^2.0.21"
+    "nodemon": "^2.0.21",
+    "sequelize-cli": "^6.6.0"
   }
 }
