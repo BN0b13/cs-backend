@@ -1,10 +1,11 @@
 import UserService from '../services/UserService.js';
-import User from '../models/user.js';
+import User from '../models/User.js';
 
 const userService = new UserService();
 
 class UserRepository {
     async create(params) {
+        console.log('Create User Hit: ', params);
         const {
             username, 
             password
@@ -18,18 +19,28 @@ class UserRepository {
             throw Error('Username already exists');
         }
 
-        const hashedPassword = userService.hashPassword(password);
+        const hashedPassword = await userService.hashPassword(password);
 
         try {
-            return await User.create({ ...params, password: hashedPassword });
+            const options = { 
+                ...params, 
+                password: hashedPassword,
+                emailVerified: true,
+                roleId: 1
+            };
+            console.log('Options: ', options);
+            const userCreate = await User.create(options);
+            console.log('User Create res: ', userCreate);
+            return userCreate;
         } catch (err) {
+            console.log(err);
             throw Error('There was an error creating the new user');
         }
     }
 
     async getByUsername(username) {
         return await User.findAll({
-            Where: {
+            where: {
                 username
             }
         });
@@ -37,6 +48,16 @@ class UserRepository {
 
     async getByPK(id) {
         return await User.findByPK(id);
+    }
+
+    async getUsers() {
+        try {
+            const getUsersReq = await User.findAndCountAll({});
+            console.log('Get Users Success: ', getUsersReq);
+            return getUsersReq;
+        } catch (err) {
+            console.log('Get Users Error: ', err);
+        }
     }
 }
 

@@ -13,6 +13,10 @@ router.get('/health', (req, res) => {
 });
 
 // Users
+router.get('/users', (req, res) => userController.getUsers(req, res));
+
 router.post('/users', (req, res) => userController.create(req, res));
+
+router.get('/user:id', (req, res) => userController.getByPK(req, res));
 
 export default router;

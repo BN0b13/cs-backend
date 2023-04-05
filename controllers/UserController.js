@@ -3,7 +3,7 @@ import UserRepository from '../repositories/UserRepository.js';
 const userRepository = new UserRepository();
 
 class UserController {
-    create(req, res) {
+    async create(req, res) {
         try {
             console.log('USER CREATE REQ: ', req.body);
         const {
@@ -34,13 +34,14 @@ class UserController {
             emailList
         };
 
-        params.forEach(param => {
-            if(typeof param === undefined) {
-                throw Error('Missing Params');
-            }
-        });
+        // TODO create field checker logic
+        // params.forEach(param => {
+        //     if(typeof param === undefined) {
+        //         throw Error('Missing Params');
+        //     }
+        // });
 
-        const createUser = userRepository.create(params);
+        const createUser = await userRepository.create(params);
 
         res.send({
             message: 'User Creation Result',
@@ -58,6 +59,11 @@ class UserController {
         // Primary Key
         const { id } = req.params;
         const result = await userRepository.getByPK(id);
+        res.send(result);
+    }
+    
+    async getUsers(req, res) {
+        const result = await userRepository.getUsers();
         res.send(result);
     }
 }

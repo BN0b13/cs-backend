@@ -27,22 +27,22 @@ const port = process.env.PORT;
 //   saveUninitialized: false,
 //   store: MongoStore.create({ mongoUrl: process.env.CONNECTIONSTRING }),
 // }));
-// app.use(express.json());
-// app.use(express.urlencoded({extended: false}));
-// app.use(
-//   helmet({
-//     contentSecurityPolicy: false,
-//   })
-// );
+app.use(express.json());
+app.use(express.urlencoded({extended: false}));
+app.use(
+  helmet({
+    contentSecurityPolicy: false,
+  })
+);
 //Local
-// app.use(cors());
+app.use(cors());
 
 // Prod
 // app.use(cors({
 //   origin: 'https://cosmicstrains.com'
 // }));
 
-// app.disable('x-powered-by');
+app.disable('x-powered-by');
 
 app.use('/', routes);
 
