@@ -1,23 +1,26 @@
 'use strict';
 import {
-  Model
+  Model,
+  DataTypes
 } from 'sequelize';
-export default (sequelize, DataTypes) => {
-  class Role extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
-    static associate(models) {
-      // define association here
-    }
+import { sequelize } from '../db.js';
+
+class Role extends Model {
+  /**
+   * Helper method for defining associations.
+   * This method is not a part of Sequelize lifecycle.
+   * The `models/index` file will call this method automatically.
+   */
+  static associate(models) {
+    // define association here
   }
-  Role.init({
-    role: DataTypes.STRING
-  }, {
-    sequelize,
-    modelName: 'Role',
-  });
-  return Role;
-};
+}
+Role.init({
+  role: DataTypes.STRING
+}, {
+  sequelize,
+  schema: process.env.PG_SCHEMA_NAME,
+  modelName: 'Role',
+});
+
+export default Role;

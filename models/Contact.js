@@ -1,8 +1,9 @@
 'use strict';
 import {
-  Model
+  Model,
+  DataTypes
 } from 'sequelize';
-export default (sequelize, DataTypes) => {
+import { sequelize } from '../db.js';
   class Contact extends Model {
     /**
      * Helper method for defining associations.
@@ -20,7 +21,8 @@ export default (sequelize, DataTypes) => {
     replied: DataTypes.BOOLEAN
   }, {
     sequelize,
+    schema: process.env.PG_SCHEMA_NAME,
     modelName: 'Contact',
   });
-  return Contact;
-};
+
+  export default Contact;
