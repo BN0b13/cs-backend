@@ -40,6 +40,7 @@ class UserRepository {
             });
 
             return {
+                status: 201,
                 token,
                 email: userCreate.email
             };
@@ -72,6 +73,7 @@ class UserRepository {
             });
 
             return {
+                status: 200,
                 token,
                 email: getUser.email
             };

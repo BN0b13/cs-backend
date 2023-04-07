@@ -22,7 +22,7 @@ class UserController {
         } = req.body;
 
         const params = {
-            email,
+            email: email.toLowerCase(),
             password,
             firstName,
             lastName,
@@ -61,7 +61,7 @@ class UserController {
             } = req.body;
     
             const params = {
-                email, 
+                email: email.toLowerCase(), 
                 password
             };
     
