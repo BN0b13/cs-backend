@@ -12,14 +12,14 @@ class UserRepository {
 
     async create(params) {
         const {
-            username, 
+            email, 
             password
         } = params;
 
-        const userExists = await this.getByUsername(username);
+        const emailExists = await this.getByEmail(email);
 
-        if(userExists.length > 0) {
-            throw Error('Username already exists');
+        if(emailExists.length > 0) {
+            throw Error('Email already exists');
         }
 
         const hashedPassword = await userService.hashPassword(password);
@@ -28,20 +28,20 @@ class UserRepository {
             const options = { 
                 ...params, 
                 password: hashedPassword,
-                emailVerified: true,
-                roleId: 1
+                emailVerified: false,
+                roleId: 2
             };
 
             const userCreate = await User.create(options);
 
             const token = await authManagement.createToken({
                 roleId: userCreate.roleId,
-                username: userCreate.username
+                email: userCreate.email
             });
 
             return {
                 token,
-                username: userCreate.username
+                email: userCreate.email
             };
         } catch (err) {
             console.log('Create New User Error: ', err);
@@ -51,28 +51,29 @@ class UserRepository {
 
     // READ
 
-    async login({ username, password }) {
+    async login({ email, password }) {
         try {
-            const getUsername = await this.getByUsername(username);
+            const getUser = await this.getSingleUserByEmail(email);
 
-            if(!getUsername) {
-                throw Error('Username does not exist');
+            if(!getUser) {
+                throw Error('Email does not exist');
             }
 
-            const verifyPassword = await userService.verifyPassword(password, getUsername.password);
+            const verifyPassword = await userService.verifyPassword(password, getUser.password);
 
             if(!verifyPassword) {
                 throw Error('Password was not correct');
             }
 
             const token = await authManagement.createToken({
-                roleId: getUsername.roleId,
-                username: getUsername.username
+                id: getUser.id,
+                roleId: getUser.roleId,
+                email: getUser.email
             });
 
             return {
                 token,
-                username: getUsername.username
+                email: getUser.email
             };
         } catch (err) {
             console.log('Login error: ', err);
@@ -80,10 +81,18 @@ class UserRepository {
         }
     }
 
-    async getByUsername(username) {
+    async getByEmail(email) {
+        return await User.findAll({
+            where: {
+                email
+            }
+        });
+    }
+
+    async getSingleUserByEmail(email) {
         return await User.findOne({
             where: {
-                username
+                email
             }
         });
     }

@@ -1,6 +1,9 @@
 import express from 'express';
 const router = express.Router();
 
+import { TokenVerifier } from '../middleware/tokenVerifier.js';
+import { HandleErrors } from '../middleware/errorHandler.js';
+
 import UserController from '../controllers/UserController.js';
 import ContactController from '../controllers/ContactController.js';
 import InventoryController from '../controllers/InventoryController.js';
@@ -22,45 +25,21 @@ router.get('/health', (req, res) => {
 
 // Login
 
-router.post('/login', (req, res) => userController.login(req, res));
+router.post('/login', HandleErrors(userController.login));
 
 // Users
-router.post('/users', (req, res) => userController.create(req, res));
+router.post('/users', HandleErrors(userController.create));
 
-router.get('/users', (req, res) => userController.getUsers(req, res));
-
-router.get('/user/:id', (req, res) => userController.getByPK(req, res));
-
-router.patch('/users', (req, res) => userController.updateUser(req, res));
-
-router.delete('/users', (req, res) => userController.deleteUser(req, res));
+router.patch('/users', TokenVerifier, HandleErrors(userController.updateUser));
 
 // Contact
 
-router.post('/contact', (req, res) => contactController.create(req, res));
-
-router.get('/contact', (req, res) => contactController.getMessages(req, res));
-
-// Roles
-
-router.post('/roles', (req, res) => roleController.create(req, res));
-
-router.get('/roles', (req, res) => roleController.getRoles(req, res));
+router.post('/contact', TokenVerifier, HandleErrors(contactController.create));
 
 // Products
 
-router.post('/products', (req, res) => productController.create(req, res));
+router.get('/products', (productController.getProducts));
 
-router.get('/products', (req, res) => productController.getProducts(req, res));
-
-router.get('/products/:id', (req, res) => productController.getByPK(req, res));
-
-// Inventory
-
-router.post('/inventory', (req, res) => inventoryController.create(req, res));
-
-router.get('/inventory', (req, res) => inventoryController.getInventory(req, res));
-
-router.get('/inventory/:id', (req, res) => inventoryController.getByPK(req, res));
+router.get('/products/:id', (productController.getByPK));
 
 export default router;

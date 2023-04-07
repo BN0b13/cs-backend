@@ -8,13 +8,12 @@ class UserController {
 
     async create(req, res) {
         try {
-        const {
-            username = null, 
+        const { 
+            email = null,
             password = null,
             firstName = null,
             lastName = null,
             phone = null,
-            email = null,
             address = null,
             city = null,
             state = null,
@@ -23,12 +22,11 @@ class UserController {
         } = req.body;
 
         const params = {
-            username, 
+            email,
             password,
             firstName,
             lastName,
             phone,
-            email,
             address,
             city,
             state,
@@ -38,7 +36,7 @@ class UserController {
 
         Object.values(params).forEach(param => {
             if(param === null) {
-                throw Error('Missing Params');
+                throw Error(`Missing ${params[param]} Param`);
             }
         });
 
@@ -58,18 +56,18 @@ class UserController {
     async login(req, res) {
         try {
             const {
-                username = null, 
+                email = null, 
                 password = null
             } = req.body;
     
             const params = {
-                username, 
+                email, 
                 password
             };
     
             Object.values(params).forEach(param => {
                 if(param === null) {
-                    throw Error('Missing Params');
+                    throw Error(`Missing ${params[param]} Param`);
                 }
             });
 
@@ -99,8 +97,8 @@ class UserController {
     // UPDATE
 
     async updateUser(req, res) {
+        const { id } = req.userData;
         const {
-            id,
             password = null,
             firstName = null,
             lastName = null,
@@ -134,15 +132,9 @@ class UserController {
 
     async deleteUser(req, res) {
         const {
-            roleId,
             id
         } = req.body;
 
-        if(roleId !== 1) {
-            return res.send({
-                message: 'Access Denied'
-            });
-        }
         const data = await userRepository.deleteUser(id);
         res.send(data);
     }

@@ -16,13 +16,12 @@ class User extends Model {
   }
 }
 User.init({
-  username: DataTypes.STRING,
+  email: DataTypes.STRING,
   password: DataTypes.STRING,
   roleId: DataTypes.INTEGER,
   firstName: DataTypes.STRING,
   lastName: DataTypes.STRING,
   phone: DataTypes.STRING,
-  email: DataTypes.STRING,
   address: DataTypes.STRING,
   city: DataTypes.STRING,
   state: DataTypes.STRING,
