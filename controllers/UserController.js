@@ -82,6 +82,13 @@ class UserController {
         }
     }
 
+    async getAccountInformation(req, res) {
+        console.log('Get Account Info hit');
+        const { id } = req.userData;
+        const data = await userRepository.getAccountInformation(id);
+        res.send(data);
+    }
+
     async getByPK(req, res) {
         // Primary Key
         const { id } = req.params;

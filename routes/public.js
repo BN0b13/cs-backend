@@ -30,6 +30,8 @@ router.post('/login', HandleErrors(userController.login));
 // Users
 router.post('/users', HandleErrors(userController.create));
 
+router.get('/users', TokenVerifier, HandleErrors(userController.getAccountInformation));
+
 router.patch('/users', TokenVerifier, HandleErrors(userController.updateUser));
 
 // Contact

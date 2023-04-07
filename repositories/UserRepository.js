@@ -83,6 +83,29 @@ class UserRepository {
         }
     }
 
+    async getAccountInformation(id) {
+        const user = await User.findOne({
+            where: {
+                id
+            }
+        });
+
+        const data = {
+            email: user.email,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            phone: user.phone,
+            address: user.address,
+            city: user.city,
+            state: user.state,
+            zipCode: user.zipCode,
+            emailList: user.emailList,
+            emailVerified: user.emailVerified,
+        }
+
+        return data;
+    }
+
     async getByEmail(email) {
         return await User.findAll({
             where: {
