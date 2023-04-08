@@ -1,7 +1,8 @@
 'use strict';
 import {
   Model,
-  DataTypes
+  DataTypes,
+  Sequelize
 } from 'sequelize';
 import { sequelize } from '../db.js';
 
@@ -13,6 +14,7 @@ class Order extends Model {
    */
   static associate(models) {
     // define association here
+    Order.belongsTo(models.User, {foreignKey: 'id', as: 'user'});
   }
 }
 Order.init({

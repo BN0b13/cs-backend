@@ -2,12 +2,12 @@ version: '3.5'
 
 services:
   postgres:
-    container_name: cosmic_database
     image: postgres:14.2-alpine
+    container_name: cosmic_strains
     environment:
       POSTGRES_USER: "${PG_USERNAME}"
       POSTGRES_PASSWORD: "${PG_PASSWORD}"
-      PGDATA: /data/postgres
+      POSTGRES_DB: "${PG_DATABASE_NAME}"
     restart: unless-stopped
     volumes:
        - cosmic_strains:/var/lib/postgresql/data/
@@ -18,7 +18,3 @@ services:
 
 volumes:
   cosmic_strains:
-
-networks:
-  default:
-    name: cosmic_strains

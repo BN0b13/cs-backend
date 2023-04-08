@@ -29,7 +29,7 @@ class UserRepository {
                 ...params, 
                 password: hashedPassword,
                 emailVerified: false,
-                roleId: 2
+                roleId: 1
             };
 
             const userCreate = await User.create(options);
@@ -128,7 +128,9 @@ class UserRepository {
 
     async getUsers() {
         try {
-            const getUsersReq = await User.findAndCountAll({});
+            const getUsersReq = await User.findAndCountAll({
+                include: 'role'
+            });
             return getUsersReq;
         } catch (err) {
             console.log('Get Users Error: ', err);

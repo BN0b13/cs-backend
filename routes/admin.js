@@ -45,8 +45,8 @@ router.post('/products', AdminTokenVerifier, (productController.create));
 
 router.post('/inventory', AdminTokenVerifier, HandleErrors(inventoryController.create));
 
-router.get('/inventory', (req, res) => inventoryController.getInventory(req, res));
+router.get('/inventory', AdminTokenVerifier, HandleErrors(inventoryController.getInventory));
 
-router.get('/inventory/:id', (req, res) => inventoryController.getByPK(req, res));
+router.get('/inventory/:id', AdminTokenVerifier, HandleErrors(inventoryController.getByPK));
 
 export default router;

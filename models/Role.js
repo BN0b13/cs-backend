@@ -13,6 +13,7 @@ class Role extends Model {
    */
   static associate(models) {
     // define association here
+    Role.belongsToMany(models.User, {foreignKey: 'roleId', as: 'users'});
   }
 }
 Role.init({

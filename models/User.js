@@ -13,6 +13,9 @@ class User extends Model {
    */
   static associate(models) {
     // define association here
+    User.hasOne(models.Role, { as: 'role' });
+    User.hasOne(models.Cart, { as: 'cart' });
+    User.hasMany(models.Order, { as: 'orders' });
   }
 }
 User.init({

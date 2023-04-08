@@ -1,32 +1,19 @@
 import 'dotenv/config';
 import express from 'express';
-import mongoose from 'mongoose';
-import session from 'express-session';
-import MongoStore from 'connect-mongo';
-import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import helmet from 'helmet';
 
 import routes from './routes/index.js';
 
+import Cron from './services/Cron.js';
+
+const cron = new Cron();
+
+cron.backup();
+
 const app = express();
 const port = process.env.PORT;
 
-// app.use(cookieParser());
-// mongoose.connect(process.env.CONNECTIONSTRING, { 
-//   useNewUrlParser: true,
-//   useUnifiedTopology: true,
-//   }).then(() => {
-//     console.log('DB Connected');
-//   }).catch(err=>{
-//     return console.log(err);
-// });
-// app.use(session({
-//   secret: process.env.SESSION_SECRET,
-//   resave: false,
-//   saveUninitialized: false,
-//   store: MongoStore.create({ mongoUrl: process.env.CONNECTIONSTRING }),
-// }));
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 app.use(
@@ -34,6 +21,7 @@ app.use(
     contentSecurityPolicy: false,
   })
 );
+
 //Local
 app.use(cors());
 
