@@ -29,7 +29,7 @@ class UserRepository {
                 ...params, 
                 password: hashedPassword,
                 emailVerified: false,
-                roleId: 1
+                roleId: 2
             };
 
             const userCreate = await User.create(options);
@@ -58,6 +58,43 @@ class UserRepository {
 
             if(!getUser) {
                 throw Error('Email does not exist');
+            }
+
+            const verifyPassword = await userService.verifyPassword(password, getUser.password);
+
+            if(!verifyPassword) {
+                throw Error('Password was not correct');
+            }
+
+            const token = await authManagement.createToken({
+                id: getUser.id,
+                roleId: getUser.roleId,
+                email: getUser.email
+            });
+
+            return {
+                status: 200,
+                token,
+                email: getUser.email
+            };
+        } catch (err) {
+            console.log('Login error: ', err);
+            throw Error('There was an error logging in');
+        }
+    }
+
+    async adminLogin({ email, password }) {
+        try {
+            const getUser = await this.getSingleUserByEmail(email);
+
+            console.log('Admin Login GET user: ', );
+
+            if(!getUser) {
+                throw Error('Email does not exist');
+            }
+
+            if(getUser.roleId !== 1) {
+                throw Error('Access Denied');
             }
 
             const verifyPassword = await userService.verifyPassword(password, getUser.password);

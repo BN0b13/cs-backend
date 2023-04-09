@@ -82,6 +82,35 @@ class UserController {
         }
     }
 
+    async adminLogin(req, res) {
+        try {
+            const {
+                email = null, 
+                password = null
+            } = req.body;
+    
+            const params = {
+                email: email.toLowerCase(), 
+                password
+            };
+    
+            Object.values(params).forEach(param => {
+                if(param === null) {
+                    throw Error(`Missing ${params[param]} Param`);
+                }
+            });
+
+            const data = await userRepository.adminLogin(params);
+
+            res.send(data);
+        } catch (err) {
+            res.send({
+                err,
+                message: 'There was an error logging in'
+            });
+        }
+    }
+
     async getAccountInformation(req, res) {
         console.log('Get Account Info hit');
         const { id } = req.userData;

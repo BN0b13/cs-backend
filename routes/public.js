@@ -25,6 +25,8 @@ router.get('/health', (req, res) => {
 
 router.post('/login', HandleErrors(userController.login));
 
+router.post('/login-admin', HandleErrors(userController.adminLogin));
+
 // Users
 router.post('/users', HandleErrors(userController.create));
 
