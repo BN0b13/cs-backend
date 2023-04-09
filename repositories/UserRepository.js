@@ -173,6 +173,14 @@ class UserRepository {
         }
     }
 
+    async getAccounts() {
+        return await User.findAndCountAll({
+            where: {
+                roleId: 2
+            }
+        });
+    }
+
     // UPDATE
 
     async updateUser(id, data) {

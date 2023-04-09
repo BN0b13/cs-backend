@@ -22,6 +22,8 @@ const visitController = new VisitController();
 
 // Users
 
+router.get('/accounts', AdminTokenVerifier, HandleErrors(userController.getAccounts));
+
 router.get('/users', AdminTokenVerifier, HandleErrors(userController.getUsers));
 
 router.get('/user/:id', AdminTokenVerifier, HandleErrors(userController.getByPK));

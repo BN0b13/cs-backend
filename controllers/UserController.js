@@ -111,8 +111,12 @@ class UserController {
         }
     }
 
+    async getAccounts(req, res) {
+        const data = await userRepository.getAccounts();
+        res.send(data);
+    }
+
     async getAccountInformation(req, res) {
-        console.log('Get Account Info hit');
         const { id } = req.userData;
         const data = await userRepository.getAccountInformation(id);
         res.send(data);
