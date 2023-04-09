@@ -9,12 +9,14 @@ class OrderController {
     async create(req, res) {
         try {
         const {
+            userId = req.userData,
             products,
             total,
             couponId = null
         } = req.body;
 
         const params = {
+            userId,
             products,
             total,
             couponId
