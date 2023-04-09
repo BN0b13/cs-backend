@@ -5,8 +5,9 @@ class OrderRepository {
 
     // CREATE
 
-    async create({ products, total, couponId }) {
+    async create({ userId, products, total, couponId }) {
         const params = {
+            userId,
             products,
             total,
             couponId
