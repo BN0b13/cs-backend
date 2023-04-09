@@ -29,7 +29,7 @@ class UserRepository {
                 ...params, 
                 password: hashedPassword,
                 emailVerified: false,
-                roleId: 2
+                roleId: 1
             };
 
             const userCreate = await User.create(options);

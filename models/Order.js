@@ -21,7 +21,8 @@ Order.init({
   userId: DataTypes.INTEGER,
   products: DataTypes.ARRAY(Sequelize.INTEGER),
   total: DataTypes.INTEGER,
-  couponId: DataTypes.INTEGER
+  couponId: DataTypes.INTEGER,
+  status: DataTypes.STRING
 }, {
   sequelize,
   schema: process.env.PG_SCHEMA_NAME,
