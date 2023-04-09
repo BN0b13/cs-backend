@@ -6,15 +6,13 @@ import { HandleErrors } from '../middleware/errorHandler.js';
 
 import UserController from '../controllers/UserController.js';
 import ContactController from '../controllers/ContactController.js';
-import InventoryController from '../controllers/InventoryController.js';
-import RoleController from '../controllers/RoleController.js';
 import ProductController from '../controllers/ProductController.js';
+import VisitController from '../controllers/VisitController.js';
 
 const userController = new UserController();
 const contactController = new ContactController();
-const inventoryController = new InventoryController();
-const roleController = new RoleController();
 const productController = new ProductController();
+const visitController = new VisitController();
 
 router.get('/health', (req, res) => {
   res.send({
@@ -43,5 +41,9 @@ router.post('/contact', TokenVerifier, HandleErrors(contactController.create));
 router.get('/products', (productController.getProducts));
 
 router.get('/products/:id', (productController.getByPK));
+
+// Visits
+
+router.patch('/visits', HandleErrors(visitController.updateVisitCount));
 
 export default router;

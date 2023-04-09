@@ -14,6 +14,7 @@ class Product extends Model {
    */
   static associate(models) {
     // define association here
+    // Product.hasOne(models.Inventory);
   }
 }
 Product.init({

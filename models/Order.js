@@ -14,7 +14,7 @@ class Order extends Model {
    */
   static associate(models) {
     // define association here
-    Order.belongsTo(models.User, {foreignKey: 'id', as: 'user'});
+    // Order.belongsTo(models.User);
   }
 }
 Order.init({

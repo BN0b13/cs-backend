@@ -9,12 +9,14 @@ import ContactController from '../controllers/ContactController.js';
 import InventoryController from '../controllers/InventoryController.js';
 import RoleController from '../controllers/RoleController.js';
 import ProductController from '../controllers/ProductController.js';
+import VisitController from '../controllers/VisitController.js';
 
 const userController = new UserController();
 const contactController = new ContactController();
 const inventoryController = new InventoryController();
 const roleController = new RoleController();
 const productController = new ProductController();
+const visitController = new VisitController();
 
 // Users
 
@@ -48,5 +50,9 @@ router.post('/inventory', AdminTokenVerifier, HandleErrors(inventoryController.c
 router.get('/inventory', AdminTokenVerifier, HandleErrors(inventoryController.getInventory));
 
 router.get('/inventory/:id', AdminTokenVerifier, HandleErrors(inventoryController.getByPK));
+
+// Visits
+
+router.get('/visits', AdminTokenVerifier, HandleErrors(visitController.getVisits));
 
 export default router;

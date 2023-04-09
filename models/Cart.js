@@ -14,7 +14,7 @@ class Cart extends Model {
    */
   static associate(models) {
     // define association here
-    Cart.belongsTo(models.User, {foreignKey: 'id', as: 'user'});
+    // Cart.belongsTo(models.User);
   }
 }
 Cart.init({

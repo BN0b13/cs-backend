@@ -128,9 +128,7 @@ class UserRepository {
 
     async getUsers() {
         try {
-            const getUsersReq = await User.findAndCountAll({
-                include: 'role'
-            });
+            const getUsersReq = await User.findAndCountAll({});
             return getUsersReq;
         } catch (err) {
             console.log('Get Users Error: ', err);

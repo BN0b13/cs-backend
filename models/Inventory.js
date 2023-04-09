@@ -13,6 +13,7 @@ class Inventory extends Model {
    */
   static associate(models) {
     // define association here
+    // Inventory.belongsTo(models.Product);
   }
 }
 Inventory.init({
