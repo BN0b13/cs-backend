@@ -11,8 +11,8 @@ class InventoryRepository {
         };
 
         try {
-            const data = await Inventory.create(params);
-            return data;
+            const res = await Inventory.create(params);
+            return res;
         } catch (err) {
             console.log('Create Inventory Error: '. err);
             throw Error('There was an error creating the new inventory');
@@ -23,8 +23,8 @@ class InventoryRepository {
 
     async getInventory() {
         try {
-            const data = await Inventory.findAndCountAll({});
-            return data;
+            const res = await Inventory.findAndCountAll({});
+            return res;
         } catch (err) {
             console.log('Get Inventory Error: ', err);
             throw Error('There was an error getting inventory');

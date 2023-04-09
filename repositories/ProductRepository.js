@@ -25,8 +25,6 @@ class ProductRepository {
         } = params;
 
         try {
-
-            // TODO create inventory to pair with product
             const createInventory = await inventoryRepository.create(quantity);
 
             const data = {
@@ -43,12 +41,11 @@ class ProductRepository {
                 image,
             };
 
-            const createProductRes = await Product.create(data);
-            console.log('Product Create res: ', createProductRes);
-            return createProductRes;
+            const res = await Product.create(data);
+            return res;
         } catch (err) {
             console.log(err);
-            throw Error('There was an error creating the new role');
+            throw Error('There was an error creating the product');
         }
     }
 
@@ -56,12 +53,11 @@ class ProductRepository {
 
     async getProducts() {
         try {
-            const data = await Product.findAndCountAll({});
-            console.log('GET Products Success: ', data);
-            return data;
+            const res = await Product.findAndCountAll({});
+            return res;
         } catch (err) {
             console.log('GET Product Error: ', err);
-            throw Error('There was an error getting the products');
+            throw Error('There was an error getting products');
         }
     }
 

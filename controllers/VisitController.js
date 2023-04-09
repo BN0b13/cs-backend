@@ -7,7 +7,6 @@ class VisitController {
     // READ
     
     async getVisits(req, res) {
-        console.log('Get visits hit');
         const data = await visitRepository.getVisits();
         res.send(data);
     }

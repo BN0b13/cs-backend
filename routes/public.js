@@ -6,11 +6,13 @@ import { HandleErrors } from '../middleware/errorHandler.js';
 
 import UserController from '../controllers/UserController.js';
 import ContactController from '../controllers/ContactController.js';
+import OrderController from '../controllers/OrderController.js';
 import ProductController from '../controllers/ProductController.js';
 import VisitController from '../controllers/VisitController.js';
 
 const userController = new UserController();
 const contactController = new ContactController();
+const orderController = new OrderController();
 const productController = new ProductController();
 const visitController = new VisitController();
 
@@ -27,22 +29,26 @@ router.post('/login', HandleErrors(userController.login));
 
 router.post('/login-admin', HandleErrors(userController.adminLogin));
 
-// Users
-router.post('/users', HandleErrors(userController.create));
-
-router.get('/users', TokenVerifier, HandleErrors(userController.getAccountInformation));
-
-router.patch('/users', TokenVerifier, HandleErrors(userController.updateUser));
-
 // Contact
 
 router.post('/contact', TokenVerifier, HandleErrors(contactController.create));
+
+// Orders
+
+router.post('/orders', TokenVerifier, HandleErrors(orderController.create));
 
 // Products
 
 router.get('/products', (productController.getProducts));
 
 router.get('/products/:id', (productController.getByPK));
+
+// Users
+router.post('/users', HandleErrors(userController.create));
+
+router.get('/users', TokenVerifier, HandleErrors(userController.getAccountInformation));
+
+router.patch('/users', TokenVerifier, HandleErrors(userController.updateUser));
 
 // Visits
 

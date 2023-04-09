@@ -7,15 +7,17 @@ import { HandleErrors } from '../middleware/errorHandler.js';
 import UserController from '../controllers/UserController.js';
 import ContactController from '../controllers/ContactController.js';
 import InventoryController from '../controllers/InventoryController.js';
-import RoleController from '../controllers/RoleController.js';
+import OrderController from '../controllers/OrderController.js';
 import ProductController from '../controllers/ProductController.js';
+import RoleController from '../controllers/RoleController.js';
 import VisitController from '../controllers/VisitController.js';
 
 const userController = new UserController();
 const contactController = new ContactController();
 const inventoryController = new InventoryController();
-const roleController = new RoleController();
+const orderController = new OrderController();
 const productController = new ProductController();
+const roleController = new RoleController();
 const visitController = new VisitController();
 
 // Users
@@ -33,16 +35,6 @@ router.delete('/users', AdminTokenVerifier, HandleErrors(userController.deleteUs
 
 router.get('/contact', AdminTokenVerifier, HandleErrors(contactController.getMessages));
 
-// Roles
-
-router.post('/roles', AdminTokenVerifier, HandleErrors(roleController.create));
-
-router.get('/roles', AdminTokenVerifier, HandleErrors(roleController.getRoles));
-
-// Products
-
-router.post('/products', AdminTokenVerifier, (productController.create));
-
 // Inventory
 
 router.post('/inventory', AdminTokenVerifier, HandleErrors(inventoryController.create));
@@ -50,6 +42,20 @@ router.post('/inventory', AdminTokenVerifier, HandleErrors(inventoryController.c
 router.get('/inventory', AdminTokenVerifier, HandleErrors(inventoryController.getInventory));
 
 router.get('/inventory/:id', AdminTokenVerifier, HandleErrors(inventoryController.getByPK));
+
+// Orders
+
+router.get('/orders', AdminTokenVerifier, HandleErrors(orderController.getOrders));
+
+// Products
+
+router.post('/products', AdminTokenVerifier, (productController.create));
+
+// Roles
+
+router.post('/roles', AdminTokenVerifier, HandleErrors(roleController.create));
+
+router.get('/roles', AdminTokenVerifier, HandleErrors(roleController.getRoles));
 
 // Visits
 

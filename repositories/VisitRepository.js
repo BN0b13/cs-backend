@@ -13,9 +13,8 @@ class VisitRepository {
         };
 
         try {
-            const createVisit = await Visit.create(params);
-            console.log('Visit Create res: ', createVisit);
-            return createVisit;
+            const res = await Visit.create(params);
+            return res;
         } catch (err) {
             console.log(err);
             throw Error('There was an error creating the new visit count');
@@ -26,9 +25,8 @@ class VisitRepository {
 
     async getVisits() {
         try {
-            const getVisitsRes = await Visit.findAndCountAll({});
-            console.log('Get Visit Messages Success: ', getVisitsRes);
-            return getVisitsRes;
+            const res = await Visit.findAndCountAll({});
+            return res;
         } catch (err) {
             console.log('Get Visit Messages Error: ', err);
             throw Error('There was an error getting all roles');
@@ -42,33 +40,37 @@ class VisitRepository {
         const TODAY_START = new Date().setHours(0, 0, 0, 0);
         const NOW = new Date();
 
-        const visitCount = await Visit.findAndCountAll({
-            where: {
-                createdAt: { 
-                [Op.gt]: TODAY_START,
-                [Op.lt]: NOW
-            },
-            },
-        });
-
-        if(visitCount.count === 0) {
-            return this.create();
-        } else {
-            const newCount = visitCount.rows[0].dataValues.count + 1;
-            const updateTodaysCount = await Visit.update(
-                {
-                    count: newCount
+        try {
+            const visitCount = await Visit.findAndCountAll({
+                where: {
+                    createdAt: { 
+                    [Op.gt]: TODAY_START,
+                    [Op.lt]: NOW
                 },
-                {
-                    where: {
-                        createdAt: { 
-                        [Op.gt]: TODAY_START,
-                        [Op.lt]: NOW
+                },
+            });
+    
+            if(visitCount.count === 0) {
+                return this.create();
+            } else {
+                const newCount = visitCount.rows[0].dataValues.count + 1;
+                const res = await Visit.update(
+                    {
+                        count: newCount
                     },
-                    },
-                }
-            );
-            return updateTodaysCount;
+                    {
+                        where: {
+                            createdAt: { 
+                            [Op.gt]: TODAY_START,
+                            [Op.lt]: NOW
+                        },
+                        },
+                    }
+                );
+                return res;
+            }
+        } catch (err) {
+            throw Error('There was a problem creating or updating the visit count')
         }
     }
 }

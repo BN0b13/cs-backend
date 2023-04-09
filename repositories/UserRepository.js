@@ -165,8 +165,8 @@ class UserRepository {
 
     async getUsers() {
         try {
-            const getUsersReq = await User.findAndCountAll({});
-            return getUsersReq;
+            const res = await User.findAndCountAll({});
+            return res;
         } catch (err) {
             console.log('Get Users Error: ', err);
             throw Error('There was an error getting all users');
@@ -177,7 +177,7 @@ class UserRepository {
 
     async updateUser(id, data) {
         try {
-            const updateUserRes = await User.update(
+            const res = await User.update(
                 data,
                 {
                     where: {
@@ -185,7 +185,7 @@ class UserRepository {
                             }
                 }
             );
-            return updateUserRes;
+            return res;
         } catch (err) {
             console.log('Update User Error: ', err);
             throw Error('There was an error updating the user');
@@ -196,16 +196,14 @@ class UserRepository {
 
     async deleteUser(id) {
         try {
-            const deletedUsers = await User.destroy(
+            const res = await User.destroy(
                 {
                     where: {
                                 id: id
                             }
                 }
             );
-            return {
-                deletedUsers
-            };
+            return res;
         } catch (err) {
             console.log('Update User Error: ', err);
             throw Error('There was an error deleting the user');

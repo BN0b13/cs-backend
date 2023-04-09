@@ -14,9 +14,8 @@ class ContactRepository {
         };
 
         try {
-            const createContactMessage = await Contact.create(params);
-            console.log('User Create res: ', createContactMessage);
-            return createContactMessage;
+            const res = await Contact.create(params);
+            return res;
         } catch (err) {
             console.log(err);
             throw Error('There was an error creating the contact message');
@@ -27,8 +26,8 @@ class ContactRepository {
 
     async getMessages() {
         try {
-            const data = await Contact.findAndCountAll({});
-            return data;
+            const res = await Contact.findAndCountAll({});
+            return res;
         } catch (err) {
             console.log('Get Contact Messages Error: ', err);
             throw Error('There was an error getting the contact messages');
