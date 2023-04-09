@@ -9,7 +9,7 @@ class OrderController {
     async create(req, res) {
         try {
         const {
-            userId = req.userData,
+            userId = req.userData.id,
             products,
             total,
             couponId = null
