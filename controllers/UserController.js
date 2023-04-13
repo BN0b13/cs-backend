@@ -111,14 +111,24 @@ class UserController {
         }
     }
 
-    async getAccounts(req, res) {
-        const data = await userRepository.getAccounts();
+    async getAdmin(req, res) {
+        const data = await userRepository.getAdmin();
         res.send(data);
     }
 
-    async getAccountInformation(req, res) {
+    async getEmployees(req, res) {
+        const data = await userRepository.getEmployees();
+        res.send(data);
+    }
+
+    async getCustomers(req, res) {
+        const data = await userRepository.getCustomers();
+        res.send(data);
+    }
+
+    async getUser(req, res) {
         const { id } = req.userData;
-        const data = await userRepository.getAccountInformation(id);
+        const data = await userRepository.getUser(id);
         res.send(data);
     }
 

@@ -56,7 +56,12 @@ class ProductController {
         const data = await productRepository.getProducts();
         res.send(data);
     }
-
+    
+    async getInventory(req, res) {
+        const data = await productRepository.getInventory();
+        res.send(data);
+    }
+    
     async getByPK(req, res) {
         const { id } = req.params;
         const data = await productRepository.getByPK(id);

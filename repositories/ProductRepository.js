@@ -1,6 +1,6 @@
-import Product from '../models/Product.js';
-
 import InventoryRepository from '../repositories/InventoryRepository.js';
+
+import { Category, Inventory, Product } from '../models/Associations.js';
 
 const inventoryRepository = new InventoryRepository();
 
@@ -53,8 +53,37 @@ class ProductRepository {
 
     async getProducts() {
         try {
-            const res = await Product.findAndCountAll({});
+            const res = await Product.findAndCountAll({
+                include: [
+                    { 
+                        model: Inventory
+                    },
+                    { 
+                        model: Category
+                    }
+                ]
+            });
             return res;
+        } catch (err) {
+            console.log('GET Product Error: ', err);
+            throw Error('There was an error getting products');
+        }
+    }
+
+    async getInventory() {
+        try {
+            const res = await Product.findAndCountAll({
+                include: [
+                    { 
+                        model: Inventory
+                    },
+                    { 
+                        model: Category
+                    }
+                ]
+            });
+            const availableInventory = res.rows.filter(item => item.Inventory.quantity> 0);
+            return availableInventory;
         } catch (err) {
             console.log('GET Product Error: ', err);
             throw Error('There was an error getting products');

@@ -1,6 +1,7 @@
 import AuthManagement from '../services/AuthManagement.js';
 import UserService from '../services/UserService.js';
-import User from '../models/User.js';
+
+import { Cart, Order, Role, User } from '../models/Associations.js';
 
 const authManagement = new AuthManagement();
 const userService = new UserService();
@@ -29,10 +30,14 @@ class UserRepository {
                 ...params, 
                 password: hashedPassword,
                 emailVerified: false,
-                roleId: 2
+                roleId: 4
             };
 
             const userCreate = await User.create(options);
+
+            await Cart.create({
+                userId: userCreate.id,
+            });
 
             const token = await authManagement.createToken({
                 roleId: userCreate.roleId,
@@ -120,11 +125,19 @@ class UserRepository {
         }
     }
 
-    async getAccountInformation(id) {
+    async getUser(id) {
         const user = await User.findOne({
             where: {
                 id
-            }
+            },
+            include: [
+                { 
+                    model: Cart
+                },
+                { 
+                    model: Order
+                }
+            ]
         });
 
         const data = {
@@ -138,6 +151,8 @@ class UserRepository {
             zipCode: user.zipCode,
             emailList: user.emailList,
             emailVerified: user.emailVerified,
+            cart: user.Cart,
+            orders: user.Orders
         }
 
         return data;
@@ -165,7 +180,19 @@ class UserRepository {
 
     async getUsers() {
         try {
-            const res = await User.findAndCountAll({});
+            const res = await User.findAndCountAll({
+                include: [
+                    { 
+                        model: Cart
+                    },
+                    { 
+                        model: Order
+                    },
+                    { 
+                        model: Role
+                    }
+                ]
+            });
             return res;
         } catch (err) {
             console.log('Get Users Error: ', err);
@@ -173,11 +200,60 @@ class UserRepository {
         }
     }
 
-    async getAccounts() {
+    async getAdmin() {
         return await User.findAndCountAll({
             where: {
                 roleId: 2
-            }
+            },
+            include: [
+                { 
+                    model: Cart
+                },
+                { 
+                    model: Order
+                },
+                { 
+                    model: Role
+                }
+            ]
+        });
+    }
+
+    async getEmployees() {
+        return await User.findAndCountAll({
+            where: {
+                roleId: 3
+            },
+            include: [
+                { 
+                    model: Cart
+                },
+                { 
+                    model: Order
+                },
+                { 
+                    model: Role
+                }
+            ]
+        });
+    }
+
+    async getCustomers() {
+        return await User.findAndCountAll({
+            where: {
+                roleId: 4
+            },
+            include: [
+                { 
+                    model: Cart
+                },
+                { 
+                    model: Order
+                },
+                { 
+                    model: Role
+                }
+            ]
         });
     }
 

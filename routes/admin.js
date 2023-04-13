@@ -4,25 +4,38 @@ const router = express.Router();
 import { AdminTokenVerifier } from '../middleware/adminTokenVerifier.js';
 import { HandleErrors } from '../middleware/errorHandler.js';
 
-import UserController from '../controllers/UserController.js';
+import CategoryController from '../controllers/CategoryController.js';
 import ContactController from '../controllers/ContactController.js';
 import InventoryController from '../controllers/InventoryController.js';
 import OrderController from '../controllers/OrderController.js';
 import ProductController from '../controllers/ProductController.js';
 import RoleController from '../controllers/RoleController.js';
+import UserController from '../controllers/UserController.js';
 import VisitController from '../controllers/VisitController.js';
 
-const userController = new UserController();
+const categoryController = new CategoryController();
 const contactController = new ContactController();
 const inventoryController = new InventoryController();
 const orderController = new OrderController();
 const productController = new ProductController();
 const roleController = new RoleController();
 const visitController = new VisitController();
+const userController = new UserController();
+
+
+// Categories
+
+router.get('/categories', AdminTokenVerifier, HandleErrors(categoryController.getCategories));
+
+router.post('/categories', AdminTokenVerifier, HandleErrors(categoryController.create));
 
 // Users
 
-router.get('/accounts', AdminTokenVerifier, HandleErrors(userController.getAccounts));
+router.get('/admin', AdminTokenVerifier, HandleErrors(userController.getAdmin));
+
+router.get('/employees', AdminTokenVerifier, HandleErrors(userController.getEmployees));
+
+router.get('/customers', AdminTokenVerifier, HandleErrors(userController.getCustomers));
 
 router.get('/users', AdminTokenVerifier, HandleErrors(userController.getUsers));
 
@@ -50,6 +63,8 @@ router.get('/inventory/:id', AdminTokenVerifier, HandleErrors(inventoryControlle
 router.get('/orders', AdminTokenVerifier, HandleErrors(orderController.getOrders));
 
 // Products
+
+router.get('/products', AdminTokenVerifier, (productController.getInventory));
 
 router.post('/products', AdminTokenVerifier, (productController.create));
 

@@ -11,8 +11,14 @@ npx sequelize-cli model:generate --name Inventory --attributes quantity:integer
 npx sequelize-cli model:generate --name Order --attributes userId:integer,products:array,total:integer,couponId:integer
 npx sequelize-cli model:generate --name Product --attributes categoryId:integer,inventoryId:integer,name:string,description:string,price:integer,time:string,mother:string,father:string,profile:array,sex:string,image:string
 
+# Create new migration file (change name at end)
+npx sequelize-cli migration:generate --name cart-associations
+
 # Migrate models to Postgres DB
 npx sequelize-cli db:migrate
+
+# Create new seeder file (change name at end)
+npx sequelize-cli seed:generate --name createRoles
 
 # Seed data to Postgres DB
 npx sequelize-cli db:seed:all

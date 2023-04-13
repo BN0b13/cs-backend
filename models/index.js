@@ -9,6 +9,11 @@ const env = process.env.NODE_ENV || 'development';
 const config = require(__dirname + '/../config/config.json')[env];
 const db = {};
 
+const Cart = require('./Cart.js');
+const Order = require('./Order.js');
+const Role = require('./Role.js');
+const User = require('./User.js');
+
 let sequelize;
 if (config.use_env_variable) {
   sequelize = new Sequelize(process.env[config.use_env_variable], config);
@@ -30,6 +35,41 @@ fs
     const model = require(path.join(__dirname, file))(sequelize, Sequelize.DataTypes);
     db[model.name] = model;
   });
+
+console.log('DB var in index', db);
+
+Order.belongsTo(User, {
+  through: User,
+  foreignKey:{
+      allowNull: false, 
+      name:'userId'
+  }
+});
+
+
+User.hasOne(Cart, {
+  through: Cart,
+  foreignKey:{
+      allowNull: false, 
+      name:'userId'
+  }
+});
+
+User.hasMany(Order, {
+  as: Order,
+  foreignKey:{
+      allowNull: false, 
+      name:'userId'
+  }
+});
+
+User.hasOne(Role, {
+  through: Role,
+  foreignKey:{
+      allowNull: false, 
+      name:'id'
+  }
+});
 
 Object.keys(db).forEach(modelName => {
   if (db[modelName].associate) {

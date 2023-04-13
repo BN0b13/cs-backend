@@ -46,9 +46,9 @@ router.get('/products/:id', (productController.getByPK));
 // Users
 router.post('/users', HandleErrors(userController.create));
 
-router.get('/users', TokenVerifier, HandleErrors(userController.getAccountInformation));
+router.get('/user', TokenVerifier, HandleErrors(userController.getUser));
 
-router.patch('/users', TokenVerifier, HandleErrors(userController.updateUser));
+router.patch('/user', TokenVerifier, HandleErrors(userController.updateUser));
 
 // Visits
 

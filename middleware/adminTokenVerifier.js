@@ -32,7 +32,7 @@ export const AdminTokenVerifier = async (req, res, next) => {
         return res.status(error.code).json({ error });
     }
 
-    if(decoded.roleId !== 1) {
+    if(decoded.roleId > 3) {
         const error = new UnauthorizedError()
         return res.status(error.code).json({ error });
     }
