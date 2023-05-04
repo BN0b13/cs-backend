@@ -15,9 +15,6 @@ module.exports = {
       categoryId: {
         type: Sequelize.INTEGER
       },
-      inventoryId: {
-        type: Sequelize.INTEGER
-      },
       name: {
         type: Sequelize.STRING
       },

@@ -31,8 +31,10 @@ router.post('/categories', AdminTokenVerifier, HandleErrors(categoryController.c
 
 // Users
 
+router.post('/admin', AdminTokenVerifier, HandleErrors(userController.createAdmin));
 router.get('/admin', AdminTokenVerifier, HandleErrors(userController.getAdmin));
 
+router.post('/employees', AdminTokenVerifier, HandleErrors(userController.createEmployee));
 router.get('/employees', AdminTokenVerifier, HandleErrors(userController.getEmployees));
 
 router.get('/customers', AdminTokenVerifier, HandleErrors(userController.getCustomers));
@@ -51,8 +53,6 @@ router.delete('/users', AdminTokenVerifier, HandleErrors(userController.deleteUs
 router.get('/contact', AdminTokenVerifier, HandleErrors(contactController.getMessages));
 
 // Inventory
-
-router.post('/inventory', AdminTokenVerifier, HandleErrors(inventoryController.create));
 
 router.get('/inventory', AdminTokenVerifier, HandleErrors(inventoryController.getInventory));
 

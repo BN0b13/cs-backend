@@ -4,12 +4,16 @@ const router = express.Router();
 import { TokenVerifier } from '../middleware/tokenVerifier.js';
 import { HandleErrors } from '../middleware/errorHandler.js';
 
+import CartController from '../controllers/CartController.js';
+import CategoryController from '../controllers/CategoryController.js';
 import UserController from '../controllers/UserController.js';
 import ContactController from '../controllers/ContactController.js';
 import OrderController from '../controllers/OrderController.js';
 import ProductController from '../controllers/ProductController.js';
 import VisitController from '../controllers/VisitController.js';
 
+const cartController = new CartController();
+const categoryController = new CategoryController();
 const userController = new UserController();
 const contactController = new ContactController();
 const orderController = new OrderController();
@@ -29,6 +33,18 @@ router.post('/login', HandleErrors(userController.login));
 
 router.post('/login-admin', HandleErrors(userController.adminLogin));
 
+// Cart
+
+router.get('/cart', TokenVerifier, HandleErrors(cartController.getCart));
+
+router.get('/cart/contents', TokenVerifier, HandleErrors(cartController.getCartContents));
+
+router.patch('/cart', TokenVerifier, HandleErrors(cartController.patchCart));
+
+// Categories
+
+router.get('/categories', HandleErrors(categoryController.getCategories));
+
 // Contact
 
 router.post('/contact', TokenVerifier, HandleErrors(contactController.create));
@@ -39,12 +55,12 @@ router.post('/orders', TokenVerifier, HandleErrors(orderController.create));
 
 // Products
 
-router.get('/products', (productController.getProducts));
+router.get('/products', HandleErrors(productController.getProducts));
 
-router.get('/products/:id', (productController.getByPK));
+router.get('/products/:id', HandleErrors(productController.getById));
 
 // Users
-router.post('/users', HandleErrors(userController.create));
+router.post('/user', HandleErrors(userController.createCustomer));
 
 router.get('/user', TokenVerifier, HandleErrors(userController.getUser));
 

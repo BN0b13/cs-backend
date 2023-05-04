@@ -1,12 +1,110 @@
 import UserRepository from '../repositories/UserRepository.js';
 
+import {
+    createAdminTransaction,
+    createCustomerTransaction,
+    createEmployeeTransaction
+} from '../services/UserTransactions.js';
+
 const userRepository = new UserRepository();
 
 class UserController {
 
     // CREATE
 
-    async create(req, res) {
+    async createAdmin(req, res) {
+        try {
+        const { 
+            email = null,
+            password = null,
+            firstName = null,
+            lastName = null,
+            phone = null,
+            address = null,
+            city = null,
+            state = null,
+            zipCode = null,
+            emailList = null
+        } = req.body;
+
+        const params = {
+            email: email.toLowerCase(),
+            password,
+            firstName,
+            lastName,
+            phone,
+            address,
+            city,
+            state,
+            zipCode,
+            emailList,
+            roleId: 2
+        };
+
+        Object.values(params).forEach(param => {
+            if(param === null) {
+                throw Error(`Missing ${params[param]} Param`);
+            }
+        });
+
+        const data = await createAdminTransaction(params);
+
+        res.send(data);
+        } catch (err) {
+            res.send({
+                err,
+                message: 'There was an error creating Admin'
+            });
+        }
+    }
+
+    async createEmployee(req, res) {
+        try {
+        const { 
+            email = null,
+            password = null,
+            firstName = null,
+            lastName = null,
+            phone = null,
+            address = null,
+            city = null,
+            state = null,
+            zipCode = null,
+            emailList = null
+        } = req.body;
+
+        const params = {
+            email: email.toLowerCase(),
+            password,
+            firstName,
+            lastName,
+            phone,
+            address,
+            city,
+            state,
+            zipCode,
+            emailList,
+            roleId: 3
+        };
+
+        Object.values(params).forEach(param => {
+            if(param === null) {
+                throw Error(`Missing ${params[param]} Param`);
+            }
+        });
+
+        const data = await createEmployeeTransaction(params);
+
+        res.send(data);
+        } catch (err) {
+            res.send({
+                err,
+                message: 'There was an error creating Employee'
+            });
+        }
+    }
+
+    async createCustomer(req, res) {
         try {
         const { 
             email = null,
@@ -40,7 +138,7 @@ class UserController {
             }
         });
 
-        const data = await userRepository.create(params);
+        const data = await createCustomerTransaction(params);
 
         res.send(data);
         } catch (err) {

@@ -1,3 +1,7 @@
+import { Op } from 'sequelize';
+import { sequelize } from '../db.js';
+const t = await sequelize.transaction();
+
 import InventoryRepository from '../repositories/InventoryRepository.js';
 
 import { Category, Inventory, Product } from '../models/Associations.js';
@@ -6,49 +10,6 @@ const inventoryRepository = new InventoryRepository();
 
 class ProductRepository {
 
-
-    // CREATE
-
-    async create(params) {
-        const {
-            categoryId,
-            name,
-            description,
-            price,
-            time,
-            mother,
-            father,
-            profile,
-            sex,
-            image,
-            quantity
-        } = params;
-
-        try {
-            const createInventory = await inventoryRepository.create(quantity);
-
-            const data = {
-                categoryId,
-                inventoryId: createInventory.id,
-                name,
-                description,
-                price,
-                time,
-                mother,
-                father,
-                profile,
-                sex,
-                image,
-            };
-
-            const res = await Product.create(data);
-            return res;
-        } catch (err) {
-            console.log(err);
-            throw Error('There was an error creating the product');
-        }
-    }
-
     // READ
 
     async getProducts() {
@@ -56,10 +17,58 @@ class ProductRepository {
             const res = await Product.findAndCountAll({
                 include: [
                     { 
-                        model: Inventory
+                        model: Inventory,
+                        required: true
                     },
                     { 
-                        model: Category
+                        model: Category,
+                        required: true
+                    }
+                ]
+            });
+            return res;
+        } catch (err) {
+            console.log('GET Product Error: ', err);
+            throw Error('There was an error getting products');
+        }
+    }
+
+    async getProductInventoryById(id) {
+        try {
+            const res = await Product.findAndCountAll({
+                where: {
+                    id
+                },
+                include: [
+                    { 
+                        model: Inventory,
+                        required: true
+                    }
+                ]
+            });
+            return res;
+        } catch (err) {
+            console.log('GET Product Error: ', err);
+            throw Error('There was an error getting products');
+        }
+    }
+
+    async getProductsByIds(ids) {
+        try {
+            const res = await Product.findAndCountAll({
+                where: {
+                    id: {
+                        [Op.in]: ids
+                    }
+                },
+                include: [
+                    { 
+                        model: Inventory,
+                        required: true
+                    },
+                    { 
+                        model: Category,
+                        required: true
                     }
                 ]
             });
@@ -75,23 +84,37 @@ class ProductRepository {
             const res = await Product.findAndCountAll({
                 include: [
                     { 
-                        model: Inventory
+                        model: Inventory,
+                        required: true
                     },
                     { 
-                        model: Category
+                        model: Category,
+                        required: true
                     }
                 ]
             });
-            const availableInventory = res.rows.filter(item => item.Inventory.quantity> 0);
-            return availableInventory;
+            console.log('Res rows: ', res.rows);
+            const availableInventory = res.rows.filter(item => item.dataValues.Inventories[0].dataValues.available === true);
+            const inventoryCount = availableInventory.map(item => {
+                return {
+                    categoryId: item.categoryId,
+                    name: item.name,
+                    quantity: item.Inventories.length,
+                    price: item.price,
+                    time: item.time,
+                    mother: item.mother,
+                    father: item.father,
+                    profile: item.profile,
+                    sex: item.sex,
+                    image: item.image,
+                    createdAt: item.createdAt
+                }
+            });
+            return inventoryCount;
         } catch (err) {
             console.log('GET Product Error: ', err);
             throw Error('There was an error getting products');
         }
-    }
-
-    async getByPK(id) {
-        return await Product.findByPk(id);
     }
 }
 

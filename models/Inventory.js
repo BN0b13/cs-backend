@@ -13,7 +13,11 @@ class Inventory extends Model {
   }
 }
 Inventory.init({
-  quantity: DataTypes.INTEGER
+  productId: DataTypes.INTEGER,
+  sku: DataTypes.STRING,
+  address: DataTypes.STRING,
+  bay: DataTypes.STRING,
+  available: DataTypes.BOOLEAN
 }, {
   sequelize,
   schema: process.env.PG_SCHEMA_NAME,

@@ -1,15 +1,15 @@
 'use strict';
-const table = { schema: process.env.PG_SCHEMA_NAME, tableName: 'Products' };
+const table = { schema: process.env.PG_SCHEMA_NAME, tableName: 'Inventories' };
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
     await queryInterface.changeColumn(
       table,
-      'categoryId', 
+      'productId',
       {
         type: Sequelize.INTEGER,
-        references: { model: 'Categories', key: 'id'},
+        references: { model: 'Products', key: 'id'},
         allowNull: false
       }, 
       { 
@@ -17,10 +17,10 @@ module.exports = {
       });
   },
 
-  async down(queryInterface, Sequelize) {
+  async down (queryInterface, Sequelize) {
     await queryInterface.changeColumn(
       table,
-      'categoryId', 
+      'productId', 
       {
         type: Sequelize.INTEGER,
         allowNull: false

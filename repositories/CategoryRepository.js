@@ -1,4 +1,4 @@
-import Category from '../models/Category.js';
+import { Category, Product } from '../models/Associations.js';
 
 class CategoryRepository {
 
@@ -25,7 +25,14 @@ class CategoryRepository {
 
     async getCategories() {
         try {
-            const res = await Category.findAndCountAll({});
+            const res = await Category.findAndCountAll({
+                include: [
+                    {
+                        model: Product,
+                        required: true
+                    }
+                ]
+            });
             return res;
         } catch (err) {
             console.log('Get Categories Messages Error: ', err);

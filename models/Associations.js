@@ -9,6 +9,13 @@ import Role from './Role.js';
 import User from './User.js';
 import Visit from './Visit.js';
 
+Category.hasMany(Product, {
+    foreignKey:{
+        allowNull: false, 
+        name:'categoryId'
+    }
+});
+
 Contact.hasOne(User, {
     foreignKey:{
         allowNull: false, 
@@ -20,13 +27,14 @@ Product.hasOne(Category, {
     foreignKey:{
         allowNull: false, 
         name:'id'
-    }
+    },
+    sourceKey: 'categoryId'
 });
 
-Product.hasOne(Inventory, {
+Product.hasMany(Inventory, {
     foreignKey:{
         allowNull: false, 
-        name:'id'
+        name:'productId'
     }
 });
 
@@ -48,7 +56,8 @@ User.hasOne(Role, {
     foreignKey:{
         allowNull: false, 
         name:'id'
-    }
+    },
+    sourceKey: 'roleId'
 });
 
 export {

@@ -1,3 +1,5 @@
+import { createProductAndInventory } from '../services/ProductTransactions.js';
+
 import ProductRepository from '../repositories/ProductRepository.js';
 
 const productRepository = new ProductRepository();
@@ -35,8 +37,8 @@ class ProductController {
                 image,
                 quantity
             };
-
-            const data = await productRepository.create(params);
+            
+            const data = await createProductAndInventory(params);
 
             res.send({
                 message: 'Product Creation Result',
@@ -56,18 +58,17 @@ class ProductController {
         const data = await productRepository.getProducts();
         res.send(data);
     }
+
+    async getById(req, res) {
+        const { id } = req.params;
+        const data = await productRepository.getProductInventoryById(id);
+        res.send(data);
+    }
     
     async getInventory(req, res) {
         const data = await productRepository.getInventory();
         res.send(data);
     }
-    
-    async getByPK(req, res) {
-        const { id } = req.params;
-        const data = await productRepository.getByPK(id);
-        res.send(data);
-    }
-
 }
 
 export default ProductController;

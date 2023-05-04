@@ -2,7 +2,7 @@ import CategoryRepository from '../repositories/CategoryRepository.js';
 
 const categoryRepository = new CategoryRepository();
 
-class RoleController {
+class CategoryController {
 
     // CREATE
 
@@ -38,4 +38,4 @@ class RoleController {
 
 }
 
-export default RoleController;
+export default CategoryController;

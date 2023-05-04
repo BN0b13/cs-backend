@@ -12,8 +12,20 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      quantity: {
+      productId: {
         type: Sequelize.INTEGER
+      },
+      sku: {
+        type: Sequelize.STRING
+      },
+      address: {
+        type: Sequelize.STRING
+      },
+      bay: {
+        type: Sequelize.STRING
+      },
+      available: {
+        type: Sequelize.BOOLEAN
       },
       createdAt: {
         allowNull: false,
