@@ -53,6 +53,11 @@ router.post('/contact', TokenVerifier, HandleErrors(contactController.create));
 
 router.post('/orders', TokenVerifier, HandleErrors(orderController.create));
 
+router.get('/orders', TokenVerifier, HandleErrors(orderController.getOrdersById));
+router.get('/orders/:refId', TokenVerifier, HandleErrors(orderController.getOrderByRef));
+
+router.get('/orders/deliveryInsurance', TokenVerifier, HandleErrors(orderController.getDeliveryInsuranceAmount));
+
 // Products
 
 router.get('/products', HandleErrors(productController.getProducts));

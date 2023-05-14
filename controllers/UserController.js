@@ -1,12 +1,9 @@
 import UserRepository from '../repositories/UserRepository.js';
 
-import {
-    createAdminTransaction,
-    createCustomerTransaction,
-    createEmployeeTransaction
-} from '../services/UserTransactions.js';
+import UserService from '../services/UserService.js';
 
 const userRepository = new UserRepository();
+const userService = new UserService();
 
 class UserController {
 
@@ -47,7 +44,7 @@ class UserController {
             }
         });
 
-        const data = await createAdminTransaction(params);
+        const data = await userService.createAdminTransaction(params);
 
         res.send(data);
         } catch (err) {
@@ -93,7 +90,7 @@ class UserController {
             }
         });
 
-        const data = await createEmployeeTransaction(params);
+        const data = await userService.createEmployeeTransaction(params);
 
         res.send(data);
         } catch (err) {
@@ -138,7 +135,7 @@ class UserController {
             }
         });
 
-        const data = await createCustomerTransaction(params);
+        const data = await userService.createCustomer(params);
 
         res.send(data);
         } catch (err) {

@@ -2,7 +2,9 @@ import { Op } from 'sequelize';
 
 import { Cart, Product } from '../models/Associations.js';
 
-import { getProductsByIds}  from '../services/ProductTransactions.js';
+import ProductService  from '../services/ProductService.js';
+
+const productService = new ProductService();
 
 class CartRepository {
 
@@ -62,7 +64,7 @@ class CartRepository {
             const data = res.rows[0].products;
             const ids = data.map(item => item.productId);
 
-            const products = await getProductsByIds(ids);
+            const products = await productService.getProductsByIds(ids);
 
             const productData = products.rows.map(item => item.dataValues);
 

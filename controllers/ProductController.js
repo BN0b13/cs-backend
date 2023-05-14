@@ -1,7 +1,8 @@
-import { createProductAndInventory } from '../services/ProductTransactions.js';
+import ProductService from '../services/ProductService.js';
 
 import ProductRepository from '../repositories/ProductRepository.js';
 
+const productService = new ProductService();
 const productRepository = new ProductRepository();
 
 class ProductController {
@@ -38,7 +39,7 @@ class ProductController {
                 quantity
             };
             
-            const data = await createProductAndInventory(params);
+            const data = await productService.createProductAndInventory(params);
 
             res.send({
                 message: 'Product Creation Result',

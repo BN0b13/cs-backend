@@ -1,6 +1,4 @@
 import { Op } from 'sequelize';
-import { sequelize } from '../db.js';
-const t = await sequelize.transaction();
 
 import InventoryRepository from '../repositories/InventoryRepository.js';
 

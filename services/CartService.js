@@ -1,5 +1,15 @@
 import { Cart } from '../models/Associations.js';
 
-export const cartCreate = async ({ userId }) => {
-    await Cart.create({ userId });
+export default class CartService {
+    modifyCart = async (userId) => {
+        return Cart.update(
+            {
+                products: []
+            },
+            { 
+                where: {
+                    userId
+                }
+            });
+    }
 }

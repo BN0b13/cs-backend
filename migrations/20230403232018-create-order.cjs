@@ -15,11 +15,26 @@ module.exports = {
       userId: {
         type: Sequelize.INTEGER
       },
+      refId: {
+        type: Sequelize.STRING
+      },
       products: {
-        type: Sequelize.ARRAY(Sequelize.INTEGER)
+        type: Sequelize.ARRAY(Sequelize.JSON)
       },
       total: {
         type: Sequelize.INTEGER
+      },
+      billingAddress: {
+        type: Sequelize.JSON
+      },
+      shippingAddress: {
+        type: Sequelize.JSON
+      },
+      shipping: {
+        type: Sequelize.INTEGER
+      },
+      deliveryInsurance: {
+        type: Sequelize.BOOLEAN
       },
       couponId: {
         type: Sequelize.INTEGER
