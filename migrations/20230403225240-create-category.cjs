@@ -18,6 +18,9 @@ module.exports = {
       description: {
         type: Sequelize.STRING
       },
+      image: {
+        type: Sequelize.STRING
+      },
       status: {
         type: Sequelize.BOOLEAN
       },

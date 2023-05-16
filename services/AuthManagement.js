@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 export default class AuthManagement {
 
     async createToken(data) {
-        return jwt.sign(data , process.env.JWT_SECRET);
+        return jwt.sign(data, process.env.JWT_SECRET);
     }
 
     async verifyToken(token) {

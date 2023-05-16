@@ -30,23 +30,26 @@ module.exports = {
       phone: {
         type: Sequelize.STRING
       },
-      address: {
-        type: Sequelize.STRING
+      billingAddress: {
+        type: Sequelize.JSON
       },
-      city: {
-        type: Sequelize.STRING
-      },
-      state: {
-        type: Sequelize.STRING
-      },
-      zipCode: {
-        type: Sequelize.INTEGER
+      shippingAddress: {
+        type: Sequelize.JSON
       },
       emailList: {
         type: Sequelize.BOOLEAN
       },
       emailVerified: {
         type: Sequelize.BOOLEAN
+      },
+      emailToken: {
+        type: Sequelize.STRING
+      },
+      passwordToken: {
+        type: Sequelize.STRING
+      },
+      credit: {
+        type: Sequelize.INTEGER
       },
       createdAt: {
         allowNull: false,

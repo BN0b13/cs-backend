@@ -7,13 +7,15 @@ module.exports = {
     await queryInterface.bulkInsert(table, [{
       name: 'Limited Party Starter',
       description: `This line was created from several different pollinators, representing a variety of styles and flavors.`,
-      status: true,
+      image: null,
+      status: false,
       createdAt: new Date(),
       updatedAt: new Date()
     },
     {
       name: 'Limited Ghost',
       description: `This line was created from Casper OG pollen. Due to a rising demand and interest, this will be our first limited time strain available to the public.`,
+      image: null,
       status: true,
       createdAt: new Date(),
       updatedAt: new Date()

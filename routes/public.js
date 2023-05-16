@@ -54,9 +54,10 @@ router.post('/contact', TokenVerifier, HandleErrors(contactController.create));
 router.post('/orders', TokenVerifier, HandleErrors(orderController.create));
 
 router.get('/orders', TokenVerifier, HandleErrors(orderController.getOrdersById));
+
 router.get('/orders/:refId', TokenVerifier, HandleErrors(orderController.getOrderByRef));
 
-router.get('/orders/deliveryInsurance', TokenVerifier, HandleErrors(orderController.getDeliveryInsuranceAmount));
+router.get('/orders/delivery-insurance', TokenVerifier, HandleErrors(orderController.getDeliveryInsuranceAmount));
 
 // Products
 
@@ -66,6 +67,14 @@ router.get('/products/:id', HandleErrors(productController.getById));
 
 // Users
 router.post('/user', HandleErrors(userController.createCustomer));
+
+router.post('/user/reset-password', HandleErrors(userController.initiatePasswordReset));
+
+router.post('/user/reset-password/token', HandleErrors(userController.completePasswordReset));
+
+router.post('/user/verify-email', HandleErrors(userController.verifyEmail));
+
+router.get('/user/verify-email/:token', HandleErrors(userController.completeEmailVerification));
 
 router.get('/user', TokenVerifier, HandleErrors(userController.getUser));
 

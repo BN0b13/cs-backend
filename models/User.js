@@ -19,12 +19,13 @@ User.init({
   firstName: DataTypes.STRING,
   lastName: DataTypes.STRING,
   phone: DataTypes.STRING,
-  address: DataTypes.STRING,
-  city: DataTypes.STRING,
-  state: DataTypes.STRING,
-  zipCode: DataTypes.INTEGER,
+  billingAddress: DataTypes.JSON,
+  shippingAddress: DataTypes.JSON,
   emailList: DataTypes.BOOLEAN,
-  emailVerified: DataTypes.BOOLEAN
+  emailVerified: DataTypes.BOOLEAN,
+  emailToken: DataTypes.STRING,
+  passwordToken: DataTypes.STRING,
+  credit: DataTypes.INTEGER
 }, {
   sequelize,
   schema: process.env.PG_SCHEMA_NAME,

@@ -11,12 +11,25 @@ module.exports = {
       firstName: 'Blake',
       lastName: 'Noble',
       phone: '9515149037',
-      address: '33579 Canyon Ranch Road',
-      city: 'Wildomar',
-      state: 'CA',
-      zipCode: 92595,
+      billingAddress: JSON.stringify({
+        addressOne: '33579 Canyon Ranch Road',
+        addressTwo: '',
+        city: 'Wildomar',
+        state: 'CA',
+        zipCode: 92595
+      }),
+      shippingAddress: JSON.stringify({
+        addressOne: '33579 Canyon Ranch Road',
+        addressTwo: '',
+        city: 'Wildomar',
+        state: 'CA',
+        zipCode: 92595
+      }),
       emailList: false,
       emailVerified: true,
+      emailToken: null,
+      passwordToken: null,
+      credit: 0,
       createdAt: new Date(),
       updatedAt: new Date()
     },
@@ -27,12 +40,25 @@ module.exports = {
       firstName: 'Andrew',
       lastName: 'Evans',
       phone: '9518333397',
-      address: '33579 Canyon Ranch Road',
-      city: 'Wildomar',
-      state: 'CA',
-      zipCode: 92595,
+      billingAddress: JSON.stringify({
+        addressOne: '33579 Canyon Ranch Road',
+        addressTwo: '',
+        city: 'Wildomar',
+        state: 'CA',
+        zipCode: 92595
+      }),
+      shippingAddress: JSON.stringify({
+        addressOne: '33579 Canyon Ranch Road',
+        addressTwo: '',
+        city: 'Wildomar',
+        state: 'CA',
+        zipCode: 92595
+      }),
       emailList: false,
       emailVerified: true,
+      emailToken: null,
+      passwordToken: null,
+      credit: 0,
       createdAt: new Date(),
       updatedAt: new Date()
     },
@@ -43,12 +69,25 @@ module.exports = {
       firstName: 'Basic',
       lastName: 'Employee',
       phone: '9515062534',
-      address: '33579 Canyon Ranch Road',
-      city: 'Wildomar',
-      state: 'CA',
-      zipCode: 92595,
+      billingAddress: JSON.stringify({
+        addressOne: '33579 Canyon Ranch Road',
+        addressTwo: '',
+        city: 'Wildomar',
+        state: 'CA',
+        zipCode: 92595
+      }),
+      shippingAddress: JSON.stringify({
+        addressOne: '33579 Canyon Ranch Road',
+        addressTwo: '',
+        city: 'Wildomar',
+        state: 'CA',
+        zipCode: 92595
+      }),
       emailList: false,
       emailVerified: true,
+      emailToken: null,
+      passwordToken: null,
+      credit: 0,
       createdAt: new Date(),
       updatedAt: new Date()
     },
@@ -59,12 +98,25 @@ module.exports = {
       firstName: '2Basic',
       lastName: '2Employee',
       phone: '9515062534',
-      address: '33579 Canyon Ranch Road',
-      city: 'Wildomar',
-      state: 'CA',
-      zipCode: 92595,
+      billingAddress: JSON.stringify({
+        addressOne: '33579 Canyon Ranch Road',
+        addressTwo: '',
+        city: 'Wildomar',
+        state: 'CA',
+        zipCode: 92595
+      }),
+      shippingAddress: JSON.stringify({
+        addressOne: '33579 Canyon Ranch Road',
+        addressTwo: '',
+        city: 'Wildomar',
+        state: 'CA',
+        zipCode: 92595
+      }),
       emailList: false,
       emailVerified: true,
+      emailToken: null,
+      passwordToken: null,
+      credit: 0,
       createdAt: new Date(),
       updatedAt: new Date()
     },
@@ -75,12 +127,25 @@ module.exports = {
       firstName: 'Sammy',
       lastName: 'Dog',
       phone: '9515062534',
-      address: '32252 Bridgeview Circle',
-      city: 'Temecula',
-      state: 'CA',
-      zipCode: 92592,
+      billingAddress: JSON.stringify({
+        addressOne: '33579 Canyon Ranch Road',
+        addressTwo: '',
+        city: 'Wildomar',
+        state: 'CA',
+        zipCode: 92595
+      }),
+      shippingAddress: JSON.stringify({
+        addressOne: '33579 Canyon Ranch Road',
+        addressTwo: '',
+        city: 'Wildomar',
+        state: 'CA',
+        zipCode: 92595
+      }),
       emailList: false,
       emailVerified: true,
+      emailToken: null,
+      passwordToken: null,
+      credit: 0,
       createdAt: new Date(),
       updatedAt: new Date()
     },
@@ -91,12 +156,25 @@ module.exports = {
       firstName: 'Sezja',
       lastName: 'Dog',
       phone: '9515062534',
-      address: '32252 Bridgeview Circle',
-      city: 'Temecula',
-      state: 'CA',
-      zipCode: 92592,
+      billingAddress: JSON.stringify({
+        addressOne: '33579 Canyon Ranch Road',
+        addressTwo: '',
+        city: 'Wildomar',
+        state: 'CA',
+        zipCode: 92595
+      }),
+      shippingAddress: JSON.stringify({
+        addressOne: '33579 Canyon Ranch Road',
+        addressTwo: '',
+        city: 'Wildomar',
+        state: 'CA',
+        zipCode: 92595
+      }),
       emailList: false,
       emailVerified: true,
+      emailToken: null,
+      passwordToken: null,
+      credit: 0,
       createdAt: new Date(),
       updatedAt: new Date()
     },

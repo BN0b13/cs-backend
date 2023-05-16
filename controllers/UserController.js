@@ -17,10 +17,8 @@ class UserController {
             firstName = null,
             lastName = null,
             phone = null,
-            address = null,
-            city = null,
-            state = null,
-            zipCode = null,
+            billingAddress = null,
+            shippingAddress = null,
             emailList = null
         } = req.body;
 
@@ -30,12 +28,9 @@ class UserController {
             firstName,
             lastName,
             phone,
-            address,
-            city,
-            state,
-            zipCode,
-            emailList,
-            roleId: 2
+            billingAddress,
+            shippingAddress,
+            emailList
         };
 
         Object.values(params).forEach(param => {
@@ -63,10 +58,8 @@ class UserController {
             firstName = null,
             lastName = null,
             phone = null,
-            address = null,
-            city = null,
-            state = null,
-            zipCode = null,
+            billingAddress = null,
+            shippingAddress = null,
             emailList = null
         } = req.body;
 
@@ -76,12 +69,9 @@ class UserController {
             firstName,
             lastName,
             phone,
-            address,
-            city,
-            state,
-            zipCode,
-            emailList,
-            roleId: 3
+            billingAddress,
+            shippingAddress,
+            emailList
         };
 
         Object.values(params).forEach(param => {
@@ -109,10 +99,8 @@ class UserController {
             firstName = null,
             lastName = null,
             phone = null,
-            address = null,
-            city = null,
-            state = null,
-            zipCode = null,
+            billingAddress = null,
+            shippingAddress = null,
             emailList = null
         } = req.body;
 
@@ -122,10 +110,8 @@ class UserController {
             firstName,
             lastName,
             phone,
-            address,
-            city,
-            state,
-            zipCode,
+            billingAddress,
+            shippingAddress,
             emailList
         };
 
@@ -143,6 +129,104 @@ class UserController {
                 err,
                 message: 'There was an error creating user'
             });
+        }
+    }
+
+    async initiatePasswordReset(req, res) {
+        try {
+            const {
+                email = null
+            } = req.body;
+
+            const params = {
+                email: email.toLowerCase()
+            };
+
+            Object.values(params).forEach(param => {
+                if(param === null) {
+                    throw Error(`Missing ${params[param]} Param`);
+                }
+            });
+
+            const data = await userService.initiatePasswordReset(params);
+
+            res.send(data);
+        } catch (err) {
+            console.log('Initiate Password Reset Error: ', err);
+            
+        }
+    }
+
+    async completePasswordReset(req, res) {
+        try {
+            const {
+                passwordToken = null,
+                password = null
+            } = req.body;
+
+            const params = {
+                passwordToken,
+                password
+            };
+
+            Object.values(params).forEach(param => {
+                if(param === null) {
+                    throw Error(`Missing ${params[param]} Param`);
+                }
+            });
+
+            const data = await userService.completePasswordReset(params);
+
+            res.send(data);
+        } catch (err) {
+            console.log('Initiate Password Reset Error: ', err);
+            
+        }
+    }
+
+    async verifyEmail(req, res) {
+        try {
+            const {
+                email = null
+            } = req.body;
+
+            const params = {
+                email: email.toLowerCase()
+            };
+
+            Object.values(params).forEach(param => {
+                if(param === null) {
+                    throw Error(`Missing ${params[param]} Param`);
+                }
+            });
+
+            const data = await userService.verifyEmail(params);
+
+            res.send(data);
+        } catch (err) {
+            console.log('Initiate Password Reset Error: ', err);
+        }
+    }
+
+    async completeEmailVerification(req, res) {
+        try {
+            console.log('Req params: ', req.params);
+            const { token } = req.params;
+
+            const params = {
+                emailToken: token
+            };
+
+            if(token === null) {
+                throw Error(`Missing Email Verification Token`);
+            }
+
+            const data = await userService.completeEmailVerification(params);
+
+            res.send(data);
+        } catch (err) {
+            console.log('Initiate Password Reset Error: ', err);
+            
         }
     }
 
@@ -248,10 +332,8 @@ class UserController {
             firstName = null,
             lastName = null,
             phone = null,
-            address = null,
-            city = null,
-            state = null,
-            zipCode = null,
+            billingAddress = null,
+            shippingAddress = null,
             emailList = null
         } = req.body;
 
@@ -260,10 +342,8 @@ class UserController {
             firstName,
             lastName,
             phone,
-            address,
-            city,
-            state,
-            zipCode,
+            billingAddress,
+            shippingAddress,
             emailList
         };
 
