@@ -57,7 +57,7 @@ router.get('/orders', TokenVerifier, HandleErrors(orderController.getOrdersById)
 
 router.get('/orders/:refId', TokenVerifier, HandleErrors(orderController.getOrderByRef));
 
-router.get('/orders/delivery-insurance', TokenVerifier, HandleErrors(orderController.getDeliveryInsuranceAmount));
+router.get('/orders/shipping/delivery-insurance', TokenVerifier, HandleErrors(orderController.getDeliveryInsuranceAmount));
 
 // Products
 

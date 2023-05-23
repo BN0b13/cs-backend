@@ -1,6 +1,6 @@
 import Order from '../models/Order.js';
 
-import { deliveryInsuranceAmount } from '../config.js';
+import { deliveryInsuranceAmount, shippingAndHandling } from '../config.js';
 
 class OrderRepository {
 
@@ -88,7 +88,10 @@ class OrderRepository {
     }
 
     getDeliveryInsuranceAmount() {
-        return { deliveryInsuranceAmount };
+        return { 
+            deliveryInsuranceAmount,
+            shippingAndHandling
+        };
     }
 }
 

@@ -1,10 +1,8 @@
 import { Op } from 'sequelize';
 
-import { v4 as uuidv4 } from 'uuid';
-
 import { sequelize } from "../db.js";
 
-import { Cart, Inventory, Order, Product } from '../models/Associations.js';
+import { Order } from '../models/Associations.js';
 
 import CartService from './CartService.js';
 import EmailService from './EmailService.js';
@@ -44,7 +42,7 @@ export default class OrderService {
             return 'Inventory not available';
         }
 
-        const refId = uuidv4();
+        const refId = `CS${userId + 420}-${Date.now()}`;
 
         let inventoryIds = [];
         

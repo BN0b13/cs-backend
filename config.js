@@ -1,7 +1,9 @@
 const companyName = 'Cosmic Strains';
 const companyEmail = 'CosmicStrainsOfficial@gmail.com';
 
-export const deliveryInsuranceAmount = 1000;
+export const deliveryInsuranceAmount = 800;
+
+export const shippingAndHandling = 1000;
 
 export const orderReceivedEmailTemplate = ({ refId }) => {
     return {
