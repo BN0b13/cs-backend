@@ -244,7 +244,7 @@ export default class UserService {
                 return result;
             });
 
-            const emailToken = await this.createEmailToken(result.id, email);
+            const emailToken = await this.createEmailToken(res.id, email);
 
             await emailService.verifyEmail({ email, token: emailToken });
 
