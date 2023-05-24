@@ -21,7 +21,7 @@ export default class UserService {
     }
 
     createEmailToken = async (id, email) => {
-        const token = jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: 900 });
+        const token = jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: 3600 });
         await this.updateUserEmailToken(token, email);
 
         return token;
