@@ -32,15 +32,15 @@ export const AdminTokenVerifier = async (req, res, next) => {
         return res.status(error.code).json({ error });
     }
 
-    if(decoded.roleId > 3) {
-        const error = new UnauthorizedError()
-        return res.status(error.code).json({ error });
-    }
-
     const checkUserExists = await userRepository.getByPK(decoded.id);
 
     if(!checkUserExists) {
         const error = new ModelNotFoundError()
+        return res.status(error.code).json({ error });
+    }
+
+    if(checkUserExists.roleId > 3) {
+        const error = new UnauthorizedError()
         return res.status(error.code).json({ error });
     }
 

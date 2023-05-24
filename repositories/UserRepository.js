@@ -23,11 +23,7 @@ class UserRepository {
                 throw Error('Password was not correct');
             }
 
-            const token = await authManagement.createToken({
-                id: getUser.id,
-                roleId: getUser.roleId,
-                email: getUser.email
-            });
+            const token = await authManagement.createToken({ id: getUser.id });
 
             return {
                 status: 200,

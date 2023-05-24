@@ -20,16 +20,43 @@ export default class UserService {
         return await bcrypt.compare(data, encrypted);
     }
 
-    verifyEmail = async ({ email }) => {
-        console.log('Verify Email hit! ', email);
-        const token = jwt.sign(email, process.env.JWT_SECRET);
-
+    createEmailToken = async (id, email) => {
+        const token = jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: 900 });
         await this.updateUserEmailToken(token, email);
 
-        await emailService.verifyEmail({ email, token });
+        return token;
+    }
 
-        return{
+    sendEmailVerificationEmail = async ({ id }) => {
+        const user = await User.findByPk(id);
+        const token = await this.createEmailToken(id, user.email);
+
+        await emailService.verifyEmail({ email: user.email, token });
+
+        return {
             status: 200
+        };
+    }
+
+    verifyEmailTokenIsValid = async ({ id }) => {
+        const user = await User.findByPk(id);
+        const decoded = jwt.decode(user.emailToken, process.env.JWT_SECRET);
+        if(!decoded) {
+            return {
+                status: 404
+            }
+        }
+
+        const currentUnix = Math.round(Date.now() / 1000);
+        if(currentUnix > decoded.exp) {
+            return {
+                status: 403,
+                expirationDate: decoded.exp
+            };
+        }
+        return {
+            status: 200,
+            expirationDate: decoded.exp
         };
     }
 
@@ -52,7 +79,7 @@ export default class UserService {
             };
         }
 
-        const token = jwt.sign(email, process.env.JWT_SECRET);
+        const token = jwt.sign({ email }, process.env.JWT_SECRET, { expiresIn: 300 });
 
         await this.updateUserPasswordToken(token, email);
 
@@ -64,6 +91,10 @@ export default class UserService {
     }
 
     completePasswordReset = async ({ passwordToken, password }) => {
+        const decoded = jwt.decode(passwordToken, process.env.JWT_SECRET);
+        if(!decoded) {
+            throw Error('Token Expired');
+        }
         const hashedPassword = await this.hashPassword(password);
         
         return await this.updateUserPassword(passwordToken, hashedPassword);
@@ -213,13 +244,11 @@ export default class UserService {
                 return result;
             });
 
-            await this.verifyEmail({ email });
+            const emailToken = await this.createEmailToken(result.id, email);
 
-            const token = await authManagement.createToken({
-                id: res.id,
-                roleId: res.roleId,
-                email: res.email
-            });
+            await emailService.verifyEmail({ email, token: emailToken });
+
+            const token = await authManagement.createToken({ id: res.id });
 
             return {
                 status: 201,
@@ -275,7 +304,8 @@ export default class UserService {
     async updateUserPassword(passwordToken, password) {
         return await User.update(
             { 
-                password
+                password,
+                passwordToken: null
             },
             {
                 where: {

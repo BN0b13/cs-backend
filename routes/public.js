@@ -72,6 +72,10 @@ router.post('/user/reset-password', HandleErrors(userController.initiatePassword
 
 router.post('/user/reset-password/token', HandleErrors(userController.completePasswordReset));
 
+router.get('/user/email-token', TokenVerifier, HandleErrors(userController.sendEmailVerificationEmail));
+
+router.get('/user/email-token/verify', TokenVerifier, HandleErrors(userController.verifyUserEmailToken));
+
 router.post('/user/verify-email', HandleErrors(userController.verifyEmail));
 
 router.get('/user/verify-email/:token', HandleErrors(userController.completeEmailVerification));

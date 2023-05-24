@@ -26,7 +26,7 @@ module.exports = {
         zipCode: 92595
       }),
       emailList: false,
-      emailVerified: true,
+      emailVerified: false,
       emailToken: null,
       passwordToken: null,
       credit: 0,

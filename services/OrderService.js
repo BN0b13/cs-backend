@@ -71,8 +71,6 @@ export default class OrderService {
                 await inventoryService.modifyInventory(inventoryIds, { transaction: t });
                 
                 await cartService.modifyCart(userId, { transaction: t });
-                
-                // const result = await cartService.modifyCart(userId, { transaction: t });
 
                 return result;
             });

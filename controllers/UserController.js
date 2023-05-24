@@ -210,7 +210,6 @@ class UserController {
 
     async completeEmailVerification(req, res) {
         try {
-            console.log('Req params: ', req.params);
             const { token } = req.params;
 
             const params = {
@@ -320,6 +319,18 @@ class UserController {
     
     async getUsers(req, res) {
         const data = await userRepository.getUsers();
+        res.send(data);
+    }
+
+    async sendEmailVerificationEmail(req, res) {
+        const { id } = req.userData;
+        const data = userService.sendEmailVerificationEmail({ id });
+        res.send(data);
+    }
+
+    async verifyUserEmailToken(req, res) {
+        const { id } = req.userData;
+        const data = await userService.verifyEmailTokenIsValid({ id });
         res.send(data);
     }
 

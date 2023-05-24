@@ -17,6 +17,7 @@ export default class EmailService {
             from: data.sellerEmail,
             subject: data.emailSubject,
             text: data.emailBody,
+            html: data.html
         }
         try {
             return await sgMail.send(msg);
@@ -36,6 +37,7 @@ export default class EmailService {
             from: data.sellerEmail,
             subject: data.emailSubject,
             text: data.emailBody,
+            html: data.html
         }
         try {
             return await sgMail.send(msg);
@@ -55,6 +57,7 @@ export default class EmailService {
             from: data.sellerEmail,
             subject: data.emailSubject,
             text: data.emailBody,
+            html: data.html
         }
         try {
             return await sgMail.send(msg);
