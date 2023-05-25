@@ -97,7 +97,7 @@ export default class UserService {
         }
         const hashedPassword = await this.hashPassword(password);
         
-        return await this.updateUserPassword(passwordToken, hashedPassword);
+        return await this.updateUserPasswordByToken(passwordToken, hashedPassword);
     }
 
     getByEmail = async (email) => {
@@ -135,8 +135,10 @@ export default class UserService {
         try {
             const res = await sequelize.transaction(async (t) => {
                 const data = { 
-                    ...params, 
+                    ...params,
+                    emailOriginal: email,
                     password: hashedPassword,
+                    subscriptions: [],
                     emailVerified: false,
                     roleId: 2,
                     emailToken: null,
@@ -179,8 +181,10 @@ export default class UserService {
         try {
             const res = await sequelize.transaction(async (t) => {
                 const data = { 
-                    ...params, 
+                    ...params,
+                    emailOriginal: email,
                     password: hashedPassword,
+                    subscriptions: [],
                     emailVerified: false,
                     roleId: 3,
                     emailToken: null,
@@ -223,8 +227,10 @@ export default class UserService {
         try {
             const res = await sequelize.transaction(async (t) => {
                 const data = { 
-                    ...params, 
+                    ...params,
+                    emailOriginal: email,
                     password: hashedPassword,
+                    subscriptions: [],
                     emailVerified: false,
                     roleId: 4,
                     emailToken: null,
@@ -244,9 +250,10 @@ export default class UserService {
                 return result;
             });
 
-            const emailToken = await this.createEmailToken(res.id, email);
+            // Refactoring how a verified email works - eg. subscriptions
+            // const emailToken = await this.createEmailToken(res.id, email);
 
-            await emailService.verifyEmail({ email, token: emailToken });
+            // await emailService.verifyEmail({ email, token: emailToken });
 
             const token = await authManagement.createToken({ id: res.id });
 
@@ -301,7 +308,21 @@ export default class UserService {
         );
     }
 
-    async updateUserPassword(passwordToken, password) {
+    async updateUserPassword(id, password) {
+        return await User.update(
+            { 
+                password,
+                passwordToken: null
+            },
+            {
+                where: {
+                    id
+                }
+            }
+        );
+    }
+
+    async updateUserPasswordByToken(passwordToken, password) {
         return await User.update(
             { 
                 password,

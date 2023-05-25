@@ -18,6 +18,9 @@ const productService = new ProductService();
 
 
 export default class OrderService {
+
+    // Create
+
     createOrder = async (params) => {
         const {
             token,
@@ -27,8 +30,10 @@ export default class OrderService {
             total,
             billingAddress,
             shippingAddress,
-            shipping,
+            shippingId,
+            shippingTotal,
             deliveryInsurance,
+            deliveryInsuranceTotal,
             couponId
         } = params;
         
@@ -60,10 +65,14 @@ export default class OrderService {
                     total,
                     billingAddress,
                     shippingAddress,
-                    shipping,
+                    shippingId,
+                    shippingTotal,
                     deliveryInsurance,
+                    deliveryInsuranceTotal,
                     couponId,
-                    status: 'new'
+                    status: 'new',
+                    fulfilledBy: null,
+                    tracking: null
                 };
 
                 const result = await Order.create(orderData, { transaction: t });
@@ -113,5 +122,59 @@ export default class OrderService {
             result,
             data
         };
+    }
+
+    // Read
+
+    async getOrderById(id) {
+        try {
+            const res = await Order.findAndCountAll({
+                where: {
+                    userId: id
+                }
+            });
+
+            const data = res.rows[0].products;
+            const ids = data.map(item => item.productId);
+            const products = await productService.getProductsByIds(ids);
+            const productData = products.rows.map(item => item.dataValues);
+
+            data.forEach((item, index) => {
+                item['product'] = productData.filter(product => product.id === item.productId);
+            });
+
+            res.rows[0].products = data;
+
+            return res;
+        } catch (err) {
+            console.log('Get Orders Messages Error: ', err);
+            throw Error('There was an error getting all orders');
+        }
+    }
+
+    async getOrderByRef(refId) {
+        try {
+            const res = await Order.findAndCountAll({
+                where: {
+                    refId
+                }
+            });
+
+            const data = res.rows[0].products;
+            const ids = data.map(item => item.productId);
+            const products = await productService.getProductsByIds(ids);
+            const productData = products.rows.map(item => item.dataValues);
+
+            data.forEach((item, index) => {
+                item['product'] = productData.filter(product => product.id === item.productId);
+            });
+
+            res.rows[0].products = data;
+
+            return res;
+        } catch (err) {
+            console.log('Get Orders Messages Error: ', err);
+            throw Error('There was an error getting all orders');
+        }
     }
 } 

@@ -18,8 +18,7 @@ class UserController {
             lastName = null,
             phone = null,
             billingAddress = null,
-            shippingAddress = null,
-            emailList = null
+            shippingAddress = null
         } = req.body;
 
         const params = {
@@ -29,8 +28,7 @@ class UserController {
             lastName,
             phone,
             billingAddress,
-            shippingAddress,
-            emailList
+            shippingAddress
         };
 
         Object.values(params).forEach(param => {
@@ -59,8 +57,7 @@ class UserController {
             lastName = null,
             phone = null,
             billingAddress = null,
-            shippingAddress = null,
-            emailList = null
+            shippingAddress = null
         } = req.body;
 
         const params = {
@@ -70,8 +67,7 @@ class UserController {
             lastName,
             phone,
             billingAddress,
-            shippingAddress,
-            emailList
+            shippingAddress
         };
 
         Object.values(params).forEach(param => {
@@ -93,6 +89,7 @@ class UserController {
 
     async createCustomer(req, res) {
         try {
+            console.log('Create Customer hit: ', req.body);
         const { 
             email = null,
             password = null,
@@ -100,8 +97,7 @@ class UserController {
             lastName = null,
             phone = null,
             billingAddress = null,
-            shippingAddress = null,
-            emailList = null
+            shippingAddress = null
         } = req.body;
 
         const params = {
@@ -111,8 +107,7 @@ class UserController {
             lastName,
             phone,
             billingAddress,
-            shippingAddress,
-            emailList
+            shippingAddress
         };
 
         Object.values(params).forEach(param => {
@@ -345,7 +340,7 @@ class UserController {
             phone = null,
             billingAddress = null,
             shippingAddress = null,
-            emailList = null
+            subscriptions = null
         } = req.body;
 
         const params = {
@@ -355,7 +350,7 @@ class UserController {
             phone,
             billingAddress,
             shippingAddress,
-            emailList
+            subscriptions
         };
 
         Object.keys(params).forEach(param => params[param] == null && delete params[param]);

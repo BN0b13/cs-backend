@@ -30,16 +30,28 @@ module.exports = {
       shippingAddress: {
         type: Sequelize.JSON
       },
-      shipping: {
+      shippingId: {
+        type: Sequelize.INTEGER
+      },
+      shippingTotal: {
         type: Sequelize.INTEGER
       },
       deliveryInsurance: {
         type: Sequelize.BOOLEAN
       },
+      deliveryInsuranceTotal: {
+        type: Sequelize.INTEGER
+      },
       couponId: {
         type: Sequelize.INTEGER
       },
       status: {
+        type: Sequelize.STRING
+      },
+      fulfilledBy: {
+        type: Sequelize.INTEGER
+      },
+      tracking: {
         type: Sequelize.STRING
       },
       createdAt: {

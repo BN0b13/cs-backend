@@ -1,8 +1,12 @@
 import CartRepository from '../repositories/CartRepository.js';
 
+import CartService from '../services/CartService.js';
+
 const cartRepository = new CartRepository();
+const cartService = new CartService();
 
 class CartController {
+
     // READ
     
     async getCart(req, res) {
@@ -13,7 +17,7 @@ class CartController {
     
     async getCartContents(req, res) {
         const { id } = req.userData;
-        const data = await cartRepository.getCartContents(id);
+        const data = await cartService.getCartContents(id);
         res.send(data);
     }
 

@@ -20,10 +20,14 @@ Order.init({
   total: DataTypes.INTEGER,
   billingAddress: DataTypes.JSON,
   shippingAddress: DataTypes.JSON,
-  shipping: DataTypes.INTEGER,
+  shippingId: DataTypes.INTEGER,
+  shippingTotal: DataTypes.INTEGER,
   deliveryInsurance: DataTypes.BOOLEAN,
+  deliveryInsuranceTotal: DataTypes.INTEGER,
   couponId: DataTypes.INTEGER,
-  status: DataTypes.STRING
+  status: DataTypes.STRING,
+  fulfilledBy: DataTypes.INTEGER,
+  tracking: DataTypes.STRING,
 }, {
   sequelize,
   schema: process.env.PG_SCHEMA_NAME,

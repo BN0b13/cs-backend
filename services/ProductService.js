@@ -11,14 +11,10 @@ export default class ProductService {
         const {
             categoryId,
             name,
-            description,
-            price,
-            time,
-            mother,
-            father,
-            profile,
-            sex,
+            details,
             image,
+            price,
+            serialized,
             quantity,
             address = '',
             bay = '',
@@ -32,14 +28,10 @@ export default class ProductService {
                 const productData = {
                     categoryId,
                     name,
-                    description,
-                    price,
-                    time,
-                    mother,
-                    father,
-                    profile,
-                    sex,
+                    details,
                     image,
+                    price,
+                    serialized
                 };
 
                 const result = await Product.create(productData, { transaction: t });

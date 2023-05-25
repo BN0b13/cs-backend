@@ -1,6 +1,6 @@
 #!/bin/bash
 
-npx sequelize-cli model:generate --name User --attributes username:string,password:string,roleId:number,firstName:string,lastName:string,phone:string,email:string,address:string,city:string,state:string,zipCode:number,emailList:boolean,emailVerified:boolean
+npx sequelize-cli model:generate --name User --attributes username:string,password:string,roleId:number,firstName:string,lastName:string,phone:string,email:string,address:string,city:string,state:string,zipCode:number,subscription:array,emailVerified:boolean
 npx sequelize-cli model:generate --name Role --attributes role:string
 npx sequelize-cli model:generate --name Category --attributes name:string,description:string,status:boolean
 npx sequelize-cli model:generate --name Cart --attributes userId:integer,products:array

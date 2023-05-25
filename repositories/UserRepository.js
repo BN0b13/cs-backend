@@ -95,7 +95,7 @@ class UserRepository {
             phone: user.phone,
             billingAddress: user.billingAddress,
             shippingAddress: user.shippingAddress,
-            emailList: user.emailList,
+            subscriptions: user.subscriptions,
             emailVerified: user.emailVerified,
             cart: user.Cart,
             orders: user.Orders

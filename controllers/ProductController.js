@@ -14,28 +14,20 @@ class ProductController {
             const {
                 categoryId,
                 name,
-                description,
-                price,
-                time,
-                mother,
-                father,
-                profile,
-                sex,
+                details,
                 image,
+                price,
+                serialized,
                 quantity
             } = req.body;
 
             const params = {
                 categoryId,
                 name,
-                description,
-                price,
-                time,
-                mother,
-                father,
-                profile,
-                sex,
+                details,
                 image,
+                price,
+                serialized,
                 quantity
             };
             

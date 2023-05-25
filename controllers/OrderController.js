@@ -11,7 +11,6 @@ class OrderController {
 
     async create(req, res) {
         try {
-            // TODO Make helper function with transactions to update necessary inventory to available false and empty customer's cart
         const {
             token,
             email,
@@ -20,8 +19,10 @@ class OrderController {
             total,
             billingAddress,
             shippingAddress,
-            shipping,
+            shippingId,
+            shippingTotal,
             deliveryInsurance,
+            deliveryInsuranceTotal,
             couponId = null
         } = req.body;
 
@@ -33,8 +34,10 @@ class OrderController {
             total,
             billingAddress,
             shippingAddress,
-            shipping,
+            shippingId,
+            shippingTotal,
             deliveryInsurance,
+            deliveryInsuranceTotal,
             couponId
         };
 
@@ -64,15 +67,9 @@ class OrderController {
     
     async getOrderByRef(req, res) {
         const { refId } = req.params;
-        const data = await orderRepository.getOrderByRef(refId);
+        const data = await orderService.getOrderByRef(refId);
         res.send(data);
     }
-    
-    async getDeliveryInsuranceAmount(req, res) {
-        const data = orderRepository.getDeliveryInsuranceAmount();
-        res.send(data);
-    }
-
 }
 
 export default OrderController;

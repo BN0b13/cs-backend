@@ -91,20 +91,16 @@ class ProductRepository {
                     }
                 ]
             });
-            console.log('Res rows: ', res.rows);
             const availableInventory = res.rows.filter(item => item.dataValues.Inventories[0].dataValues.available === true);
             const inventoryCount = availableInventory.map(item => {
                 return {
                     categoryId: item.categoryId,
                     name: item.name,
-                    quantity: item.Inventories.length,
-                    price: item.price,
-                    time: item.time,
-                    mother: item.mother,
-                    father: item.father,
-                    profile: item.profile,
-                    sex: item.sex,
+                    details: item.details,
                     image: item.image,
+                    price: item.price,
+                    serialized: item.serialized,
+                    quantity: item.Inventories.length,
                     createdAt: item.createdAt
                 }
             });

@@ -14,6 +14,7 @@ class User extends Model {
 }
 User.init({
   email: DataTypes.STRING,
+  emailOriginal: DataTypes.STRING,
   password: DataTypes.STRING,
   roleId: DataTypes.INTEGER,
   firstName: DataTypes.STRING,
@@ -21,7 +22,7 @@ User.init({
   phone: DataTypes.STRING,
   billingAddress: DataTypes.JSON,
   shippingAddress: DataTypes.JSON,
-  emailList: DataTypes.BOOLEAN,
+  subscriptions: DataTypes.ARRAY(DataTypes.INTEGER),
   emailVerified: DataTypes.BOOLEAN,
   emailToken: DataTypes.STRING,
   passwordToken: DataTypes.STRING,

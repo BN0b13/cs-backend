@@ -16,6 +16,10 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING
       },
+      emailOriginal: {
+        allowNull: false,
+        type: Sequelize.STRING
+      },
       password: {
         allowNull: false,
         type: Sequelize.STRING
@@ -38,8 +42,8 @@ module.exports = {
       shippingAddress: {
         type: Sequelize.JSON
       },
-      emailList: {
-        type: Sequelize.BOOLEAN
+      subscriptions: {
+        type: Sequelize.ARRAY(Sequelize.INTEGER)
       },
       emailVerified: {
         type: Sequelize.BOOLEAN

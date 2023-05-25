@@ -1,16 +1,14 @@
 import sgMail from '@sendgrid/mail';
 
-import {
-    orderReceivedEmailTemplate,
-    passwordResetEmailTemplate,
-    verifyEmailTemplate
-} from '../config.js';
+import EmailTemplates from '../templates/EmailTemplates.js';
+
+const emailTemplates = new EmailTemplates();
 
 export default class EmailService {
     orderReceivedEmail = async ({ buyerEmail, refId }) => {
         sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
-        const data = orderReceivedEmailTemplate({ refId });
+        const data = emailTemplates.orderReceivedEmailTemplate({ refId });
 
         const msg = {
             to: buyerEmail,
@@ -30,7 +28,7 @@ export default class EmailService {
     passwordReset = async ({ email, token }) => {
         sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
-        const data = passwordResetEmailTemplate({ token });
+        const data = emailTemplates.passwordResetEmailTemplate({ token });
 
         const msg = {
             to: email,
@@ -50,7 +48,7 @@ export default class EmailService {
     verifyEmail = async ({ email, token }) => {
         sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
-        const data = verifyEmailTemplate({ token });
+        const data = emailTemplates.verifyEmailTemplate({ token });
 
         const msg = {
             to: email,

@@ -6,18 +6,20 @@ import { HandleErrors } from '../middleware/errorHandler.js';
 
 import CartController from '../controllers/CartController.js';
 import CategoryController from '../controllers/CategoryController.js';
-import UserController from '../controllers/UserController.js';
+import CheckoutController from '../controllers/CheckoutController.js';
 import ContactController from '../controllers/ContactController.js';
 import OrderController from '../controllers/OrderController.js';
 import ProductController from '../controllers/ProductController.js';
+import UserController from '../controllers/UserController.js';
 import VisitController from '../controllers/VisitController.js';
 
 const cartController = new CartController();
 const categoryController = new CategoryController();
-const userController = new UserController();
+const checkoutController = new CheckoutController();
 const contactController = new ContactController();
 const orderController = new OrderController();
 const productController = new ProductController();
+const userController = new UserController();
 const visitController = new VisitController();
 
 router.get('/health', (req, res) => {
@@ -26,12 +28,6 @@ router.get('/health', (req, res) => {
     message: 'API is healthy and responding'
   });
 });
-
-// Login
-
-router.post('/login', HandleErrors(userController.login));
-
-router.post('/login-admin', HandleErrors(userController.adminLogin));
 
 // Cart
 
@@ -45,9 +41,19 @@ router.patch('/cart', TokenVerifier, HandleErrors(cartController.patchCart));
 
 router.get('/categories', HandleErrors(categoryController.getCategories));
 
+// Checkout
+
+router.get('/checkout/set-up', TokenVerifier, checkoutController.checkoutSetup);
+
 // Contact
 
 router.post('/contact', TokenVerifier, HandleErrors(contactController.create));
+
+// Login
+
+router.post('/login', HandleErrors(userController.login));
+
+router.post('/login-admin', HandleErrors(userController.adminLogin));
 
 // Orders
 
@@ -56,8 +62,6 @@ router.post('/orders', TokenVerifier, HandleErrors(orderController.create));
 router.get('/orders', TokenVerifier, HandleErrors(orderController.getOrdersById));
 
 router.get('/orders/:refId', TokenVerifier, HandleErrors(orderController.getOrderByRef));
-
-router.get('/orders/shipping/delivery-insurance', TokenVerifier, HandleErrors(orderController.getDeliveryInsuranceAmount));
 
 // Products
 
