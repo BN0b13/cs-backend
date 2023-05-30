@@ -30,6 +30,7 @@ module.exports = {
         state: 'CA',
         zipCode: 92595
       }),
+      favorites: [0],
       subscriptions: [0],
       emailVerified: false,
       emailToken: null,
@@ -64,6 +65,7 @@ module.exports = {
         state: 'CA',
         zipCode: 92595
       }),
+      favorites: [0],
       subscriptions: [0],
       emailVerified: true,
       emailToken: null,
@@ -98,6 +100,7 @@ module.exports = {
         state: 'CA',
         zipCode: 92595
       }),
+      favorites: [0],
       subscriptions: [0],
       emailVerified: true,
       emailToken: null,
@@ -132,6 +135,7 @@ module.exports = {
         state: 'CA',
         zipCode: 92595
       }),
+      favorites: [0],
       subscriptions: [0],
       emailVerified: true,
       emailToken: null,
@@ -166,6 +170,7 @@ module.exports = {
         state: 'CA',
         zipCode: 92595
       }),
+      favorites: [0],
       subscriptions: [0],
       emailVerified: true,
       emailToken: null,
@@ -200,6 +205,7 @@ module.exports = {
         state: 'CA',
         zipCode: 92595
       }),
+      favorites: [0],
       subscriptions: [0],
       emailVerified: true,
       emailToken: null,

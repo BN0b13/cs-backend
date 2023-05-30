@@ -7,6 +7,8 @@ import EmailService from './EmailService.js';
 
 import { Cart, User } from '../models/Associations.js';
 
+import { passwordValidation } from '../tools/user.js';
+
 const authManagement = new AuthManagement();
 const emailService = new EmailService();
 
@@ -311,8 +313,7 @@ export default class UserService {
     async updateUserPassword(id, password) {
         return await User.update(
             { 
-                password,
-                passwordToken: null
+                password
             },
             {
                 where: {
@@ -334,5 +335,44 @@ export default class UserService {
                 }
             }
         );
+    }
+
+
+    async updateAccountPassword(id, data) {
+        try {
+            const { currentPassword, newPassword } = data;
+            const getUser = await User.findByPk(id);
+
+            if(!getUser) {
+                return {
+                    status: 404,
+                    error: 'Unable to update user password'
+                }
+            }
+
+            const verifyPassword = await this.verifyPassword(currentPassword, getUser.password);
+
+            if(!verifyPassword) {
+                return {
+                    status: 403,
+                    error: 'Current password incorrect'
+                }
+            }
+            
+            if(!passwordValidation(newPassword) || currentPassword === newPassword) {
+                return {
+                    status: 406,
+                    error: 'Password does not meet validation standards'
+                }
+            }
+
+            const hashedPassword = await this.hashPassword(newPassword);
+
+            const res = await this.updateUserPassword(id, hashedPassword);
+            return res;
+        } catch (err) {
+            console.log('Update User Error: ', err);
+            throw Error('There was an error updating the user');
+        }
     }
 }

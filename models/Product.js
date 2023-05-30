@@ -17,7 +17,7 @@ Product.init({
   categoryId: DataTypes.INTEGER,
   name: DataTypes.STRING,
   details: DataTypes.JSON,
-  image: DataTypes.STRING,
+  image: DataTypes.ARRAY(Sequelize.STRING),
   price: DataTypes.INTEGER,
   serialized: DataTypes.BOOLEAN
 }, {

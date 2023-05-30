@@ -42,6 +42,9 @@ module.exports = {
       shippingAddress: {
         type: Sequelize.JSON
       },
+      favorites: {
+        type: Sequelize.ARRAY(Sequelize.INTEGER)
+      },
       subscriptions: {
         type: Sequelize.ARRAY(Sequelize.INTEGER)
       },

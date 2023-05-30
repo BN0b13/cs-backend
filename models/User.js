@@ -22,6 +22,7 @@ User.init({
   phone: DataTypes.STRING,
   billingAddress: DataTypes.JSON,
   shippingAddress: DataTypes.JSON,
+  favorites: DataTypes.ARRAY(DataTypes.INTEGER),
   subscriptions: DataTypes.ARRAY(DataTypes.INTEGER),
   emailVerified: DataTypes.BOOLEAN,
   emailToken: DataTypes.STRING,

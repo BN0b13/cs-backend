@@ -22,7 +22,7 @@ module.exports = {
         type: Sequelize.JSON
       },
       image: {
-        type: Sequelize.STRING
+        type: Sequelize.ARRAY(Sequelize.STRING)
       },
       price: {
         type: Sequelize.INTEGER

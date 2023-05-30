@@ -80,6 +80,8 @@ router.get('/user/email-token', TokenVerifier, HandleErrors(userController.sendE
 
 router.get('/user/email-token/verify', TokenVerifier, HandleErrors(userController.verifyUserEmailToken));
 
+router.patch('/user/update-password', TokenVerifier, HandleErrors(userController.updateAccountPassword));
+
 router.post('/user/verify-email', HandleErrors(userController.verifyEmail));
 
 router.get('/user/verify-email/:token', HandleErrors(userController.completeEmailVerification));

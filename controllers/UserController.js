@@ -359,6 +359,28 @@ class UserController {
         res.send(data);
     }
 
+    async updateAccountPassword(req, res) {
+        const { id } = req.userData;
+        const {
+            currentPassword = null,
+            newPassword = null,
+        } = req.body;
+
+        const params = {
+            currentPassword,
+            newPassword
+        };
+
+        Object.values(params).forEach(param => {
+            if(param === null) {
+                throw Error(`Missing ${params[param]} Param`);
+            }
+        });
+
+        const data = await userService.updateAccountPassword(id, params);
+        res.send(data);
+    }
+
     // DELETE
 
     async deleteUser(req, res) {

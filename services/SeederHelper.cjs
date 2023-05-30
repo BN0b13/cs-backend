@@ -9,7 +9,7 @@ const productArr = [{
       profile: ["Sweet", "Orange", "OG"],
       sex: "Regular"
     }),
-    image: null,
+    image: [''],
     price: 6000,
     serialized: true,
     quantity: 0
@@ -25,7 +25,7 @@ const productArr = [{
       profile: ["Sweet", "Berry"],
       sex: "Regular"
     }),
-    image: null,
+    image: [''],
     price: 6000,
     serialized: true,
     quantity: 0
@@ -41,7 +41,7 @@ const productArr = [{
       profile: ["Sweet", "Meat"],
       sex: "Regular"
     }),
-    image: null,
+    image: [''],
     price: 6000,
     serialized: true,
     quantity: 0
@@ -57,7 +57,7 @@ const productArr = [{
       profile: ["Sweet", "Meat"],
       sex: "Regular"
     }),
-    image: null,
+    image: [''],
     price: 6000,
     serialized: true,
     quantity: 0
@@ -74,7 +74,7 @@ const productArr = [{
       profile: ["Sweet", "OG"],
       sex: "Regular"
     }),
-    image: null,
+    image: [''],
     price: 6000,
     serialized: true,
     quantity: 10
@@ -90,7 +90,7 @@ const productArr = [{
     profile: ["Earthy", "OG"],
     sex: "Regular"
     }),
-    image: null,
+    image: [''],
     price: 6000,
     serialized: true,
     quantity: 10
@@ -106,7 +106,7 @@ const productArr = [{
       profile: ["Berry", "OG"],
       sex: "Regular"
     }),
-    image: null,
+    image: [''],
     price: 6000,
     serialized: true,
     quantity: 20
@@ -122,7 +122,7 @@ const productArr = [{
       profile: ["Sour", "Diesel", "OG"],
       sex: "Regular"
     }),
-    image: null,
+    image: [''],
     price: 6000,
     serialized: true,
     quantity: 15
