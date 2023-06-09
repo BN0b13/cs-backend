@@ -1,5 +1,5 @@
 export const companyName = 'Cosmic Strains';
-export const companyEmail = 'CosmicStrainsOfficial@gmail.com';
+export const companyEmail = 'sales@cosmicstrains.com';
 
 export const deliveryInsurance = 800;
 

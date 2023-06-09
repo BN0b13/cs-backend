@@ -97,8 +97,10 @@ class UserRepository {
             shippingAddress: user.shippingAddress,
             subscriptions: user.subscriptions,
             emailVerified: user.emailVerified,
+            favorites: user.favorites,
+            subscriptions: user.subscriptions,
             cart: user.Cart,
-            orders: user.Orders
+            orders: user.Orders,
         }
 
         return data;

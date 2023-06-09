@@ -1,7 +1,8 @@
 'use strict';
 import {
   Model,
-  DataTypes
+  DataTypes,
+  Sequelize
 } from 'sequelize';
 
 import { sequelize } from '../db.js';
@@ -16,7 +17,7 @@ class Category extends Model {
 Category.init({
   name: DataTypes.STRING,
   description: DataTypes.STRING,
-  image: DataTypes.STRING,
+  image: DataTypes.ARRAY(Sequelize.STRING),
   status: DataTypes.BOOLEAN
 }, {
   sequelize,
