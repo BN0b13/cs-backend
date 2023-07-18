@@ -311,6 +311,12 @@ class UserController {
         const data = await userRepository.getByPK(id);
         res.send(data);
     }
+
+    async getUserById(req, res) {
+        const { id } = req.params;
+        const data = await userRepository.getUserById(id);
+        res.send(data);
+    }
     
     async getUsers(req, res) {
         const data = await userRepository.getUsers();

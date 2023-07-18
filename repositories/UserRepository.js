@@ -148,6 +148,33 @@ class UserRepository {
         }
     }
 
+    async getUserById(id) {
+        try {
+            const res = await User.findAll(
+                {
+                    where: {
+                        id:id
+                    },
+                    include: [
+                        { 
+                            model: Cart
+                        },
+                        { 
+                            model: Order
+                        },
+                        { 
+                            model: Role
+                        }
+                    ]
+                }
+            );
+            return res;
+        } catch (err) {
+            console.log('Get Users Error: ', err);
+            throw Error('There was an error getting all users');
+        }
+    }
+
     async getAdmin() {
         return await User.findAndCountAll({
             where: {

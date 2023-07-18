@@ -21,8 +21,17 @@ module.exports = {
       type: {
         type: Sequelize.STRING
       },
-      image: {
-        type: Sequelize.ARRAY(Sequelize.STRING)
+      thumbnailPath: {
+        type: Sequelize.STRING
+      },
+      thumbnailFilename: {
+        type: Sequelize.STRING
+      },
+      backSplashPath: {
+        type: Sequelize.STRING
+      },
+      backSplashFilename: {
+        type: Sequelize.STRING
       },
       status: {
         type: Sequelize.BOOLEAN

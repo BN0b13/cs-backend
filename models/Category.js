@@ -18,7 +18,10 @@ Category.init({
   name: DataTypes.STRING,
   description: DataTypes.STRING,
   type: DataTypes.STRING,
-  image: DataTypes.ARRAY(Sequelize.STRING),
+  thumbnailPath: DataTypes.STRING,
+  thumbnailFilename: DataTypes.STRING,
+  backSplashPath: DataTypes.STRING,
+  backSplashFilename: DataTypes.STRING,
   status: DataTypes.BOOLEAN
 }, {
   sequelize,

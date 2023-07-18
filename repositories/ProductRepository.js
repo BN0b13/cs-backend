@@ -83,7 +83,7 @@ class ProductRepository {
         try {
             const res = await Product.findAndCountAll({
                 where: {
-                    type
+                    type: type
                 },
                 include: [
                     { 
@@ -103,6 +103,33 @@ class ProductRepository {
         } catch (err) {
             console.log('GET Product Error: ', err);
             throw Error('There was an error getting products');
+        }
+    }
+
+    async getProductsByCategoryId(id) {
+        try {
+            const res = await Product.findAndCountAll({
+                where: {
+                    categoryId: id
+                },
+                include: [
+                    { 
+                        model: Category,
+                        required: true
+                    },
+                    { 
+                        model: Inventory,
+                        required: true
+                    },
+                    { 
+                        model: ProductImage
+                    }
+                ]
+            });
+            return res;
+        } catch (err) {
+            console.log('GET Product by Category ID Error: ', err);
+            throw Error('There was an error getting products by Category ID');
         }
     }
 

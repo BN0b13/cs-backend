@@ -19,7 +19,8 @@ class CategoryController {
         const params = {
             name,
             description,
-            type
+            type,
+            image: req.files[0]
         };
 
         
@@ -65,14 +66,20 @@ class CategoryController {
             id,
             name = null,
             description = null,
-            image = null,
+            thumbnailPath = null,
+            thumbnailFilename = null,
+            backSplashPath = null,
+            backSplashFilename = null,
             status = null,
         } = req.body;
 
         const params = {
             name,
             description,
-            image,
+            thumbnailPath,
+            thumbnailFilename,
+            backSplashPath,
+            backSplashFilename,
             status
         };
 

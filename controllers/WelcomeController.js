@@ -9,7 +9,20 @@ class WelcomeController {
     // CREATE
 
     async postWelcomeImage(req, res) {
-        const data = await welcomeService.saveWelcomeImage(req.files);
+        const {
+            name,
+            link,
+            position
+        } = req.body;
+
+        const params = {
+            name,
+            link,
+            position,
+            image: req.files[0]
+        }
+
+        const data = await welcomeService.saveWelcomeImage(params);
         res.send(data);
     }
 

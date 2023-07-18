@@ -4,17 +4,28 @@ class CategoryRepository {
 
     // CREATE
 
-    async create({ name, description, type }) {
-        const params = {
+    async create(params) {
+        const { 
+            name, 
+            description, 
+            type, 
+            image
+        } = params;
+
+        const data = {
             name,
             description,
             type,
-            image: [],
+            backSplashFilename: '',
+            backSplashPath: '',
+            thumbnailFilename: image.filename,
+            thumbnailPath: `/img/categories/${image.filename}`,
             status: true
         };
 
         try {
-            const res = await Category.create(params);
+            const res = await Category.create(data);
+            
             return res;
         } catch (err) {
             console.log(err);
@@ -29,8 +40,7 @@ class CategoryRepository {
             const res = await Category.findAndCountAll({
                 include: [
                     {
-                        model: Product,
-                        required: true
+                        model: Product
                     }
                 ]
             });

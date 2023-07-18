@@ -6,25 +6,24 @@ import { companyName } from '../config.js';
 
 export default class WelcomeService {
 
-    async saveWelcomeImage(image) {
+    async saveWelcomeImage(params) {
         try {
-            const filename = Date.now();
-            const urlPath = `/img/welcome/${filename}.jpeg`;
+            const {
+                name,
+                link,
+                position,
+                image
+            } = params;
             
-            fs.writeFile(`./public${urlPath}`, image, (error) => {
-                if (error) {
-                 throw error;
-               }
-                console.log("Welcome Image saved.");
-               });
-
             const data = {
-                name: `Welcome to ${companyName}`,
-                filename,
-                path: urlPath,
-                link: '/shop',
-                position: 1
+                name: name,
+                filename: image.filename,
+                path: `/img/welcome/${image.filename}`,
+                link,
+                position
             };
+
+            console.log('Data: ', data);
 
             const res = await WelcomeImage.create(data);
 

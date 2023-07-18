@@ -36,6 +36,12 @@ class ProductController {
         res.send(data);
     }
 
+    async getProductsByCategoryId(req, res) {
+        const { id } = req.params;
+        const data = await productRepository.getProductsByCategoryId(id);
+        res.send(data);
+    }
+
     async getFlavorProfiles(req, res) {
         const data = await productService.getFlavorProfiles();
         res.send(data);

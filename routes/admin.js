@@ -2,6 +2,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import multer from 'multer';
 const router = express.Router();
+const uploadCategory = multer({ dest: "public/img/categories/" });
 const uploadIcon = multer({ dest: "public/img/icons/" });
 const uploadLogo = multer({ dest: "public/img/logos/" });
 const uploadProducts = multer({ dest: "public/img/products/" });
@@ -37,7 +38,7 @@ const welcomeController = new WelcomeController();
 
 router.get('/categories', AdminTokenVerifier, HandleErrors(categoryController.getCategoriesWithoutAssociations));
 
-router.post('/categories', AdminTokenVerifier, HandleErrors(categoryController.create));
+router.post('/categories', AdminTokenVerifier, uploadCategory.array('files'), HandleErrors(categoryController.create));
 
 router.patch('/categories', AdminTokenVerifier, HandleErrors(categoryController.updateCategoryById));
 
@@ -65,6 +66,7 @@ router.get('/orders', AdminTokenVerifier, HandleErrors(orderController.getOrders
 
 router.get('/products', AdminTokenVerifier, (productController.getInventory));
 router.get('/products/product-types', AdminTokenVerifier, (productController.getProductTypes));
+router.get('/products/category/:id', AdminTokenVerifier, (productController.getProductsByCategoryId));
 
 router.post('/products', AdminTokenVerifier, uploadProducts.array("files"), (productController.create));
 router.post('/products/flavor-profiles', AdminTokenVerifier, uploadIcon.array("files"), HandleErrors(productController.createFlavorProfile));
@@ -86,7 +88,7 @@ router.get('/employees', AdminTokenVerifier, HandleErrors(userController.getEmpl
 router.get('/customers', AdminTokenVerifier, HandleErrors(userController.getCustomers));
 
 router.get('/users', AdminTokenVerifier, HandleErrors(userController.getUsers));
-router.get('/user/:id', AdminTokenVerifier, HandleErrors(userController.getByPK));
+router.get('/user/:id', AdminTokenVerifier, HandleErrors(userController.getUserById));
 
 // TODO make admin patch function
 router.patch('/users', AdminTokenVerifier, HandleErrors(userController.updateUser));
@@ -99,7 +101,7 @@ router.get('/visits', AdminTokenVerifier, HandleErrors(visitController.getVisits
 
 // Welcome
 
-router.post('/welcome/images', AdminTokenVerifier, bodyParser.raw({ 'type': ['image/jpeg', 'image/png'], 'limit': '5mb'}), HandleErrors(welcomeController.postWelcomeImage));
+router.post('/welcome/images', AdminTokenVerifier, uploadWelcome.array('files'), HandleErrors(welcomeController.postWelcomeImage));
 
 router.patch('/welcome/images', AdminTokenVerifier, HandleErrors(welcomeController.updateWelcomeImageById));
 

@@ -8,7 +8,10 @@ module.exports = {
       name: 'Party Starter',
       description: `This line was created from several different pollinators, representing a variety of styles and flavors.`,
       type: 'seeds',
-      image: [''],
+      thumbnailPath: '',
+      thumbnailFilename: '',
+      backSplashPath: '',
+      backSplashFilename: '',
       status: false,
       createdAt: new Date(),
       updatedAt: new Date()
@@ -17,7 +20,10 @@ module.exports = {
       name: 'Ghost',
       description: `This line was created from Casper OG pollen. Due to a rising demand and interest, this will be our first limited time strain available to the public.`,
       type: 'seeds',
-      image: [''],
+      thumbnailPath: '',
+      thumbnailFilename: '',
+      backSplashPath: '',
+      backSplashFilename: '',
       status: true,
       createdAt: new Date(),
       updatedAt: new Date()
