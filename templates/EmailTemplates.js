@@ -8,7 +8,7 @@ export default class EmailTemplates {
             emailBody: `Hello! Your order at ${companyName} has been received. Reference: ${refId}. Once it has been shipped out, you will receive another email with the tracking information. Thank you for your purchase and we hope to see you again soon!`,
             html: `
                 <div style='text-align:center;'>
-                    <h1>COSMIC STRAINS</h1>
+                    <h1>${companyName}</h1>
                     <p>Thank you for your order! Your order at ${companyName} has been received. Reference: ${refId}. Once it has been shipped out, you will receive another email with the tracking information. Thank you for your purchase and we hope to see you again soon!</p>
                 </div>
                 <p>Thank you for your order! Your order at ${companyName} has been received. Reference: ${refId}. Once it has been shipped out, you will receive another email with the tracking information. Thank you for your purchase and we hope to see you again soon!</p>
@@ -24,7 +24,7 @@ export default class EmailTemplates {
             https://www.cosmicstrains.com/password-reset/${token}`,
             html: `
                 <div style='text-align:center;'>
-                    <h1>COSMIC STRAINS</h1>
+                    <h1>${companyName}</h1>
                     <p>Hello! The password reset process has been initiated on your account. Please click the link below to reset your password. If you did not initiate this process, please disregard this email and continue on using your normal password.</p>
                     <button style='border-radius:5px;'>
                         <a href='https://www.cosmicstrains.com/password-reset/${token}' style='text-decoration:none;border-radius:5px;padding:5px;'>
