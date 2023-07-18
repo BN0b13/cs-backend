@@ -145,7 +145,10 @@ export default class UserService {
                     roleId: 2,
                     emailToken: null,
                     passwordToken: null,
-                    credit: 0
+                    credit: 0,
+                    themeId: 1,
+                    eula: true,
+                    eulaVersion: 'v1.0.0'
                 };
     
                 const result = await User.create(data, { transaction: t });
@@ -191,7 +194,8 @@ export default class UserService {
                     roleId: 3,
                     emailToken: null,
                     passwordToken: null,
-                    credit: 0
+                    credit: 0,
+                    themeId: 1
                 };
     
                 const result = await User.create(data, { transaction: t });
@@ -237,7 +241,8 @@ export default class UserService {
                     roleId: 4,
                     emailToken: null,
                     passwordToken: null,
-                    credit: 0
+                    credit: 0,
+                    themeId: 1
                 };
     
                 const result = await User.create(data, { transaction: t });

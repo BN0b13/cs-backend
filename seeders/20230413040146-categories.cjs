@@ -5,16 +5,18 @@ const table = { schema: process.env.PG_SCHEMA_NAME, tableName: 'Categories' };
 module.exports = {
   async up (queryInterface, Sequelize) {
     await queryInterface.bulkInsert(table, [{
-      name: 'Limited Party Starter',
+      name: 'Party Starter',
       description: `This line was created from several different pollinators, representing a variety of styles and flavors.`,
+      type: 'seeds',
       image: [''],
       status: false,
       createdAt: new Date(),
       updatedAt: new Date()
     },
     {
-      name: 'Limited Ghost',
+      name: 'Ghost',
       description: `This line was created from Casper OG pollen. Due to a rising demand and interest, this will be our first limited time strain available to the public.`,
+      type: 'seeds',
       image: [''],
       status: true,
       createdAt: new Date(),

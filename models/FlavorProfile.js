@@ -8,22 +8,21 @@ import {
 import { sequelize } from '../db.js';
 
 
-class Category extends Model {
+class FlavorProfile extends Model {
   
   static associate(models) {
     
   }
 }
-Category.init({
+FlavorProfile.init({
   name: DataTypes.STRING,
   description: DataTypes.STRING,
-  type: DataTypes.STRING,
-  image: DataTypes.ARRAY(Sequelize.STRING),
-  status: DataTypes.BOOLEAN
+  filename: DataTypes.STRING,
+  path: DataTypes.STRING
 }, {
   sequelize,
   schema: process.env.PG_SCHEMA_NAME,
-  modelName: 'Category',
+  modelName: 'FlavorProfile',
 });
 
-export default Category;
+export default FlavorProfile;

@@ -1,25 +1,88 @@
+import fs from 'fs';
+import { Op } from 'sequelize';
 import { sequelize } from "../db.js";
 
-import { Inventory, Product } from '../models/Associations.js';
+import { 
+    FlavorProfile, 
+    Inventory, 
+    Product, 
+    ProductImage 
+} from '../models/Associations.js';
 
 import ProductRepository from '../repositories/ProductRepository.js';
 
 const productRepository = new ProductRepository();
 
 export default class ProductService {
+    // READ
+
+    getProductById = async (id) => {
+        return await productRepository.getProductsByIds(id);
+    }
+
+    getProductsByIds = async (ids) => {
+        return await productRepository.getProductsByIds(ids);
+    }
+
+    getFlavorProfiles = async () => {
+        try {
+            const res = await FlavorProfile.findAndCountAll(); 
+            return res;
+        } catch (err) {
+            console.log('GET Flavor Profiles Error: ', err);
+            throw Error('There was an error getting Flavor Profiles');
+        }
+    }
+
+    getFlavorProfilesByIds = async (ids) => {
+        try {
+            const res = await FlavorProfile.findAndCountAll(
+                {
+                    where: {
+                        id: {
+                                [Op.in]: ids
+                            }
+}
+                }
+            ); 
+            return res;
+        } catch (err) {
+            console.log('GET Flavor Profiles Error: ', err);
+            throw Error('There was an error getting Flavor Profiles');
+        }
+    }
+
+    // CREATE
+
     createProductAndInventory = async (params) => {
         const {
             categoryId,
             name,
-            details,
-            image,
+            description,
+            type,
+            time,
+            mother,
+            father,
+            profile,
+            sex,
+            size,
             price,
-            serialized,
             quantity,
             address = '',
             bay = '',
-            available
+            available,
+            image
         } = params;
+
+        const flavorProfile = [];
+
+        for(let id of profile) {
+            const reg = /^\d+$/;
+
+            if(reg.test(id)) {
+                flavorProfile.push(parseInt(id));
+            }
+        }
 
         const t = await sequelize.transaction();
 
@@ -28,38 +91,42 @@ export default class ProductService {
                 const productData = {
                     categoryId,
                     name,
-                    details,
-                    image,
-                    price,
-                    serialized
+                    description,
+                    type,
+                    time,
+                    mother,
+                    father,
+                    profile: flavorProfile,
+                    sex,
+                    size,
+                    price
                 };
 
                 const result = await Product.create(productData, { transaction: t });
                 const productId = result.id;
-                let inventoryArr = [];
 
-                if(quantity === 0) {
-                    inventoryArr.push({
-                        productId,
-                        sku: `${ productId }.0`,
-                        address,
-                        bay,
-                        available
-                    });
-                } else {
-                    for(let i = 0; i < quantity; i++) {
-                        inventoryArr.push({
-                            productId,
-                            sku: `${ productId }.${i}`,
-                            address,
-                            bay,
-                            available
-                        });
-                    }
+                const productImageData = {
+                    productId,
+                    name,
+                    filename: image.filename,
+                    path: `/img/products/${image.filename}`,
+                    link: '',
+                    position: 1
                 }
 
+                await ProductImage.create(productImageData, { transaction: t });
+
+                const inventoryData = {
+                    productId,
+                    quantity,
+                    sku: `${ productId }.1`,
+                    address,
+                    bay,
+                    available
+                };
+
                 try {
-                    await Inventory.bulkCreate(inventoryArr, { transaction: t });
+                    await Inventory.create(inventoryData, { transaction: t });
                 } catch (err) {
                     console.log('Create Inventory Error: '. err);
                     throw Error(`INVENTORY CREATION ERROR: ${err}`);
@@ -76,11 +143,27 @@ export default class ProductService {
         }
     }
 
-    getProductById = async (id) => {
-        return await productRepository.getProductsByIds(id);
-    }
+    createFlavorProfile = async (params) => {
+        try {
+            const {
+                name,
+                description,
+                image
+            } = params;
 
-    getProductsByIds = async (ids) => {
-        return await productRepository.getProductsByIds(ids);
+            const data = {
+                name,
+                description,
+                filename: image.filename,
+                path: `/img/icons/${image.filename}`
+            };
+
+            const res = await FlavorProfile.create(data);
+
+            return res;
+        } catch (err) {
+            console.log('CREATE Flavor Profile Error: ', err);
+            throw Error('There was an error creating the flavor profile');
+        }
     }
 }

@@ -391,8 +391,6 @@ class UserController {
         const data = await userRepository.deleteUser(id);
         res.send(data);
     }
-
-
 }
 
 export default UserController;

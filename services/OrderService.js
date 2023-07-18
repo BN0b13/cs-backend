@@ -44,19 +44,23 @@ export default class OrderService {
 
         if(!checkInventory.result) {
             // TODO update return, maybe include status?
+            console.log('Inventory not available');
             return 'Inventory not available';
         }
 
         const refId = `CS${userId + 420}-${Date.now()}`;
 
-        let inventoryIds = [];
+        let newInventoryQuantity = [];
         
-        checkInventory.data.map(inventories => inventories.map(inventory => inventoryIds.push(inventory.id)));
+        checkInventory.data.map(inventory => newInventoryQuantity.push(inventory));
+
+        console.log('Inventory Id Arr: ', newInventoryQuantity);
     
         const t = await sequelize.transaction();
 
         try {
             const res = await sequelize.transaction(async (t) => {
+                console.log('START TRANSACTION');
         
                 const orderData = {
                     userId,
@@ -77,7 +81,13 @@ export default class OrderService {
 
                 const result = await Order.create(orderData, { transaction: t });
 
-                await inventoryService.modifyInventory(inventoryIds, { transaction: t });
+                // TODO logic for new quantity after successful order
+
+                for(const singleInventory of newInventoryQuantity) {
+                    console.log('Id in for loop: ', singleInventory);
+                    await inventoryService.modifyInventory(singleInventory, { transaction: t });
+                }
+
                 
                 await cartService.modifyCart(userId, { transaction: t });
 
@@ -102,21 +112,28 @@ export default class OrderService {
         }
     }
 
-    confirmInventoryIsAvailable = (productsInCart, products) => {
+    confirmInventoryIsAvailable = (inventoryProducts, productsInCart) => {
         // Database indexing -> important for querying through large amounts of data
         let result = true;
         const data = [];
         
-        productsInCart.rows.map(product => {
-            const availableInventory = product.Inventories.filter(inventory => inventory.available);
-            const inCart = products.filter(cartItem => cartItem.productId === product.id);
-            if(inCart[0].quantity > availableInventory.length) {
+        inventoryProducts.rows.map(product => {
+            const inventoryId = product.Inventories[0].id;
+            const inventoryQuantity = product.Inventories[0].quantity;
+            const productInCart = productsInCart.filter(item => item.productId === product.id);
+            const quantityRequested = productInCart[0].quantity;
+            if(inventoryQuantity === 0 ||
+                inventoryQuantity < quantityRequested) {
                 result = false;
             } else {
-                const inventoryQuantity = availableInventory.slice(availableInventory.length - inCart[0].quantity);
-                data.push(inventoryQuantity);
+                data.push({
+                    id: inventoryId,
+                    quantity: inventoryQuantity - quantityRequested
+                });
             }
         });
+
+        console.log('Data: ', data)
 
         return {
             result,

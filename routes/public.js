@@ -7,20 +7,24 @@ import { HandleErrors } from '../middleware/errorHandler.js';
 import CartController from '../controllers/CartController.js';
 import CategoryController from '../controllers/CategoryController.js';
 import CheckoutController from '../controllers/CheckoutController.js';
+import ConfigurationController from '../controllers/ConfigurationController.js';
 import ContactController from '../controllers/ContactController.js';
 import OrderController from '../controllers/OrderController.js';
 import ProductController from '../controllers/ProductController.js';
 import UserController from '../controllers/UserController.js';
 import VisitController from '../controllers/VisitController.js';
+import WelcomeController from '../controllers/WelcomeController.js';
 
 const cartController = new CartController();
 const categoryController = new CategoryController();
 const checkoutController = new CheckoutController();
+const configurationController = new ConfigurationController();
 const contactController = new ContactController();
 const orderController = new OrderController();
 const productController = new ProductController();
 const userController = new UserController();
 const visitController = new VisitController();
+const welcomeController = new WelcomeController();
 
 router.get('/health', (req, res) => {
   res.send({
@@ -40,10 +44,16 @@ router.patch('/cart', TokenVerifier, HandleErrors(cartController.patchCart));
 // Categories
 
 router.get('/categories', HandleErrors(categoryController.getCategories));
+router.get('/categories/:id', HandleErrors(categoryController.getCategoryById));
+router.get('/categories/type/:type', HandleErrors(categoryController.getCategoriesByType));
 
 // Checkout
 
-router.get('/checkout/set-up', TokenVerifier, checkoutController.checkoutSetup);
+router.get('/checkout/set-up', TokenVerifier, HandleErrors(checkoutController.checkoutSetup));
+
+// Configuration
+
+router.get('/configuration', HandleErrors(configurationController.getPublicConfiguration));
 
 // Contact
 
@@ -66,8 +76,10 @@ router.get('/orders/:refId', TokenVerifier, HandleErrors(orderController.getOrde
 // Products
 
 router.get('/products', HandleErrors(productController.getProducts));
-
 router.get('/products/:id', HandleErrors(productController.getById));
+router.get('/products/type/:type', HandleErrors(productController.getProductsByType));
+router.get('/products/flavor-profiles/all', HandleErrors(productController.getFlavorProfiles));
+router.get('/products/flavor-profiles/search', HandleErrors(productController.getFlavorProfilesByIds));
 
 // Users
 router.post('/user', HandleErrors(userController.createCustomer));
@@ -95,3 +107,8 @@ router.patch('/user', TokenVerifier, HandleErrors(userController.updateUser));
 router.patch('/visits', HandleErrors(visitController.updateVisitCount));
 
 export default router;
+
+// Welcome
+
+router.get('/welcome/images', HandleErrors(welcomeController.getWelcomeImages));
+router.get('/welcome/content', HandleErrors(welcomeController.getWelcomeContent));

@@ -1,10 +1,6 @@
 import { Op } from 'sequelize';
 
-import InventoryRepository from '../repositories/InventoryRepository.js';
-
-import { Category, Inventory, Product } from '../models/Associations.js';
-
-const inventoryRepository = new InventoryRepository();
+import { Category, Inventory, Product, ProductImage, ProductType } from '../models/Associations.js';
 
 class ProductRepository {
 
@@ -15,13 +11,16 @@ class ProductRepository {
             const res = await Product.findAndCountAll({
                 include: [
                     { 
+                        model: Category,
+                        required: true
+                    },
+                    { 
                         model: Inventory,
                         required: true
                     },
                     { 
-                        model: Category,
-                        required: true
-                    }
+                        model: ProductImage
+                    },
                 ]
             });
             return res;
@@ -61,12 +60,42 @@ class ProductRepository {
                 },
                 include: [
                     { 
+                        model: Category,
+                        required: true
+                    },
+                    { 
                         model: Inventory,
                         required: true
                     },
                     { 
+                        model: ProductImage
+                    }
+                ]
+            });
+            return res;
+        } catch (err) {
+            console.log('GET Product Error: ', err);
+            throw Error('There was an error getting products');
+        }
+    }
+
+    async getProductsByType(type) {
+        try {
+            const res = await Product.findAndCountAll({
+                where: {
+                    type
+                },
+                include: [
+                    { 
                         model: Category,
                         required: true
+                    },
+                    { 
+                        model: Inventory,
+                        required: true
+                    },
+                    { 
+                        model: ProductImage
                     }
                 ]
             });
@@ -82,12 +111,15 @@ class ProductRepository {
             const res = await Product.findAndCountAll({
                 include: [
                     { 
+                        model: Category,
+                        required: true
+                    },
+                    { 
                         model: Inventory,
                         required: true
                     },
                     { 
-                        model: Category,
-                        required: true
+                        model: ProductImage
                     }
                 ]
             });
@@ -96,10 +128,15 @@ class ProductRepository {
                 return {
                     categoryId: item.categoryId,
                     name: item.name,
-                    details: item.details,
-                    image: item.image,
+                    description: item.description,
+                    type: item.type,
+                    time: item.time,
+                    mother: item.mother,
+                    father: item.father,
+                    profile: item.profile,
+                    sex: item.sex,
+                    size: item.size,
                     price: item.price,
-                    serialized: item.serialized,
                     quantity: item.Inventories.length,
                     createdAt: item.createdAt
                 }
@@ -109,6 +146,12 @@ class ProductRepository {
             console.log('GET Product Error: ', err);
             throw Error('There was an error getting products');
         }
+    }
+
+    async getProductTypes() {
+        const res = await ProductType.findAndCountAll();
+
+        return res;
     }
 }
 

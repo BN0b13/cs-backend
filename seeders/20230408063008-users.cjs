@@ -36,41 +36,7 @@ module.exports = {
       emailToken: null,
       passwordToken: null,
       credit: 0,
-      createdAt: new Date(),
-      updatedAt: new Date()
-    },
-    {
-      email: 'aevans190@gmail.com',
-      emailOriginal: 'aevans190@gmail.com',
-      password: '$2b$10$hy7nBdBl81u9N.qBJnILNuC3zoiVWA.AlrJWVS4Z4EDSeL5iEW8/m',
-      roleId: 2,
-      firstName: 'Andrew',
-      lastName: 'Evans',
-      phone: '9518333397',
-      billingAddress: JSON.stringify({
-        firstName: 'Andrew',
-        lastName: 'Evans',
-        addressOne: '33579 Canyon Ranch Road',
-        addressTwo: '',
-        city: 'Wildomar',
-        state: 'CA',
-        zipCode: 92595
-      }),
-      shippingAddress: JSON.stringify({
-        firstName: 'Andrew',
-        lastName: 'Evans',
-        addressOne: '33579 Canyon Ranch Road',
-        addressTwo: '',
-        city: 'Wildomar',
-        state: 'CA',
-        zipCode: 92595
-      }),
-      favorites: [0],
-      subscriptions: [0],
-      emailVerified: true,
-      emailToken: null,
-      passwordToken: null,
-      credit: 0,
+      themeId: 1,
       createdAt: new Date(),
       updatedAt: new Date()
     },
@@ -106,6 +72,7 @@ module.exports = {
       emailToken: null,
       passwordToken: null,
       credit: 0,
+      themeId: 1,
       createdAt: new Date(),
       updatedAt: new Date()
     },
@@ -141,6 +108,7 @@ module.exports = {
       emailToken: null,
       passwordToken: null,
       credit: 0,
+      themeId: 1,
       createdAt: new Date(),
       updatedAt: new Date()
     },
@@ -176,6 +144,7 @@ module.exports = {
       emailToken: null,
       passwordToken: null,
       credit: 0,
+      themeId: 1,
       createdAt: new Date(),
       updatedAt: new Date()
     },
@@ -211,6 +180,7 @@ module.exports = {
       emailToken: null,
       passwordToken: null,
       credit: 0,
+      themeId: 1,
       createdAt: new Date(),
       updatedAt: new Date()
     },

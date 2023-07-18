@@ -5,7 +5,7 @@ module.exports = {
     await queryInterface.createSchema(process.env.PG_SCHEMA_NAME, {
       ifNotExists: true
     });
-    await queryInterface.createTable('Inventories', {
+    await queryInterface.createTable('ProductImages', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -15,20 +15,20 @@ module.exports = {
       productId: {
         type: Sequelize.INTEGER
       },
-      quantity: {
+      name: {
+        type: Sequelize.STRING
+      },
+      filename: {
+        type: Sequelize.STRING
+      },
+      path: {
+        type: Sequelize.STRING
+      },
+      link: {
+        type: Sequelize.STRING
+      },
+      position: {
         type: Sequelize.INTEGER
-      },
-      sku: {
-        type: Sequelize.STRING
-      },
-      address: {
-        type: Sequelize.STRING
-      },
-      bay: {
-        type: Sequelize.STRING
-      },
-      available: {
-        type: Sequelize.BOOLEAN
       },
       createdAt: {
         allowNull: false,
@@ -41,6 +41,6 @@ module.exports = {
     }, { schema: process.env.PG_SCHEMA_NAME });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Inventories');
+    await queryInterface.dropTable('ProductImages');
   }
 };

@@ -1,6 +1,8 @@
 import CategoryRepository from '../repositories/CategoryRepository.js';
+import CategoryService from '../services/CategoryService.js';
 
 const categoryRepository = new CategoryRepository();
+const categoryService = new CategoryService();
 
 class CategoryController {
 
@@ -10,21 +12,24 @@ class CategoryController {
         try {
         const {
             name,
-            description
+            description,
+            type
         } = req.body;
 
         const params = {
             name,
-            description
+            description,
+            type
         };
 
+        
         const data = await categoryRepository.create(params);
-
+        
         res.send(data);
         } catch (err) {
             res.send({
                 err,
-                message: 'There was an error creating role'
+                message: 'There was an error creating category'
             });
         }
     }
@@ -33,6 +38,58 @@ class CategoryController {
     
     async getCategories(req, res) {
         const data = await categoryRepository.getCategories();
+        res.send(data);
+    }
+
+    async getCategoriesByType(req, res) {
+        const { type } = req.params;
+        const data = await categoryService.getCategoriesByType(type);
+        res.send(data);
+    }
+    
+    async getCategoriesWithoutAssociations(req, res) {
+        const data = await categoryRepository.getCategoriesWithoutAssociations();
+        res.send(data);
+    }
+    
+    async getCategoryById(req, res) {
+        const { id } = req.params;
+        const data = await categoryRepository.getCategoryById(id);
+        res.send(data);
+    }
+
+    // UPDATE
+
+    async updateCategoryById(req, res) {
+        const {
+            id,
+            name = null,
+            description = null,
+            image = null,
+            status = null,
+        } = req.body;
+
+        const params = {
+            name,
+            description,
+            image,
+            status
+        };
+
+        Object.keys(params).forEach(param => params[param] == null && delete params[param]);
+
+        const data = await categoryRepository.updateCategory(id, params);
+        res.send(data);
+    }
+
+    // DELETE
+
+    async deleteCategoryById(req, res) {
+        const {
+            id
+        } = req.body;
+
+        const data = await categoryService.deleteCategory(id);
         res.send(data);
     }
 

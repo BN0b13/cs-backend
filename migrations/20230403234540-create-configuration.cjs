@@ -5,69 +5,78 @@ module.exports = {
     await queryInterface.createSchema(process.env.PG_SCHEMA_NAME, {
       ifNotExists: true
     });
-    await queryInterface.createTable('Users', {
+    await queryInterface.createTable('Configurations', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      email: {
-        allowNull: false,
+      url: {
         type: Sequelize.STRING
       },
-      emailOriginal: {
-        allowNull: false,
+      companyName: {
         type: Sequelize.STRING
       },
-      password: {
-        allowNull: false,
-        type: Sequelize.STRING
-      },
-      roleId: {
-        type: Sequelize.INTEGER
-      },
-      firstName: {
-        type: Sequelize.STRING
-      },
-      lastName: {
-        type: Sequelize.STRING
-      },
-      phone: {
-        type: Sequelize.STRING
-      },
-      billingAddress: {
-        type: Sequelize.JSON
-      },
-      shippingAddress: {
-        type: Sequelize.JSON
-      },
-      favorites: {
-        type: Sequelize.ARRAY(Sequelize.INTEGER)
-      },
-      subscriptions: {
-        type: Sequelize.ARRAY(Sequelize.INTEGER)
-      },
-      emailVerified: {
+      companyPhoneOn: {
         type: Sequelize.BOOLEAN
       },
-      emailToken: {
-        type: Sequelize.STRING
-      },
-      passwordToken: {
-        type: Sequelize.STRING
-      },
-      credit: {
+      companyPhone: {
         type: Sequelize.INTEGER
       },
-      themeId: {
+      companyPhoneExt: {
         type: Sequelize.INTEGER
       },
-      eula: {
+      companyEmailOn: {
         type: Sequelize.BOOLEAN
       },
-      eulaVersion: {
+      companyEmail: {
         type: Sequelize.STRING
+      },
+      companyShippingEmail: {
+        type: Sequelize.STRING
+      },
+      companyShippingAddressOn: {
+        type: Sequelize.BOOLEAN
+      },
+      companyShippingAddress: {
+        type: Sequelize.JSON
+      },
+      companyBillingAddress: {
+        type: Sequelize.JSON
+      },
+      customerServiceOn: {
+        type: Sequelize.BOOLEAN
+      },
+      customerServicePhone: {
+        type: Sequelize.INTEGER
+      },
+      customerServicePhoneExt: {
+        type: Sequelize.INTEGER
+      },
+      customerServiceEmail: {
+        type: Sequelize.STRING
+      },
+      deliveryInsuranceOn: {
+        type: Sequelize.BOOLEAN
+      },
+      deliveryInsuranceAmount: {
+        type: Sequelize.INTEGER
+      },
+      deliveryInsuranceDescription: {
+        type: Sequelize.STRING
+      },
+      ageVerifyOn: {
+        type: Sequelize.BOOLEAN
+      },
+      ageVerifyAgeLimit: {
+        type: Sequelize.INTEGER
+      },
+      inventoryReminderOn: {
+        type: Sequelize.BOOLEAN
+      },
+      inventoryFrequency: {
+        type: Sequelize.INTEGER
       },
       createdAt: {
         allowNull: false,
@@ -80,6 +89,6 @@ module.exports = {
     }, { schema: process.env.PG_SCHEMA_NAME });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Users');
+    await queryInterface.dropTable('Configurations');
   }
 };

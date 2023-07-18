@@ -18,17 +18,32 @@ module.exports = {
       name: {
         type: Sequelize.STRING
       },
-      details: {
-        type: Sequelize.JSON
+      description: {
+        type: Sequelize.STRING
       },
-      image: {
-        type: Sequelize.ARRAY(Sequelize.STRING)
+      type: {
+        type: Sequelize.STRING
+      },
+      time: {
+        type: Sequelize.STRING
+      },
+      mother: {
+        type: Sequelize.STRING
+      },
+      father: {
+        type: Sequelize.STRING
+      },
+      profile: {
+        type: Sequelize.ARRAY(Sequelize.INTEGER)
+      },
+      sex: {
+        type: Sequelize.STRING
+      },
+      size: {
+        type: Sequelize.STRING
       },
       price: {
         type: Sequelize.INTEGER
-      },
-      serialized: {
-        type: Sequelize.BOOLEAN
       },
       createdAt: {
         allowNull: false,

@@ -5,29 +5,38 @@ module.exports = {
     await queryInterface.createSchema(process.env.PG_SCHEMA_NAME, {
       ifNotExists: true
     });
-    await queryInterface.createTable('Inventories', {
+    await queryInterface.createTable('Themes', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      productId: {
-        type: Sequelize.INTEGER
-      },
-      quantity: {
-        type: Sequelize.INTEGER
-      },
-      sku: {
+      name: {
         type: Sequelize.STRING
       },
-      address: {
+      description: {
         type: Sequelize.STRING
       },
-      bay: {
+      colorPrimary: {
         type: Sequelize.STRING
       },
-      available: {
+      colorSecondary: {
+        type: Sequelize.STRING
+      },
+      textPrimary: {
+        type: Sequelize.STRING
+      },
+      textSecondary: {
+        type: Sequelize.STRING
+      },
+      backgroundColor: {
+        type: Sequelize.STRING
+      },
+      backgroundImage: {
+        type: Sequelize.STRING
+      },
+      backgroundImageOn: {
         type: Sequelize.BOOLEAN
       },
       createdAt: {
@@ -41,6 +50,6 @@ module.exports = {
     }, { schema: process.env.PG_SCHEMA_NAME });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Inventories');
+    await queryInterface.dropTable('Themes');
   }
 };

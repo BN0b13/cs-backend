@@ -27,7 +27,10 @@ User.init({
   emailVerified: DataTypes.BOOLEAN,
   emailToken: DataTypes.STRING,
   passwordToken: DataTypes.STRING,
-  credit: DataTypes.INTEGER
+  credit: DataTypes.INTEGER,
+  themeId: DataTypes.INTEGER,
+  eula: DataTypes.BOOLEAN,
+  eulaVersion: DataTypes.STRING
 }, {
   sequelize,
   schema: process.env.PG_SCHEMA_NAME,
