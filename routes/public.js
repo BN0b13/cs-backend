@@ -78,8 +78,8 @@ router.get('/orders/:refId', TokenVerifier, HandleErrors(orderController.getOrde
 router.get('/products', HandleErrors(productController.getProducts));
 router.get('/products/:id', HandleErrors(productController.getById));
 router.get('/products/type/:type', HandleErrors(productController.getProductsByType));
-router.get('/products/flavor-profiles/all', HandleErrors(productController.getFlavorProfiles));
-router.get('/products/flavor-profiles/search', HandleErrors(productController.getFlavorProfilesByIds));
+router.get('/products/profiles/all', HandleErrors(productController.getProductProfiles));
+router.get('/products/profiles/search', HandleErrors(productController.getProductProfilesByIds));
 
 // Users
 router.post('/user', HandleErrors(userController.createCustomer));

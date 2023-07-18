@@ -3,7 +3,7 @@ import { Op } from 'sequelize';
 import { sequelize } from "../db.js";
 
 import { 
-    FlavorProfile, 
+    ProductProfile, 
     Inventory, 
     Product, 
     ProductImage 
@@ -24,19 +24,19 @@ export default class ProductService {
         return await productRepository.getProductsByIds(ids);
     }
 
-    getFlavorProfiles = async () => {
+    getProductProfiles = async () => {
         try {
-            const res = await FlavorProfile.findAndCountAll(); 
+            const res = await ProductProfile.findAndCountAll(); 
             return res;
         } catch (err) {
-            console.log('GET Flavor Profiles Error: ', err);
-            throw Error('There was an error getting Flavor Profiles');
+            console.log('GET Product Profiles Error: ', err);
+            throw Error('There was an error getting Product Profiles');
         }
     }
 
-    getFlavorProfilesByIds = async (ids) => {
+    getProductProfilesByIds = async (ids) => {
         try {
-            const res = await FlavorProfile.findAndCountAll(
+            const res = await ProductProfile.findAndCountAll(
                 {
                     where: {
                         id: {
@@ -47,8 +47,8 @@ export default class ProductService {
             ); 
             return res;
         } catch (err) {
-            console.log('GET Flavor Profiles Error: ', err);
-            throw Error('There was an error getting Flavor Profiles');
+            console.log('GET Product Profiles Error: ', err);
+            throw Error('There was an error getting Product Profiles');
         }
     }
 
@@ -74,13 +74,13 @@ export default class ProductService {
             image
         } = params;
 
-        const flavorProfile = [];
+        const productProfile = [];
 
         for(let id of profile) {
             const reg = /^\d+$/;
 
             if(reg.test(id)) {
-                flavorProfile.push(parseInt(id));
+                productProfile.push(parseInt(id));
             }
         }
 
@@ -96,7 +96,7 @@ export default class ProductService {
                     time,
                     mother,
                     father,
-                    profile: flavorProfile,
+                    profile: productProfile,
                     sex,
                     size,
                     price
@@ -143,7 +143,7 @@ export default class ProductService {
         }
     }
 
-    createFlavorProfile = async (params) => {
+    createProductProfile = async (params) => {
         try {
             const {
                 name,
@@ -158,7 +158,7 @@ export default class ProductService {
                 path: `/img/icons/${image.filename}`
             };
 
-            const res = await FlavorProfile.create(data);
+            const res = await ProductProfile.create(data);
 
             return res;
         } catch (err) {

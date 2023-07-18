@@ -42,16 +42,16 @@ class ProductController {
         res.send(data);
     }
 
-    async getFlavorProfiles(req, res) {
-        const data = await productService.getFlavorProfiles();
+    async getProductProfiles(req, res) {
+        const data = await productService.getProductProfiles();
         res.send(data);
     }
 
-    async getFlavorProfilesByIds(req, res) {
+    async getProductProfilesByIds(req, res) {
         const {
             ids = null
         } = req.body;
-        const data = await productService.getFlavorProfilesByIds(ids);
+        const data = await productService.getProductProfilesByIds(ids);
         res.send(data);
     }
 
@@ -102,7 +102,7 @@ class ProductController {
         }
     }
 
-    async createFlavorProfile(req, res) {
+    async createProductProfile(req, res) {
         const {
             name = null,
             description = null
@@ -114,7 +114,7 @@ class ProductController {
             image: req.files[0]
         };
         
-        const data = await productService.createFlavorProfile(params);
+        const data = await productService.createProductProfile(params);
 
         res.send(data);
     }

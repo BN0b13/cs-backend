@@ -69,7 +69,7 @@ router.get('/products/product-types', AdminTokenVerifier, (productController.get
 router.get('/products/category/:id', AdminTokenVerifier, (productController.getProductsByCategoryId));
 
 router.post('/products', AdminTokenVerifier, uploadProducts.array("files"), (productController.create));
-router.post('/products/flavor-profiles', AdminTokenVerifier, uploadIcon.array("files"), HandleErrors(productController.createFlavorProfile));
+router.post('/products/profiles', AdminTokenVerifier, uploadIcon.array("files"), HandleErrors(productController.createProductProfile));
 
 // Roles
 

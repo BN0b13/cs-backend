@@ -8,13 +8,13 @@ import {
 import { sequelize } from '../db.js';
 
 
-class FlavorProfile extends Model {
+class ProductProfile extends Model {
   
   static associate(models) {
     
   }
 }
-FlavorProfile.init({
+ProductProfile.init({
   name: DataTypes.STRING,
   description: DataTypes.STRING,
   filename: DataTypes.STRING,
@@ -22,7 +22,7 @@ FlavorProfile.init({
 }, {
   sequelize,
   schema: process.env.PG_SCHEMA_NAME,
-  modelName: 'FlavorProfile',
+  modelName: 'ProductProfile',
 });
 
-export default FlavorProfile;
+export default ProductProfile;

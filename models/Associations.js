@@ -2,7 +2,7 @@ import Cart from './Cart.js';
 import Category from './Category.js';
 import Contact from './Contact.js';
 import Coupon from './Coupon.js';
-import FlavorProfile from './FlavorProfile.js';
+import ProductProfile from './ProductProfile.js';
 import Inventory from './Inventory.js';
 import Order from './Order.js';
 import Product from './Product.js';
@@ -77,7 +77,7 @@ export {
     Category,
     Contact,
     Coupon,
-    FlavorProfile,
+    ProductProfile,
     Inventory,
     Order,
     Product,
