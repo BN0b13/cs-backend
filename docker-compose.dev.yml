@@ -10,11 +10,11 @@ services:
       POSTGRES_DB: "${PG_DATABASE_NAME}"
     restart: unless-stopped
     volumes:
-       - cosmic_strains:/var/lib/postgresql/data/
+       - cosmic_dev:/var/lib/postgresql/data/
     ports:
-      - "5432:5432"
+      - "5470:5470"
     env_file:
       - "./.env"
 
 volumes:
-  cosmic_strains:
+  cosmic_dev:
