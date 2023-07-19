@@ -7,7 +7,7 @@ export default {
     "database": process.env.PG_DATABASE_NAME,
     "seederStorage": "sequelize",
     "host": "127.0.0.1",
-    "port": "5432",
+    "port": process.env.PG_PORT,
     "dialect": "postgresql"
   },
   "test": {
@@ -16,7 +16,7 @@ export default {
     "database": process.env.PG_DATABASE_NAME,
     "seederStorage": "sequelize",
     "host": "127.0.0.1",
-    "port": "5432",
+    "port": process.env.PG_PORT,
     "dialect": "postgresql"
   },
   "production": {
@@ -25,7 +25,7 @@ export default {
     "database": process.env.PG_DATABASE_NAME,
     "seederStorage": "sequelize",
     "host": "127.0.0.1",
-    "port": "5432",
+    "port": process.env.PG_PORT,
     "dialect": "postgresql"
   }
 }
