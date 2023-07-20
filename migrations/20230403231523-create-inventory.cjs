@@ -18,6 +18,9 @@ module.exports = {
       quantity: {
         type: Sequelize.INTEGER
       },
+      size: {
+        type: Sequelize.STRING
+      },
       sku: {
         type: Sequelize.STRING
       },

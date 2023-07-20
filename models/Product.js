@@ -23,7 +23,6 @@ Product.init({
   father: DataTypes.STRING,
   profile: DataTypes.ARRAY(DataTypes.INTEGER),
   sex: DataTypes.STRING,
-  size: DataTypes.STRING,
   price: DataTypes.INTEGER
 }, {
   sequelize,

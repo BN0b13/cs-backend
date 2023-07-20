@@ -98,7 +98,6 @@ export default class ProductService {
                     father,
                     profile: productProfile,
                     sex,
-                    size,
                     price
                 };
 
@@ -119,6 +118,7 @@ export default class ProductService {
                 const inventoryData = {
                     productId,
                     quantity,
+                    size,
                     sku: `${ productId }.1`,
                     address,
                     bay,

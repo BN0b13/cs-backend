@@ -39,9 +39,6 @@ module.exports = {
       sex: {
         type: Sequelize.STRING
       },
-      size: {
-        type: Sequelize.STRING
-      },
       price: {
         type: Sequelize.INTEGER
       },
