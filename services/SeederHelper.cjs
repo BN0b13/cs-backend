@@ -93,7 +93,6 @@ const products = () => {
       father: product.father,
       profile: [1],
       sex: "Regular",
-      size: '12 seeds',
       price: 6499,
       createdAt: new Date(),
       updatedAt: new Date()
@@ -107,6 +106,7 @@ const inventory = () => {
       return inventoryArr.push({
         productId: index + 1,
         quantity: product.quantity,
+        size: '12 seeds',
         sku: `${index + 1}.1`,
         address: '',
         bay: '',
