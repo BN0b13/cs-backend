@@ -94,7 +94,7 @@ const products = () => {
       profile: [1],
       sex: "Regular",
       size: '12 seeds',
-      price: 6000,
+      price: 6499,
       createdAt: new Date(),
       updatedAt: new Date()
     }
