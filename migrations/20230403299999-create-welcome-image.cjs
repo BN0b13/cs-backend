@@ -12,7 +12,7 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      name: {
+      caption: {
         type: Sequelize.STRING
       },
       filename: {

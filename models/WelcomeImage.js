@@ -13,7 +13,7 @@ class WelcomeImage extends Model {
   }
 }
 WelcomeImage.init({
-  name: DataTypes.STRING,
+  caption: DataTypes.STRING,
   filename: DataTypes.STRING,
   path: DataTypes.STRING,
   link: DataTypes.STRING,

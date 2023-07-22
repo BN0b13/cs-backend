@@ -10,13 +10,13 @@ class WelcomeController {
 
     async postWelcomeImage(req, res) {
         const {
-            name,
-            link,
+            caption = '',
+            link = '',
             position
         } = req.body;
 
         const params = {
-            name,
+            caption,
             link,
             position,
             image: req.files[0]
@@ -49,13 +49,13 @@ class WelcomeController {
     async updateWelcomeImageById(req, res) {
         const {
             id,
-            name = null,
+            caption = null,
             link = null,
             position = null
         } = req.body;
 
         const params = {
-            name,
+            caption,
             link,
             position
         };
