@@ -1,12 +1,16 @@
 import express from 'express';
-import bodyParser from 'body-parser';
 import multer from 'multer';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 const router = express.Router();
-const uploadCategory = multer({ dest: "public/img/categories/" });
-const uploadIcon = multer({ dest: "public/img/icons/" });
-const uploadLogo = multer({ dest: "public/img/logos/" });
-const uploadProducts = multer({ dest: "public/img/products/" });
-const uploadWelcome = multer({ dest: "public/img/welcome/" });
+const uploadCategory = multer({ dest: __dirname + "/public/img/categories/" });
+const uploadIcon = multer({ dest: __dirname + "/public/img/icons/" });
+const uploadLogo = multer({ dest: __dirname + "/public/img/logos/" });
+const uploadProducts = multer({ dest: __dirname + "/public/img/products/" });
+const uploadWelcome = multer({ dest: __dirname + "/public/img/welcome/" });
 
 import { AdminTokenVerifier } from '../middleware/adminTokenVerifier.js';
 import { HandleErrors } from '../middleware/errorHandler.js';
