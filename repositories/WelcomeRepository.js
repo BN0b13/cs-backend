@@ -55,7 +55,6 @@ class WelcomeRepository {
     // DELETE
 
     async deleteWelcomeImageById(id) {
-        console.log('ID: ', id);
         try {
             const res = await WelcomeImage.destroy(
                 {

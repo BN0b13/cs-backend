@@ -25,7 +25,7 @@ module.exports = {
       updatedAt: new Date()
     },
     {
-      type: 'splash',
+      type: 'background',
       createdAt: new Date(),
       updatedAt: new Date()
     }

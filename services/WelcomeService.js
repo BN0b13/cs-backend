@@ -2,28 +2,24 @@ import fs from 'fs';
 import { Op } from 'sequelize';
 import WelcomeImage from '../models/WelcomeImage.js';
 
-import { companyName } from '../config.js';
-
 export default class WelcomeService {
 
     async saveWelcomeImage(params) {
         try {
             const {
-                name,
+                caption,
                 link,
                 position,
                 image
             } = params;
             
             const data = {
-                name: name,
+                caption,
                 filename: image.filename,
                 path: `/img/welcome/${image.filename}`,
                 link,
                 position
             };
-
-            console.log('Data: ', data);
 
             const res = await WelcomeImage.create(data);
 
