@@ -41,7 +41,7 @@ app.use(
 //   origin: ['http://localhost:5050', 'http://localhost:3000' ]
 // }));
 
-app.use(cors());
+app.use(cors({ origin: '*' }));
 
 app.disable('x-powered-by');
 
