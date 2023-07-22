@@ -6,11 +6,11 @@ import { dirname } from 'path';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const router = express.Router();
-const uploadCategory = multer({ dest: __dirname + "/public/img/categories/" });
-const uploadIcon = multer({ dest: __dirname + "/public/img/icons/" });
-const uploadLogo = multer({ dest: __dirname + "/public/img/logos/" });
-const uploadProducts = multer({ dest: __dirname + "/public/img/products/" });
-const uploadWelcome = multer({ dest: __dirname + "/public/img/welcome/" });
+const uploadCategory = multer({ dest: __dirname + "../public/img/categories/" });
+const uploadIcon = multer({ dest: __dirname + "../public/img/icons/" });
+const uploadLogo = multer({ dest: __dirname + "../public/img/logos/" });
+const uploadProducts = multer({ dest: __dirname + "../public/img/products/" });
+const uploadWelcome = multer({ dest: __dirname + "../public/img/welcome/" });
 
 import { AdminTokenVerifier } from '../middleware/adminTokenVerifier.js';
 import { HandleErrors } from '../middleware/errorHandler.js';
