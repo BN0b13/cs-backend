@@ -63,6 +63,10 @@ router.get('/inventory', AdminTokenVerifier, HandleErrors(inventoryController.ge
 
 router.get('/inventory/:id', AdminTokenVerifier, HandleErrors(inventoryController.getByPK));
 
+router.patch('/inventory', AdminTokenVerifier, HandleErrors(inventoryController.updateInventory));
+
+router.delete('/inventory', AdminTokenVerifier, HandleErrors(inventoryController.deleteInventory));
+
 // Orders
 
 router.get('/orders', AdminTokenVerifier, HandleErrors(orderController.getOrders));
@@ -75,6 +79,11 @@ router.get('/products/category/:id', AdminTokenVerifier, (productController.getP
 
 router.post('/products', AdminTokenVerifier, uploadProducts.array("files"), (productController.create));
 router.post('/products/profiles', AdminTokenVerifier, uploadIcon.array("files"), HandleErrors(productController.createProductProfile));
+router.patch('/products/images', AdminTokenVerifier, uploadProducts.array("files"), (productController.addProductImage));
+
+router.patch('/products', AdminTokenVerifier, (productController.updateProduct));
+
+router.delete('/products', AdminTokenVerifier, (productController.deleteProduct));
 
 // Roles
 

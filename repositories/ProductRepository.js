@@ -38,9 +38,16 @@ class ProductRepository {
                 },
                 include: [
                     { 
+                        model: Category,
+                        required: true
+                    },
+                    { 
                         model: Inventory,
                         required: true
-                    }
+                    },
+                    { 
+                        model: ProductImage
+                    },
                 ]
             });
             return res;

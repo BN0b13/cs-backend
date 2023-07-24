@@ -264,7 +264,7 @@ class UserRepository {
             );
             return res;
         } catch (err) {
-            console.log('Update User Error: ', err);
+            console.log('Delete User Error: ', err);
             throw Error('There was an error deleting the user');
         }
     }
