@@ -118,6 +118,117 @@ class ProductController {
 
         res.send(data);
     }
+
+    // UPDATE
+
+    async addProductImage(req, res) {
+        try {
+            const {
+                id,
+                caption,
+            } = req.body;
+
+            const params = {
+                id,
+                caption,
+                image: req.files[0]
+            };
+            
+            const data = await productService.addProductImage(params);
+
+            res.send({
+                message: 'Product Creation Result',
+                result: data
+            });
+        } catch (err) {
+            console.log('CREATE Product Error: ', err);
+            throw Error('There was an error creating the product');
+        }
+    }
+
+    async updateProduct(req, res) {
+        try {
+            const {
+                id,
+                categoryId = null,
+                name = null,
+                description = null,
+                type = null,
+                time = null,
+                mother = null,
+                father = null,
+                profile = null,
+                sex = null,
+                price = null,
+                productInventoryId = null,
+                quantity = null,
+                size = null,
+                sku = null,
+                address = null,
+                bay = null,
+                available = null,
+                productImageId = null,
+                caption = null,
+                position = null
+            } = req.body;
+
+            console.log('Req body: ', req.body);
+
+            const params = {
+                categoryId,
+                name,
+                description,
+                type,
+                time,
+                mother,
+                father,
+                profile,
+                sex,
+                price
+            };
+
+            const inventoryParams = {
+                quantity,
+                size,
+                sku,
+                address,
+                bay,
+                available
+            }
+
+            const productImageParams = {
+                caption,
+                position
+            }
+
+            Object.keys(params).forEach(param => params[param] == null && delete params[param]);
+
+            Object.keys(inventoryParams).forEach(inventoryParam => inventoryParams[inventoryParam] == null && delete inventoryParams[inventoryParam]);
+            
+            Object.keys(productImageParams).forEach(productImageParam => productImageParams[productImageParam] == null && delete productImageParams[productImageParam]);
+
+            const data = await productService.updateProduct(id, params, productInventoryId, inventoryParams, productImageId, productImageParams);
+
+            res.send({
+                message: 'Product Creation Result',
+                result: data
+            });
+        } catch (err) {
+            console.log('CREATE Product Error: ', err);
+            throw Error('There was an error creating the product');
+        }
+    }
+
+    // DELETE
+
+    async deleteProduct(req, res) {
+        const {
+            id
+        } = req.body;
+
+        const data = await productService.deleteProduct(id);
+        res.send(data);
+    }
 }
 
 export default ProductController;

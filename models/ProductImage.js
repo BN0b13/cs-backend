@@ -14,10 +14,9 @@ class ProductImage extends Model {
 }
 ProductImage.init({
   productId: DataTypes.INTEGER,
-  name: DataTypes.STRING,
+  caption: DataTypes.STRING,
   filename: DataTypes.STRING,
   path: DataTypes.STRING,
-  link: DataTypes.STRING,
   position: DataTypes.INTEGER
 }, {
   sequelize,

@@ -15,16 +15,13 @@ module.exports = {
       productId: {
         type: Sequelize.INTEGER
       },
-      name: {
+      caption: {
         type: Sequelize.STRING
       },
       filename: {
         type: Sequelize.STRING
       },
       path: {
-        type: Sequelize.STRING
-      },
-      link: {
         type: Sequelize.STRING
       },
       position: {
