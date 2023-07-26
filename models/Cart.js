@@ -14,7 +14,7 @@ class Cart extends Model {
 }
 Cart.init({
   userId: DataTypes.INTEGER,
-  products: DataTypes.ARRAY(Sequelize.JSON)
+  products: DataTypes.JSONB
 }, {
   sequelize,
   schema: process.env.PG_SCHEMA_NAME,

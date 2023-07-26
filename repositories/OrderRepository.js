@@ -1,3 +1,7 @@
+import { Op } from 'sequelize';
+
+import { sequelize } from '../db.js';
+
 import Order from '../models/Order.js';
 
 class OrderRepository {
@@ -21,6 +25,18 @@ class OrderRepository {
                     userId: id
                 }
             });
+            return res;
+        } catch (err) {
+            console.log('Get Orders Messages Error: ', err);
+            throw Error('There was an error getting all orders');
+        }
+    }
+
+    async getOrdersByProductId(productId) {
+        try {
+            const res = await sequelize.query(`select *
+            from cosmic."Orders"
+            where products @> '[{"productId": ${productId}}]'::jsonb`);
             return res;
         } catch (err) {
             console.log('Get Orders Messages Error: ', err);

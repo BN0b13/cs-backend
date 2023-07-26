@@ -172,8 +172,6 @@ class ProductController {
                 position = null
             } = req.body;
 
-            console.log('Req body: ', req.body);
-
             const params = {
                 categoryId,
                 name,

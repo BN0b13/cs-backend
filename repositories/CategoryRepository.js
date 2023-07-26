@@ -18,9 +18,9 @@ class CategoryRepository {
             type,
             backSplashFilename: '',
             backSplashPath: '',
-            thumbnailFilename: image.filename,
-            thumbnailPath: `/img/categories/${image.filename}`,
-            status: true
+            thumbnailFilename: image ? image.filename : '',
+            thumbnailPath: image ? `/img/categories/${image.filename}` : '',
+            status: false
         };
 
         try {

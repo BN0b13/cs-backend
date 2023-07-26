@@ -43,9 +43,11 @@ export default class OrderService {
         const checkInventory = this.confirmInventoryIsAvailable(getProductsInCart, products);
 
         if(!checkInventory.result) {
-            // TODO update return, maybe include status?
             console.log('Inventory not available');
-            return 'Inventory not available';
+            return {
+                status: 404,
+                message: 'Inventory not available'
+            };
         }
 
         const refId = `CS${userId + 420}-${Date.now()}`;
@@ -53,14 +55,11 @@ export default class OrderService {
         let newInventoryQuantity = [];
         
         checkInventory.data.map(inventory => newInventoryQuantity.push(inventory));
-
-        console.log('Inventory Id Arr: ', newInventoryQuantity);
     
         const t = await sequelize.transaction();
 
         try {
             const res = await sequelize.transaction(async (t) => {
-                console.log('START TRANSACTION');
         
                 const orderData = {
                     userId,

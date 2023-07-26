@@ -196,50 +196,58 @@ export default class ProductService {
     }
 
     updateProduct = async (id, data, productInventoryId, productInventoryData, productImageId, productImageData) => {
+        const t = await sequelize.transaction();
         try {
-            let res = {};
+            const res = await sequelize.transaction(async (t) => {
+                let updateRes = {};
 
-            if(data !== undefined) {
-                const updateProduct = await Product.update(
-                    data,
-                    {
-                        where: {
-                            id: id
-                        }
-                    }
-                );
+                if(data !== undefined) {
+                    const updateProduct = await Product.update(
+                        data,
+                        {
+                            where: {
+                                id: id
+                            }
+                        },
+                        { transaction: t }
+                    );
 
-                res.updateProduct = { updateProduct };
-            }
+                    updateRes.updateProduct = { updateProduct };
+                }
 
-            if(productInventoryData !== undefined) {
-                const updateInventory = await Inventory.update(
-                    productInventoryData,
-                    {
-                        where: {
-                            id: productInventoryId
-                        }
-                    }
-                );
+                if(productInventoryData !== undefined) {
+                    const updateInventory = await Inventory.update(
+                        productInventoryData,
+                        {
+                            where: {
+                                id: productInventoryId
+                            }
+                        },
+                        { transaction: t }
+                    );
 
-                res.updateInventory = { updateInventory };
-            }
+                    updateRes.updateInventory = { updateInventory };
+                }
 
-            if(productImageData !== undefined) {
-                const updateProductImage = await ProductImage.update(
-                    productImageData,
-                    {
-                        where: {
-                            id: productImageId
-                        }
-                    }
-                );
+                if(productImageData !== undefined) {
+                    const updateProductImage = await ProductImage.update(
+                        productImageData,
+                        {
+                            where: {
+                                id: productImageId
+                            }
+                        },
+                        { transaction: t }
+                    );
 
-                res.updateProductImage = updateProductImage;
-            }
+                    updateRes.updateProductImage = updateProductImage;
+                }
+                return updateRes;
+            });
             
             return res;
         } catch (err) {
+            await t.rollback();
             console.log('Update User Error: ', err);
             throw Error('There was an error updating the user');
         }
@@ -247,17 +255,11 @@ export default class ProductService {
 
     deleteProduct = async (id) => {
         try {
-            const orderStatus = await Order.findAndCountAll(
-                {
-                    where: {
-                        products: {
-                            [Op.in]: id
-                        }
-                    }
-                }
-            );
+            const orderStatus = await sequelize.query(`select *
+            from ${process.env.PG_SCHEMA_NAME}."Orders"
+            where products @> '[{"productId": ${id}}]'::jsonb`);
 
-            if(orderStatus.count !== 0) {
+            if(orderStatus[0].length !== 0) {
                 return {
                     status: 403,
                     message: 'Unable to delete Product. Product is associated with Order(s).'

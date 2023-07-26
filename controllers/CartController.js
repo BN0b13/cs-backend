@@ -30,8 +30,6 @@ class CartController {
             products
         };
 
-        Object.keys(params).forEach(param => params[param] == null && delete params[param]);
-
         const data = await cartRepository.patchCart(id, params);
         res.send(data);
     }

@@ -20,8 +20,10 @@ class CategoryController {
             name,
             description,
             type,
-            image: req.files[0]
+            image: req.files[0] ? req.files[0] : ''
         };
+
+        console.log('Params: ', params);
 
         
         const data = await categoryRepository.create(params);
