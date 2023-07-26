@@ -70,6 +70,7 @@ router.delete('/inventory', AdminTokenVerifier, HandleErrors(inventoryController
 // Orders
 
 router.get('/orders', AdminTokenVerifier, HandleErrors(orderController.getOrders));
+router.get('/orders/search/product-id', AdminTokenVerifier, HandleErrors(orderController.getOrdersByProductId));
 
 // Products
 

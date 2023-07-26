@@ -65,6 +65,12 @@ class OrderController {
         res.send(data);
     }
     
+    async getOrdersByProductId(req, res) {
+        const { productId } = req.body;
+        const data = await orderRepository.getOrdersByProductId(productId);
+        res.send(data);
+    }
+    
     async getOrderByRef(req, res) {
         const { refId } = req.params;
         const data = await orderService.getOrderByRef(refId);

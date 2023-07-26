@@ -19,7 +19,7 @@ module.exports = {
         type: Sequelize.STRING
       },
       products: {
-        type: Sequelize.ARRAY(Sequelize.JSON)
+        type: Sequelize.JSONB
       },
       total: {
         type: Sequelize.INTEGER

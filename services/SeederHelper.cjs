@@ -5,7 +5,7 @@ const productArr = [{
     time: "9-10 weeks",
     mother: "Dosidos OG",
     father: "It's It",
-    profile: ["Sweet", "Orange", "OG"],
+    profile: [1],
     quantity: 0
   },
   {
@@ -15,7 +15,7 @@ const productArr = [{
     time: "8-9 weeks",
     mother: "Blueberry Muffin",
     father: "Cherry Pound Cake",
-    profile: ["Sweet", "Berry"],
+    profile: [1],
     quantity: 0
   },
   {
@@ -25,7 +25,7 @@ const productArr = [{
     time: "9-10 weeks",
     mother: "Slurrup",
     father: "Cinderella 99",
-    profile: ["Sweet", "Meat"],
+    profile: [1],
     quantity: 0
   },
   {
@@ -35,49 +35,179 @@ const productArr = [{
     time: "8-9 weeks",
     mother: "GMO x Hazy Lady",
     father: "Sugar Cane",
-    profile: ["Sweet", "Meat"],
+    profile: [1],
     quantity: 0
   },
   // GHOST
   {
     categoryId: 2,
     name: "Ectoplasm",
-    description: "Hella scary! This strain is oozing with bone chilling dankness.",
-    time: "8-9 weeks",
+    description: "",
+    time: "7-8 weeks",
     mother: "Hella Jelly",
     father: "Casper OG",
-    profile: ["Sweet", "OG"],
-    quantity: 10
+    profile: [1],
+    quantity: 80
   },
   {
     categoryId: 2,
     name: "Specter Cane",
-    description: "This is the embodiment of sugar, come back from the grave! Not a bad haunting to have.",
+    description: "",
     time: "8-9 weeks",
     mother: "Sugar Cane",
     father: "Casper OG",
-    profile: ["Earthy", "OG"],
-    quantity: 10
+    profile: [1],
+    quantity: 30
   },
   {
     categoryId: 2,
     name: "Dead Muff OG",
-    description: "The battle between berry and ghost made us all winners.",
-    time: "8-9 weeks",
+    description: "",
+    time: "7-8 weeks",
     mother: "Blueberry Muffin",
     father: "Casper OG",
-    profile: ["Berry", "OG"],
+    profile: [1],
+    quantity: 25
+  },
+  {
+    categoryId: 2,
+    name: "Undead Diesel",
+    description: "",
+    time: "8-9 weeks",
+    mother: "It's Sour",
+    father: "Casper OG",
+    profile: [1],
+    quantity: 45
+  },
+  {
+    categoryId: 2,
+    name: "Muff Pounder OG",
+    description: "",
+    time: "8-9 weeks",
+    mother: "Muff Pounder",
+    father: "Casper OG",
+    profile: [1],
+    quantity: 50
+  },
+  {
+    categoryId: 2,
+    name: "Demon Dawg",
+    description: "",
+    time: "8-10 weeks",
+    mother: "Star 95",
+    father: "Casper OG",
+    profile: [1],
     quantity: 20
   },
   {
     categoryId: 2,
-    name: "Dead Diesel",
-    description: "Sour diesel with a stunning display of OG goodness.",
+    name: "Over Dosi OG",
+    description: "",
     time: "8-9 weeks",
-    mother: "Sour Diesel",
+    mother: "Over Dosi",
     father: "Casper OG",
-    profile: ["Sour", "Diesel", "OG"],
-    quantity: 15
+    profile: [1],
+    quantity: 30
+  },
+  {
+    categoryId: 2,
+    name: "The Upside Down",
+    description: "",
+    time: "7-8 weeks",
+    mother: "Pineapple Upside Down Cake",
+    father: "Casper OG",
+    profile: [1],
+    quantity: 45
+  },
+  {
+    categoryId: 2,
+    name: "Deadwreck OG",
+    description: "",
+    time: "8-9 weeks",
+    mother: "Train Wreck OG",
+    father: "Casper OG",
+    profile: [1],
+    quantity: 80
+  },
+  {
+    categoryId: 2,
+    name: "EVP OG",
+    description: "",
+    time: "8-10 weeks",
+    mother: "Peyote WiFi",
+    father: "Casper OG",
+    profile: [1],
+    quantity: 25
+  },
+  {
+    categoryId: 2,
+    name: "Haunter Haze",
+    description: "",
+    time: "8-10 weeks",
+    mother: "Ghost Train Haze",
+    father: "Casper OG",
+    profile: [1],
+    quantity: 70
+  },
+  {
+    categoryId: 2,
+    name: "Planet of the Dead",
+    description: "",
+    time: "8-9 weeks",
+    mother: "Planet of the Grapes",
+    father: "Casper OG",
+    profile: [1],
+    quantity: 50
+  },
+  {
+    categoryId: 2,
+    name: "GhostfruitZ",
+    description: "",
+    time: "8-10 weeks",
+    mother: "GrapefruitZ",
+    father: "Casper OG",
+    profile: [1],
+    quantity: 25
+  },
+  {
+    categoryId: 2,
+    name: "Casper Chem",
+    description: "",
+    time: "8-9 weeks",
+    mother: "Supreme Chem Gelatti",
+    father: "Casper OG",
+    profile: [1],
+    quantity: 65
+  },
+  {
+    categoryId: 2,
+    name: "Venom Death",
+    description: "",
+    time: "8-9 weeks",
+    mother: "Symbiote",
+    father: "Casper OG",
+    profile: [1],
+    quantity: 45
+  },
+  {
+    categoryId: 2,
+    name: "Dosi Double OG",
+    description: "",
+    time: "8-9 weeks",
+    mother: "Do-si-dos OG",
+    father: "Casper OG",
+    profile: [1],
+    quantity: 50
+  },
+  {
+    categoryId: 2,
+    name: "Zombiez OG",
+    description: "",
+    time: "7-8 weeks",
+    mother: "Pineapple Passion Zmoothie",
+    father: "Casper OG",
+    profile: [1],
+    quantity: 30
   }
 ];
 

@@ -16,7 +16,7 @@ class Order extends Model {
 Order.init({
   userId: DataTypes.INTEGER,
   refId: DataTypes.STRING,
-  products: DataTypes.ARRAY(Sequelize.JSON),
+  products: DataTypes.JSONB,
   total: DataTypes.INTEGER,
   billingAddress: DataTypes.JSON,
   shippingAddress: DataTypes.JSON,
