@@ -40,10 +40,10 @@ module.exports = {
         type: Sequelize.BOOLEAN
       },
       companyShippingAddress: {
-        type: Sequelize.JSON
+        type: Sequelize.JSONB
       },
       companyBillingAddress: {
-        type: Sequelize.JSON
+        type: Sequelize.JSONB
       },
       customerServiceOn: {
         type: Sequelize.BOOLEAN

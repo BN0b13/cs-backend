@@ -71,6 +71,9 @@ router.delete('/inventory', AdminTokenVerifier, HandleErrors(inventoryController
 
 router.get('/orders', AdminTokenVerifier, HandleErrors(orderController.getOrders));
 router.get('/orders/search/product-id', AdminTokenVerifier, HandleErrors(orderController.getOrdersByProductId));
+router.get('/orders/search/ref-id/:refId', AdminTokenVerifier, HandleErrors(orderController.getOrdersByRefId));
+
+router.patch('/orders', AdminTokenVerifier, HandleErrors(orderController.updateOrder))
 
 // Products
 

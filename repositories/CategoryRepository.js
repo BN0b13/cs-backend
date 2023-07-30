@@ -44,6 +44,9 @@ class CategoryRepository {
                     }
                 ]
             });
+
+            const productIds = res.rows
+
             return res;
         } catch (err) {
             console.log('Get Categories Messages Error: ', err);
@@ -56,8 +59,8 @@ class CategoryRepository {
             const res = await Category.findAndCountAll();
             return res;
         } catch (err) {
-            console.log('Get Categories Messages Error: ', err);
-            throw Error('There was an error getting categories');
+            console.log('Get Categories Without Associations Error: ', err);
+            throw Error('There was an error getting categories with out associations');
         }
     }
 
@@ -75,8 +78,8 @@ class CategoryRepository {
             });
             return res;
         } catch (err) {
-            console.log('Get Categories Messages Error: ', err);
-            throw Error('There was an error getting categories');
+            console.log('Get Category by id Messages Error: ', err);
+            throw Error('There was an error getting category by id');
         }
     }
 

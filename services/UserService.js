@@ -40,6 +40,43 @@ export default class UserService {
         };
     }
 
+    verifyUserResetPasswordToken = async (token) => {
+        const res = await User.findAndCountAll(
+            {
+                where: {
+                    passwordToken: token
+                }
+            }
+        );
+
+        if(res.count === 0) {
+            return {
+                status: 404
+            }
+        }
+
+        const user = res.rows[0];
+        const decoded = jwt.decode(user.passwordToken, process.env.JWT_SECRET);
+
+        if(!decoded) {
+            return {
+                status: 404
+            }
+        }
+
+        const currentUnix = Math.round(Date.now() / 1000);
+        if(currentUnix > decoded.exp) {
+            return {
+                status: 403,
+                expirationDate: decoded.exp
+            };
+        }
+        return {
+            status: 200,
+            expirationDate: decoded.exp
+        };
+    }
+
     verifyEmailTokenIsValid = async ({ id }) => {
         const user = await User.findByPk(id);
         const decoded = jwt.decode(user.emailToken, process.env.JWT_SECRET);
@@ -97,6 +134,7 @@ export default class UserService {
         if(!decoded) {
             throw Error('Token Expired');
         }
+
         const hashedPassword = await this.hashPassword(password);
         
         return await this.updateUserPasswordByToken(passwordToken, hashedPassword);

@@ -22,9 +22,6 @@ class CategoryController {
             type,
             image: req.files[0] ? req.files[0] : ''
         };
-
-        console.log('Params: ', params);
-
         
         const data = await categoryRepository.create(params);
         
@@ -41,6 +38,12 @@ class CategoryController {
     
     async getCategories(req, res) {
         const data = await categoryRepository.getCategories();
+        res.send(data);
+    }
+
+    async getCategoryByName(req, res) {
+        const { name } = req.params;
+        const data = await categoryService.getCategoryByName(name);
         res.send(data);
     }
 

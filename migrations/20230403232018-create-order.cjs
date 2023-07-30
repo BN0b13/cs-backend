@@ -25,10 +25,10 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       billingAddress: {
-        type: Sequelize.JSON
+        type: Sequelize.JSONB
       },
       shippingAddress: {
-        type: Sequelize.JSON
+        type: Sequelize.JSONB
       },
       shippingId: {
         type: Sequelize.INTEGER
