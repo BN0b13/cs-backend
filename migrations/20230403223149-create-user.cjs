@@ -37,10 +37,10 @@ module.exports = {
         type: Sequelize.STRING
       },
       billingAddress: {
-        type: Sequelize.JSON
+        type: Sequelize.JSONB
       },
       shippingAddress: {
-        type: Sequelize.JSON
+        type: Sequelize.JSONB
       },
       favorites: {
         type: Sequelize.ARRAY(Sequelize.INTEGER)

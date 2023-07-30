@@ -1,4 +1,4 @@
-import { Category, Product } from '../models/Associations.js';
+import { Category, Product, ProductImage } from '../models/Associations.js';
 
 export default class CategoryService {
 
@@ -19,6 +19,33 @@ export default class CategoryService {
         );
 
         return res;
+    }
+
+    async getCategoryByName(name) {
+        try {
+            const res = await Category.findAndCountAll(
+                {
+                    where: {
+                        name
+                    },
+                    include: [
+                        {
+                            model: Product,
+                            include: [
+                                {
+                                    model: ProductImage
+                                }
+                            ]
+                        },
+                    ],
+                }
+            );
+    
+            return res;
+        } catch (err) {
+            console.log('Get Category by name Error: ', err);
+            throw Error('There was an error getting category by name');
+        }
     }
     
     // DELETE

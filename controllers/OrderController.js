@@ -71,9 +71,35 @@ class OrderController {
         res.send(data);
     }
     
+    async getOrdersByRefId(req, res) {
+        const { refId } = req.params;
+        const data = await orderRepository.getOrdersByRefId(refId);
+        res.send(data);
+    }
+    
     async getOrderByRef(req, res) {
         const { refId } = req.params;
         const data = await orderService.getOrderByRef(refId);
+        res.send(data);
+    }
+
+    async updateOrder(req, res) {
+        const {
+            orderId,
+            status = null,
+            tracking = null,
+        } = req.body;
+
+        const params = {
+            status,
+            tracking
+        };
+
+        Object.keys(params).forEach(param => params[param] == null && delete params[param]);
+
+        console.log('Params: ', params);
+
+        const data = await orderRepository.updateOrder(orderId, params);
         res.send(data);
     }
 }

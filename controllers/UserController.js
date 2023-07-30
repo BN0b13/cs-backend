@@ -335,6 +335,12 @@ class UserController {
         res.send(data);
     }
 
+    async verifyUserResetPasswordToken(req, res) {
+        const { token } = req.params;
+        const data = await userService.verifyUserResetPasswordToken(token);
+        res.send(data);
+    }
+
     // UPDATE
 
     async updateUser(req, res) {

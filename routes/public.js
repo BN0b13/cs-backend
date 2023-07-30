@@ -45,6 +45,7 @@ router.patch('/cart', TokenVerifier, HandleErrors(cartController.patchCart));
 
 router.get('/categories', HandleErrors(categoryController.getCategories));
 router.get('/categories/:id', HandleErrors(categoryController.getCategoryById));
+router.get('/categories/name/:name', HandleErrors(categoryController.getCategoryByName));
 router.get('/categories/type/:type', HandleErrors(categoryController.getCategoriesByType));
 
 // Checkout
@@ -87,6 +88,8 @@ router.post('/user', HandleErrors(userController.createCustomer));
 router.post('/user/reset-password', HandleErrors(userController.initiatePasswordReset));
 
 router.post('/user/reset-password/token', HandleErrors(userController.completePasswordReset));
+
+router.get('/user/reset-password-token/verify/:token', HandleErrors(userController.verifyUserResetPasswordToken));
 
 router.get('/user/email-token', TokenVerifier, HandleErrors(userController.sendEmailVerificationEmail));
 

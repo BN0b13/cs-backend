@@ -44,6 +44,21 @@ class OrderRepository {
         }
     }
 
+    async getOrdersByRefId(refId) {
+        try {
+            console.log('Ref id: ', refId);
+            const res = await Order.findAndCountAll({
+                where: {
+                    refId: refId
+                }
+            });
+            return res;
+        } catch (err) {
+            console.log('Get Orders Messages Error: ', err);
+            throw Error('There was an error getting all orders');
+        }
+    }
+
     async getOrderByRef(refId) {
         try {
             const res = await Order.findAndCountAll({
@@ -55,6 +70,25 @@ class OrderRepository {
         } catch (err) {
             console.log('Get Orders Messages Error: ', err);
             throw Error('There was an error getting all orders');
+        }
+    }
+
+    // UPDATE
+
+    async updateOrder(orderId, data) {
+        try {
+            const res = await Order.update(
+                data,
+                {
+                    where: {
+                                id: orderId
+                            }
+                }
+            );
+            return res;
+        } catch (err) {
+            console.log('Update User Error: ', err);
+            throw Error('There was an error updating the user');
         }
     }
 }
