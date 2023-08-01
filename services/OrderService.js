@@ -193,4 +193,31 @@ export default class OrderService {
             throw Error('There was an error getting all orders');
         }
     }
+
+    async shipOrder(orderId, data) {
+        try {
+        const {
+            email,
+            refId,
+            tracking
+        } = data;
+        
+            const res = await Order.update(
+                data,
+                {
+                    where: {
+                        id: orderId
+                    }
+                }
+            );
+
+            await emailService.orderShippedEmail({ buyerEmail: email, refId, tracking });
+
+            return res;
+        } catch (err) {
+            console.log('Update User Error: ', err);
+            throw Error('There was an error updating the user');
+        }
+
+    }
 } 

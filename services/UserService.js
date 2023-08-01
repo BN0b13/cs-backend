@@ -280,7 +280,8 @@ export default class UserService {
                     emailToken: null,
                     passwordToken: null,
                     credit: 0,
-                    themeId: 1
+                    themeId: 1,
+                    eulaVersion: '1.0.0'
                 };
     
                 const result = await User.create(data, { transaction: t });
