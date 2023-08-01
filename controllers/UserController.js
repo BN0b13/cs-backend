@@ -89,7 +89,6 @@ class UserController {
 
     async createCustomer(req, res) {
         try {
-            console.log('Create Customer hit: ', req.body);
         const { 
             email = null,
             password = null,
@@ -97,7 +96,8 @@ class UserController {
             lastName = null,
             phone = null,
             billingAddress = null,
-            shippingAddress = null
+            shippingAddress = null,
+            eula = null
         } = req.body;
 
         const params = {
@@ -107,7 +107,8 @@ class UserController {
             lastName,
             phone,
             billingAddress,
-            shippingAddress
+            shippingAddress,
+            eula
         };
 
         Object.values(params).forEach(param => {

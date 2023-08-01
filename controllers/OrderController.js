@@ -102,6 +102,30 @@ class OrderController {
         const data = await orderRepository.updateOrder(orderId, params);
         res.send(data);
     }
+
+    async shipOrder(req, res) {
+        const {
+            orderId,
+            email = null,
+            refId = null,
+            status = null,
+            tracking = null,
+        } = req.body;
+
+        const params = {
+            email,
+            refId,
+            status,
+            tracking
+        };
+
+        Object.keys(params).forEach(param => params[param] == null && delete params[param]);
+
+        console.log('Params: ', params);
+
+        const data = await orderService.shipOrder(orderId, params);
+        res.send(data);
+    }
 }
 
 export default OrderController;
