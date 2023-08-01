@@ -5,7 +5,7 @@ module.exports = {
     await queryInterface.createSchema(process.env.PG_SCHEMA_NAME, {
       ifNotExists: true
     });
-    await queryInterface.createTable('ProductTypes', {
+    await queryInterface.createTable('Alerts', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -18,6 +18,9 @@ module.exports = {
       description: {
         type: Sequelize.STRING
       },
+      active: {
+        type: Sequelize.BOOLEAN
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
@@ -29,6 +32,6 @@ module.exports = {
     }, { schema: process.env.PG_SCHEMA_NAME });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('ProductTypes');
+    await queryInterface.dropTable('Alerts');
   }
 };

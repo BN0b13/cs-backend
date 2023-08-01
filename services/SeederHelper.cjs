@@ -215,15 +215,14 @@ const products = () => {
   return productArr.map(product => {
     return {
       categoryId: product.categoryId,
+      productTypeId: 2,
       name: product.name,
       description: product.description,
-      type: 'seeds',
       time: product.time,
       mother: product.mother,
       father: product.father,
       profile: [1],
       sex: "Regular",
-      price: 6499,
       createdAt: new Date(),
       updatedAt: new Date()
     }
@@ -235,8 +234,9 @@ const inventory = () => {
     productArr.map((product, index) => {
       return inventoryArr.push({
         productId: index + 1,
+        sizeTypeId: 1,
         quantity: product.quantity,
-        size: '12 seeds',
+        price: 6499,
         sku: `${index + 1}.1`,
         address: '',
         bay: '',

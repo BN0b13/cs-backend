@@ -9,6 +9,7 @@ import Product from './Product.js';
 import ProductImage from './ProductImage.js';
 import ProductType from './ProductType.js';
 import Role from './Role.js';
+import SizeType from './SizeType.js';
 import Theme from './Theme.js';
 import User from './User.js';
 import Visit from './Visit.js';
@@ -84,6 +85,7 @@ export {
     ProductImage,
     ProductType,
     Role,
+    SizeType,
     Theme,
     User,
     Visit,

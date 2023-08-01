@@ -15,11 +15,14 @@ module.exports = {
       productId: {
         type: Sequelize.INTEGER
       },
+      sizeTypeId: {
+        type: Sequelize.INTEGER
+      },
       quantity: {
         type: Sequelize.INTEGER
       },
-      size: {
-        type: Sequelize.STRING
+      price: {
+        type: Sequelize.INTEGER
       },
       sku: {
         type: Sequelize.STRING

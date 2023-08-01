@@ -1,16 +1,12 @@
 'use strict';
-const table = { schema: process.env.PG_SCHEMA_NAME, tableName: 'ProductTypes' };
+const table = { schema: process.env.PG_SCHEMA_NAME, tableName: 'SizeTypes' };
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
     await queryInterface.bulkInsert(table, [{
-      type: 'clothing',
-      createdAt: new Date(),
-      updatedAt: new Date()
-    },
-    {
-      type: 'seeds',
+      name: 'Full Pack',
+      description: `12 seeds`,
       createdAt: new Date(),
       updatedAt: new Date()
     }
@@ -18,6 +14,6 @@ module.exports = {
   },
 
   async down (queryInterface, Sequelize) {
-    return queryInterface.bulkDelete('ProductTypes', null, { schema: process.env.PG_SCHEMA_NAME });
+    return queryInterface.bulkDelete('SizeTypes', null, { schema: process.env.PG_SCHEMA_NAME });
   }
 };

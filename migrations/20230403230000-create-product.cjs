@@ -15,13 +15,13 @@ module.exports = {
       categoryId: {
         type: Sequelize.INTEGER
       },
+      productTypeId: {
+        type: Sequelize.INTEGER
+      },
       name: {
         type: Sequelize.STRING
       },
       description: {
-        type: Sequelize.STRING
-      },
-      type: {
         type: Sequelize.STRING
       },
       time: {

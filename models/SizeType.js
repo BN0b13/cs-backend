@@ -1,26 +1,24 @@
 'use strict';
 import {
   Model,
-  DataTypes,
-  Sequelize
+  DataTypes
 } from 'sequelize';
 
 import { sequelize } from '../db.js';
 
-
-class ProductType extends Model {
+class SizeType extends Model {
   
   static associate(models) {
     
   }
 }
-ProductType.init({
+SizeType.init({
   name: DataTypes.STRING,
   description: DataTypes.STRING,
 }, {
   sequelize,
   schema: process.env.PG_SCHEMA_NAME,
-  modelName: 'ProductType',
+  modelName: 'SizeType',
 });
-
-export default ProductType;
+  
+export default SizeType;

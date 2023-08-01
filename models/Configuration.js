@@ -36,7 +36,8 @@ Configuration.init({
   ageVerifyOn: DataTypes.BOOLEAN,
   ageVerifyAgeLimit: DataTypes.INTEGER,
   inventoryReminderOn: DataTypes.BOOLEAN,
-  inventoryFrequency: DataTypes.INTEGER
+  inventoryFrequency: DataTypes.INTEGER,
+  alerts: DataTypes.JSONB
 }, {
   sequelize,
   schema: process.env.PG_SCHEMA_NAME,
