@@ -15,7 +15,7 @@ class Product extends Model {
 }
 Product.init({
   categoryId: DataTypes.INTEGER,
-  productTypeId: DataTypes.INTEGER,
+  type: DataTypes.STRING,
   name: DataTypes.STRING,
   description: DataTypes.STRING,
   time: DataTypes.STRING,

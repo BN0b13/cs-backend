@@ -6,7 +6,6 @@ import {
     Category,
     ProductProfile, 
     Inventory,
-    Order,
     Product, 
     ProductImage 
 } from '../models/Associations.js';
@@ -59,15 +58,16 @@ export default class ProductService {
     createProductAndInventory = async (params) => {
         const {
             categoryId,
+            type,
             name,
             description,
-            type,
             time,
             mother,
             father,
             profile,
             sex,
             size,
+            sizeDescription,
             price,
             quantity,
             address = '',
@@ -92,15 +92,14 @@ export default class ProductService {
             const res = await sequelize.transaction(async (t) => {
                 const productData = {
                     categoryId,
+                    type,
                     name,
                     description,
-                    type,
                     time,
                     mother,
                     father,
                     profile: productProfile,
-                    sex,
-                    price
+                    sex
                 };
 
                 const result = await Product.create(productData, { transaction: t });
@@ -119,7 +118,9 @@ export default class ProductService {
                 const inventoryData = {
                     productId,
                     quantity,
+                    price,
                     size,
+                    sizeDescription,
                     sku: `${ productId }.1`,
                     address,
                     bay,

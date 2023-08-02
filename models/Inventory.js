@@ -14,9 +14,10 @@ class Inventory extends Model {
 }
 Inventory.init({
   productId: DataTypes.INTEGER,
-  sizeTypeId: DataTypes.INTEGER,
   quantity: DataTypes.INTEGER,
   price: DataTypes.INTEGER,
+  size: DataTypes.STRING,
+  sizeDescription: DataTypes.STRING,
   sku: DataTypes.STRING,
   address: DataTypes.STRING,
   bay: DataTypes.STRING,

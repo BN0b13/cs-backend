@@ -7,7 +7,6 @@ class InventoryController {
     // READ
     
     async getInventory(req, res) {
-        console.log('Req: ', req);
         const data = await inventoryRepository.getInventory();
         res.send(data);
     }
@@ -24,7 +23,9 @@ class InventoryController {
         const {
             id,
             quantity = null,
+            price= null,
             size = null,
+            sizeDescription = null,
             sku = null,
             address = null,
             bay = null,
@@ -33,7 +34,9 @@ class InventoryController {
 
         const params = {
             quantity,
+            price,
             size,
+            sizeDescription,
             sku,
             address,
             bay,

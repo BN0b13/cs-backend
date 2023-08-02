@@ -20,6 +20,12 @@ class ProductController {
         res.send(data);
     }
 
+    async getByName(req, res) {
+        const { name } = req.params;
+        const data = await productRepository.getProductInventoryByName(name);
+        res.send(data);
+    }
+
     async getProductsByType(req, res) {
         const { type } = req.params;
         const data = await productRepository.getProductsByType(type);
@@ -61,30 +67,32 @@ class ProductController {
         try {
             const {
                 categoryId = null,
+                type = null,
                 name = null,
                 description = null,
-                type = null,
                 time = null,
                 mother = null,
                 father = null,
                 profile = null,
                 sex = null,
                 size = null,
+                sizeDescription = null,
                 price = null,
                 quantity = null
             } = req.body;
 
             const params = {
                 categoryId,
+                type,
                 name,
                 description,
-                type,
                 time,
                 mother,
                 father,
                 profile,
                 sex,
                 size,
+                sizeDescription,
                 price,
                 quantity,
                 image: req.files[0]
@@ -151,18 +159,19 @@ class ProductController {
             const {
                 id,
                 categoryId = null,
+                type = null,
                 name = null,
                 description = null,
-                type = null,
                 time = null,
                 mother = null,
                 father = null,
                 profile = null,
                 sex = null,
-                price = null,
                 productInventoryId = null,
                 quantity = null,
+                price = null,
                 size = null,
+                sizeDescription = null,
                 sku = null,
                 address = null,
                 bay = null,
@@ -174,20 +183,21 @@ class ProductController {
 
             const params = {
                 categoryId,
+                type,
                 name,
                 description,
-                type,
                 time,
                 mother,
                 father,
                 profile,
                 sex,
-                price
             };
 
             const inventoryParams = {
                 quantity,
+                price,
                 size,
+                sizeDescription,
                 sku,
                 address,
                 bay,

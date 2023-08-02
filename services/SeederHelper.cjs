@@ -215,7 +215,7 @@ const products = () => {
   return productArr.map(product => {
     return {
       categoryId: product.categoryId,
-      productTypeId: 2,
+      type: "seeds",
       name: product.name,
       description: product.description,
       time: product.time,
@@ -234,9 +234,10 @@ const inventory = () => {
     productArr.map((product, index) => {
       return inventoryArr.push({
         productId: index + 1,
-        sizeTypeId: 1,
         quantity: product.quantity,
         price: 6499,
+        size: 'Full Pack',
+        sizeDescription: '12 seeds',
         sku: `${index + 1}.1`,
         address: '',
         bay: '',

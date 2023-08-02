@@ -1,6 +1,6 @@
 import { Op } from 'sequelize';
 
-import { Category, Inventory, Product, ProductImage, ProductType } from '../models/Associations.js';
+import { Category, Inventory, Product, ProductImage } from '../models/Associations.js';
 
 class ProductRepository {
 
@@ -35,6 +35,33 @@ class ProductRepository {
             const res = await Product.findAndCountAll({
                 where: {
                     id
+                },
+                include: [
+                    { 
+                        model: Category,
+                        required: true
+                    },
+                    { 
+                        model: Inventory,
+                        required: true
+                    },
+                    { 
+                        model: ProductImage
+                    },
+                ]
+            });
+            return res;
+        } catch (err) {
+            console.log('GET Product Error: ', err);
+            throw Error('There was an error getting products');
+        }
+    }
+
+    async getProductInventoryByName(name) {
+        try {
+            const res = await Product.findAndCountAll({
+                where: {
+                    name
                 },
                 include: [
                     { 
@@ -161,16 +188,17 @@ class ProductRepository {
             const inventoryCount = availableInventory.map(item => {
                 return {
                     categoryId: item.categoryId,
+                    type: item.type,
                     name: item.name,
                     description: item.description,
-                    type: item.type,
                     time: item.time,
                     mother: item.mother,
                     father: item.father,
                     profile: item.profile,
                     sex: item.sex,
-                    size: item.size,
-                    price: item.price,
+                    size: item.Inventories.size,
+                    sizeDescription: item.Inventories.sizeDescription,
+                    price: item.Inventories.price,
                     quantity: item.Inventories.length,
                     createdAt: item.createdAt
                 }
@@ -180,12 +208,6 @@ class ProductRepository {
             console.log('GET Product Error: ', err);
             throw Error('There was an error getting products');
         }
-    }
-
-    async getProductTypes() {
-        const res = await ProductType.findAndCountAll();
-
-        return res;
     }
 }
 
