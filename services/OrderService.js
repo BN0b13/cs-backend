@@ -23,7 +23,6 @@ export default class OrderService {
 
     createOrder = async (params) => {
         const {
-            token,
             email,
             userId,
             products,
@@ -36,6 +35,21 @@ export default class OrderService {
             deliveryInsuranceTotal,
             couponId
         } = params;
+
+        // const {
+        //     token,
+        //     email,
+        //     userId,
+        //     products,
+        //     total,
+        //     billingAddress,
+        //     shippingAddress,
+        //     shippingId,
+        //     shippingTotal,
+        //     deliveryInsurance,
+        //     deliveryInsuranceTotal,
+        //     couponId
+        // } = params;
         
         const productIds = products.map(product => product.productId);
         const getProductsInCart = await productService.getProductsByIds(productIds);
@@ -74,6 +88,8 @@ export default class OrderService {
                     deliveryInsuranceTotal,
                     couponId,
                     status: 'new',
+                    paid: false,
+                    paymentLink: '',
                     fulfilledBy: null,
                     tracking: null
                 };
@@ -93,17 +109,17 @@ export default class OrderService {
                 return result;
             });
 
-            const processPayment = await paymentService.processPayment({ token, total });
+            // const processPayment = await paymentService.processPayment({ token, total });
 
-            if(processPayment.payment.status === 'COMPLETED') {
+            // if(processPayment.payment.status === 'COMPLETED') {
                 await emailService.orderReceivedEmail({ buyerEmail: email, refId });
                 return {
                     status: 201,
                     refId
                 };
-            } else {
-                throw Error('Payment failed');
-            }
+            // } else {
+            //     throw Error('Payment failed');
+            // }
         } catch (err) {
             await t.rollback();
             console.log('Product Create Error: ', err);
@@ -194,16 +210,55 @@ export default class OrderService {
         }
     }
 
+    async sendPaymentLink(orderId, data) {
+        try {
+        const {
+            email,
+            refId,
+            paymentLink,
+            status
+        } = data;
+
+        const params = {
+            status,
+            paymentLink
+        }
+        
+            const res = await Order.update(
+                params,
+                {
+                    where: {
+                        id: orderId
+                    }
+                }
+            );
+
+            await emailService.sendPaymentLink({ buyerEmail: email, refId, paymentLink });
+
+            return res;
+        } catch (err) {
+            console.log('Update User Error: ', err);
+            throw Error('There was an error updating the user');
+        }
+
+    }
+
     async shipOrder(orderId, data) {
         try {
         const {
             email,
             refId,
+            status,
             tracking
         } = data;
+
+        const params = {
+            status,
+            tracking
+        }
         
             const res = await Order.update(
-                data,
+                params,
                 {
                     where: {
                         id: orderId

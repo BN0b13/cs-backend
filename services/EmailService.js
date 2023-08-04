@@ -25,6 +25,26 @@ export default class EmailService {
         }
     }
 
+    sendPaymentLink = async ({ buyerEmail, refId, paymentLink }) => {
+        sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+
+        const data = emailTemplates.paymentLinkEmailTemplate({ refId, paymentLink });
+
+        const msg = {
+            to: buyerEmail,
+            from: data.sellerEmail,
+            subject: data.emailSubject,
+            text: data.emailBody,
+            html: data.html
+        }
+        try {
+            return await sgMail.send(msg);
+        } catch (err) {
+            console.log('Unable to send order received email. Error: ', err);
+            throw new Error(`Order Received Email error: ${err}`);
+        }
+    }
+
     orderShippedEmail = async ({ buyerEmail, refId, tracking }) => {
         sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 

@@ -15,15 +15,13 @@ class Product extends Model {
 }
 Product.init({
   categoryId: DataTypes.INTEGER,
+  type: DataTypes.STRING,
   name: DataTypes.STRING,
   description: DataTypes.STRING,
-  type: DataTypes.STRING,
   time: DataTypes.STRING,
   mother: DataTypes.STRING,
   father: DataTypes.STRING,
-  profile: DataTypes.ARRAY(DataTypes.INTEGER),
-  sex: DataTypes.STRING,
-  price: DataTypes.INTEGER
+  profile: DataTypes.ARRAY(DataTypes.INTEGER)
 }, {
   sequelize,
   schema: process.env.PG_SCHEMA_NAME,

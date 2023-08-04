@@ -15,10 +15,19 @@ module.exports = {
       productId: {
         type: Sequelize.INTEGER
       },
+      type: {
+        type: Sequelize.STRING
+      },
       quantity: {
         type: Sequelize.INTEGER
       },
+      price: {
+        type: Sequelize.INTEGER
+      },
       size: {
+        type: Sequelize.STRING
+      },
+      sizeDescription: {
         type: Sequelize.STRING
       },
       sku: {
@@ -29,9 +38,6 @@ module.exports = {
       },
       bay: {
         type: Sequelize.STRING
-      },
-      available: {
-        type: Sequelize.BOOLEAN
       },
       createdAt: {
         allowNull: false,

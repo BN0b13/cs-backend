@@ -7,7 +7,6 @@ import Inventory from './Inventory.js';
 import Order from './Order.js';
 import Product from './Product.js';
 import ProductImage from './ProductImage.js';
-import ProductType from './ProductType.js';
 import Role from './Role.js';
 import Theme from './Theme.js';
 import User from './User.js';
@@ -82,7 +81,6 @@ export {
     Order,
     Product,
     ProductImage,
-    ProductType,
     Role,
     Theme,
     User,

@@ -4,22 +4,22 @@ import {
   DataTypes,
   Sequelize
 } from 'sequelize';
-
 import { sequelize } from '../db.js';
 
-
-class ProductType extends Model {
+class Alert extends Model {
   
   static associate(models) {
     
   }
 }
-ProductType.init({
-  type: DataTypes.STRING,
+Alert.init({
+  name: DataTypes.STRING,
+  description: DataTypes.STRING,
+  active: DataTypes.BOOLEAN
 }, {
   sequelize,
   schema: process.env.PG_SCHEMA_NAME,
-  modelName: 'ProductType',
+  modelName: 'Alert',
 });
 
-export default ProductType;
+export default Alert;

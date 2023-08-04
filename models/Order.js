@@ -26,6 +26,8 @@ Order.init({
   deliveryInsuranceTotal: DataTypes.INTEGER,
   couponId: DataTypes.INTEGER,
   status: DataTypes.STRING,
+  paid: DataTypes.BOOLEAN,
+  paymentLink: DataTypes.STRING,
   fulfilledBy: DataTypes.INTEGER,
   tracking: DataTypes.STRING,
 }, {

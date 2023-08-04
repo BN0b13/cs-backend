@@ -15,13 +15,13 @@ module.exports = {
       categoryId: {
         type: Sequelize.INTEGER
       },
+      type: {
+        type: Sequelize.STRING
+      },
       name: {
         type: Sequelize.STRING
       },
       description: {
-        type: Sequelize.STRING
-      },
-      type: {
         type: Sequelize.STRING
       },
       time: {
@@ -35,12 +35,6 @@ module.exports = {
       },
       profile: {
         type: Sequelize.ARRAY(Sequelize.INTEGER)
-      },
-      sex: {
-        type: Sequelize.STRING
-      },
-      price: {
-        type: Sequelize.INTEGER
       },
       createdAt: {
         allowNull: false,
