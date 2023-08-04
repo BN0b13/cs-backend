@@ -74,6 +74,7 @@ router.get('/orders/search/product-id', AdminTokenVerifier, HandleErrors(orderCo
 router.get('/orders/search/ref-id/:refId', AdminTokenVerifier, HandleErrors(orderController.getOrdersByRefId));
 
 router.patch('/orders', AdminTokenVerifier, HandleErrors(orderController.updateOrder));
+router.patch('/orders/payment-link', AdminTokenVerifier, HandleErrors(orderController.paymentLink));
 router.patch('/orders/ship', AdminTokenVerifier, HandleErrors(orderController.shipOrder));
 
 // Products

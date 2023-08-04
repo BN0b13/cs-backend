@@ -222,7 +222,6 @@ const products = () => {
       mother: product.mother,
       father: product.father,
       profile: [1],
-      sex: "Regular",
       createdAt: new Date(),
       updatedAt: new Date()
     }
@@ -234,6 +233,7 @@ const inventory = () => {
     productArr.map((product, index) => {
       return inventoryArr.push({
         productId: index + 1,
+        type: "Regular",
         quantity: product.quantity,
         price: 6499,
         size: 'Full Pack',
@@ -241,7 +241,6 @@ const inventory = () => {
         sku: `${index + 1}.1`,
         address: '',
         bay: '',
-        available: false,
         createdAt: new Date(),
         updatedAt: new Date()
       });

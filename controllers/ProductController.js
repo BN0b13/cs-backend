@@ -74,7 +74,7 @@ class ProductController {
                 mother = null,
                 father = null,
                 profile = null,
-                sex = null,
+                inventoryType = null,
                 size = null,
                 sizeDescription = null,
                 price = null,
@@ -90,7 +90,7 @@ class ProductController {
                 mother,
                 father,
                 profile,
-                sex,
+                inventoryType,
                 size,
                 sizeDescription,
                 price,
@@ -166,8 +166,8 @@ class ProductController {
                 mother = null,
                 father = null,
                 profile = null,
-                sex = null,
                 productInventoryId = null,
+                inventoryType = null,
                 quantity = null,
                 price = null,
                 size = null,
@@ -175,7 +175,6 @@ class ProductController {
                 sku = null,
                 address = null,
                 bay = null,
-                available = null,
                 productImageId = null,
                 caption = null,
                 position = null
@@ -189,19 +188,18 @@ class ProductController {
                 time,
                 mother,
                 father,
-                profile,
-                sex,
+                profile
             };
 
             const inventoryParams = {
+                type: inventoryType,
                 quantity,
                 price,
                 size,
                 sizeDescription,
                 sku,
                 address,
-                bay,
-                available
+                bay
             }
 
             const productImageParams = {

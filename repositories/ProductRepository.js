@@ -195,11 +195,11 @@ class ProductRepository {
                     mother: item.mother,
                     father: item.father,
                     profile: item.profile,
-                    sex: item.sex,
+                    inventoryType: item.Inventories.type,
                     size: item.Inventories.size,
                     sizeDescription: item.Inventories.sizeDescription,
                     price: item.Inventories.price,
-                    quantity: item.Inventories.length,
+                    quantity: item.Inventories.quantity,
                     createdAt: item.createdAt
                 }
             });

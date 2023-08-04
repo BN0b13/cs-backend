@@ -36,12 +36,6 @@ module.exports = {
       profile: {
         type: Sequelize.ARRAY(Sequelize.INTEGER)
       },
-      sex: {
-        type: Sequelize.STRING
-      },
-      price: {
-        type: Sequelize.INTEGER
-      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

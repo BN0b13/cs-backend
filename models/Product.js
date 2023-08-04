@@ -21,8 +21,7 @@ Product.init({
   time: DataTypes.STRING,
   mother: DataTypes.STRING,
   father: DataTypes.STRING,
-  profile: DataTypes.ARRAY(DataTypes.INTEGER),
-  sex: DataTypes.STRING
+  profile: DataTypes.ARRAY(DataTypes.INTEGER)
 }, {
   sequelize,
   schema: process.env.PG_SCHEMA_NAME,

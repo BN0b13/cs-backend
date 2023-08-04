@@ -48,6 +48,12 @@ module.exports = {
       status: {
         type: Sequelize.STRING
       },
+      paid: {
+        type: Sequelize.BOOLEAN
+      },
+      paymentLink: {
+        type: Sequelize.STRING
+      },
       fulfilledBy: {
         type: Sequelize.INTEGER
       },

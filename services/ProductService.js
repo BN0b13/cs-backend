@@ -65,14 +65,13 @@ export default class ProductService {
             mother,
             father,
             profile,
-            sex,
+            inventoryType,
             size,
             sizeDescription,
             price,
             quantity,
             address = '',
             bay = '',
-            available,
             image
         } = params;
 
@@ -98,8 +97,7 @@ export default class ProductService {
                     time,
                     mother,
                     father,
-                    profile: productProfile,
-                    sex
+                    profile: productProfile
                 };
 
                 const result = await Product.create(productData, { transaction: t });
@@ -117,14 +115,14 @@ export default class ProductService {
 
                 const inventoryData = {
                     productId,
+                    type: inventoryType,
                     quantity,
                     price,
                     size,
                     sizeDescription,
                     sku: `${ productId }.1`,
                     address,
-                    bay,
-                    available
+                    bay
                 };
 
                 try {

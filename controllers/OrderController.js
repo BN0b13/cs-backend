@@ -12,7 +12,6 @@ class OrderController {
     async create(req, res) {
         try {
         const {
-            token,
             email,
             userId = req.userData.id,
             products,
@@ -27,7 +26,6 @@ class OrderController {
         } = req.body;
 
         const params = {
-            token,
             email,
             userId,
             products,
@@ -40,6 +38,35 @@ class OrderController {
             deliveryInsuranceTotal,
             couponId
         };
+        // const {
+        //     token,
+        //     email,
+        //     userId = req.userData.id,
+        //     products,
+        //     total,
+        //     billingAddress,
+        //     shippingAddress,
+        //     shippingId,
+        //     shippingTotal,
+        //     deliveryInsurance,
+        //     deliveryInsuranceTotal,
+        //     couponId = null
+        // } = req.body;
+
+        // const params = {
+        //     token,
+        //     email,
+        //     userId,
+        //     products,
+        //     total,
+        //     billingAddress,
+        //     shippingAddress,
+        //     shippingId,
+        //     shippingTotal,
+        //     deliveryInsurance,
+        //     deliveryInsuranceTotal,
+        //     couponId
+        // };
 
         const data = await orderService.createOrder(params);
 
@@ -103,6 +130,30 @@ class OrderController {
         res.send(data);
     }
 
+    async paymentLink(req, res) {
+        const {
+            orderId,
+            email = null,
+            refId = null,
+            status = null,
+            paymentLink = null,
+        } = req.body;
+
+        const params = {
+            email,
+            refId,
+            status,
+            paymentLink
+        };
+
+        Object.keys(params).forEach(param => params[param] == null && delete params[param]);
+
+        console.log('Params: ', params);
+
+        const data = await orderService.sendPaymentLink(orderId, params);
+        res.send(data);
+    }
+
     async shipOrder(req, res) {
         const {
             orderId,
@@ -120,8 +171,6 @@ class OrderController {
         };
 
         Object.keys(params).forEach(param => params[param] == null && delete params[param]);
-
-        console.log('Params: ', params);
 
         const data = await orderService.shipOrder(orderId, params);
         res.send(data);
