@@ -18,7 +18,7 @@ export default class EmailTemplates {
     paymentLinkEmailTemplate = ({ refId, paymentLink }) => {
         return {
             sellerEmail: companyEmail,
-            emailSubject: `Order Shipped from  ${companyName}`,
+            emailSubject: `${companyName} Payment Link`,
             emailBody: `Hello! Your order at ${companyName} is ready to be processed. Reference: ${refId}. Please use this payment link to pay your invoice ${paymentLink}. If payment is not received within 72 hours of receiving this email, your order will be canceled. Thank you for your purchase and we hope to see you again soon!`,
             html: `
                 <div style='text-align:center;'>
