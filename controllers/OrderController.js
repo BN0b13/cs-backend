@@ -86,14 +86,20 @@ class OrderController {
         res.send(data);
     }
     
-    async getOrdersById(req, res) {
+    async getOrderId(req, res) {
+        const { id } = req.params;
+        const data = await orderRepository.getOrderId(id);
+        res.send(data);
+    }
+    
+    async getOrdersByUserId(req, res) {
         const { id } = req.userData;
-        const data = await orderRepository.getOrdersById(id);
+        const data = await orderRepository.getOrdersByUserId(id);
         res.send(data);
     }
     
     async getOrdersByProductId(req, res) {
-        const { productId } = req.body;
+        const { productId } = req.params;
         const data = await orderRepository.getOrdersByProductId(productId);
         res.send(data);
     }
@@ -115,11 +121,15 @@ class OrderController {
             orderId,
             status = null,
             tracking = null,
+            billingAddress = null,
+            shippingAddress = null
         } = req.body;
 
         const params = {
             status,
-            tracking
+            tracking,
+            billingAddress,
+            shippingAddress
         };
 
         Object.keys(params).forEach(param => params[param] == null && delete params[param]);

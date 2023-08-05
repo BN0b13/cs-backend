@@ -70,7 +70,7 @@ router.post('/login-admin', HandleErrors(userController.adminLogin));
 
 router.post('/orders', TokenVerifier, HandleErrors(orderController.create));
 
-router.get('/orders', TokenVerifier, HandleErrors(orderController.getOrdersById));
+router.get('/orders', TokenVerifier, HandleErrors(orderController.getOrdersByUserId));
 
 router.get('/orders/:refId', TokenVerifier, HandleErrors(orderController.getOrderByRef));
 
