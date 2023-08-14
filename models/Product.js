@@ -18,9 +18,7 @@ Product.init({
   type: DataTypes.STRING,
   name: DataTypes.STRING,
   description: DataTypes.STRING,
-  time: DataTypes.STRING,
-  mother: DataTypes.STRING,
-  father: DataTypes.STRING,
+  details: DataTypes.JSONB,
   profile: DataTypes.ARRAY(DataTypes.INTEGER)
 }, {
   sequelize,

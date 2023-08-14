@@ -5,13 +5,17 @@ const table = { schema: process.env.PG_SCHEMA_NAME, tableName: 'Categories' };
 module.exports = {
   async up (queryInterface, Sequelize) {
     await queryInterface.bulkInsert(table, [{
-      name: 'Party Starter',
-      description: `This line was created from several different pollinators, representing a variety of styles and flavors.`,
+      name: 'Our Genetics',
+      description: `Descriptions of Cosmic Strains genetics`,
       type: 'seeds',
       thumbnailPath: '',
       thumbnailFilename: '',
       backSplashPath: '',
       backSplashFilename: '',
+      details: JSON.stringify({
+        motherProductId: null,
+        fatherProductId: null,
+      }),
       status: false,
       createdAt: new Date(),
       updatedAt: new Date()
@@ -24,6 +28,10 @@ module.exports = {
       thumbnailFilename: '',
       backSplashPath: '',
       backSplashFilename: '',
+      details: JSON.stringify({
+        motherProductId: null,
+        fatherProductId: null,
+      }),
       status: true,
       createdAt: new Date(),
       updatedAt: new Date()

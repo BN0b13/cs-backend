@@ -268,6 +268,25 @@ class UserRepository {
             throw Error('There was an error deleting the user');
         }
     }
+
+    async deleteCustomer(id) {
+        try {
+            const res = await User.update(
+                {
+                    email: 'deleted'
+                },
+                {
+                    where: {
+                                id: id
+                            }
+                }
+            );
+            return res;
+        } catch (err) {
+            console.log('DELETE Customer Error: ', err);
+            throw Error('There was an error deleting the customer');
+        }
+    }
 }
 
 export default UserRepository;

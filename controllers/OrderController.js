@@ -121,15 +121,19 @@ class OrderController {
             orderId,
             status = null,
             tracking = null,
-            billingAddress = null,
-            shippingAddress = null
+            refId = null,
+            paymentLink = null,
+            paid = null,
+            fulfilledBy = null
         } = req.body;
 
         const params = {
             status,
             tracking,
-            billingAddress,
-            shippingAddress
+            refId,
+            paymentLink,
+            paid,
+            fulfilledBy
         };
 
         Object.keys(params).forEach(param => params[param] == null && delete params[param]);

@@ -314,6 +314,66 @@ export default class UserService {
             throw Error('There was an error creating the customer');
         }
     }
+    
+    adminCreateCustomer = async (params) => {
+        const {
+            email, 
+            password
+        } = params;
+    
+        const emailExists = await this.getByEmail(email);
+        
+        if(emailExists.length > 0) {
+            throw Error('Email already exists');
+        }
+        
+        const t = await sequelize.transaction();
+
+        try {
+            const res = await sequelize.transaction(async (t) => {
+                const data = { 
+                    ...params,
+                    emailOriginal: email,
+                    subscriptions: [],
+                    emailVerified: false,
+                    roleId: 4,
+                    emailToken: null,
+                    passwordToken: null,
+                    credit: 0,
+                    themeId: 1,
+                    eulaVersion: '1.0.0'
+                };
+    
+                const result = await User.create(data, { transaction: t });
+                const cartData = {
+                    userId: result.id,
+                    products: []
+                };
+    
+                await Cart.create(cartData, { transaction: t });
+
+                
+                return result;
+            });
+
+            // Refactoring how a verified email works - eg. subscriptions
+            // const emailToken = await this.createEmailToken(res.id, email);
+
+            // await emailService.verifyEmail({ email, token: emailToken });
+
+            const token = await authManagement.createToken({ id: res.id });
+
+            return {
+                status: 201,
+                token,
+                email: res.email
+            };
+        } catch (err) {
+            await t.rollback();
+            console.log('Customer Create Error: ', err);
+            throw Error('There was an error creating the customer');
+        }
+    }
 
     async updateUserPasswordToken(token, email) {
         return await User.update(

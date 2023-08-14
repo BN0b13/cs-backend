@@ -33,6 +33,9 @@ module.exports = {
       backSplashFilename: {
         type: Sequelize.STRING
       },
+      details: {
+        type: Sequelize.JSONB
+      },
       status: {
         type: Sequelize.BOOLEAN
       },
