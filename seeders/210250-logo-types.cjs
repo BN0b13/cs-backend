@@ -10,7 +10,7 @@ module.exports = {
       updatedAt: new Date()
     },
     {
-      type: 'mobile-menu',
+      type: 'mobileMenu',
       createdAt: new Date(),
       updatedAt: new Date()
     },
@@ -20,7 +20,22 @@ module.exports = {
       updatedAt: new Date()
     },
     {
+      type: 'welcomeBackground',
+      createdAt: new Date(),
+      updatedAt: new Date()
+    },
+    {
       type: 'about',
+      createdAt: new Date(),
+      updatedAt: new Date()
+    },
+    {
+      type: 'aboutBackground',
+      createdAt: new Date(),
+      updatedAt: new Date()
+    },
+    {
+      type: 'login',
       createdAt: new Date(),
       updatedAt: new Date()
     },
