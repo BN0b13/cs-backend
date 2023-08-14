@@ -105,6 +105,8 @@ router.get('/user', TokenVerifier, HandleErrors(userController.getUser));
 
 router.patch('/user', TokenVerifier, HandleErrors(userController.updateUser));
 
+router.patch('/user/delete-account', TokenVerifier, HandleErrors(userController.deleteCustomer));
+
 // Visits
 
 router.patch('/visits', HandleErrors(visitController.updateVisitCount));

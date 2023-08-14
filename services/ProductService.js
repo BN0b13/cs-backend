@@ -61,9 +61,7 @@ export default class ProductService {
             type,
             name,
             description,
-            time,
-            mother,
-            father,
+            details,
             profile,
             inventoryType,
             size,
@@ -94,9 +92,7 @@ export default class ProductService {
                     type,
                     name,
                     description,
-                    time,
-                    mother,
-                    father,
+                    details,
                     profile: productProfile
                 };
 

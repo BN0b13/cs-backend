@@ -1,45 +1,4 @@
 const productArr = [{
-    categoryId: 1,
-    name: "Over Dosi",
-    description: "Over Dosi brings the power of Dosidos and Gelato to its apex. With a hint of Mint Chocolate Chip, this combination is sure to get people talking!",
-    time: "9-10 weeks",
-    mother: "Dosidos OG",
-    father: "It's It",
-    profile: [1],
-    quantity: 0
-  },
-  {
-    categoryId: 1,
-    name: "Muff Pounder",
-    description: "Purple frosted spears take this strain to the next level.",
-    time: "8-9 weeks",
-    mother: "Blueberry Muffin",
-    father: "Cherry Pound Cake",
-    profile: [1],
-    quantity: 0
-  },
-  {
-    categoryId: 1,
-    name: "Slush Puppies",
-    description: "The colas on these frozen puppies are so thick they require support!",
-    time: "9-10 weeks",
-    mother: "Slurrup",
-    father: "Cinderella 99",
-    profile: [1],
-    quantity: 0
-  },
-  {
-    categoryId: 1,
-    name: "GMO Sugar Haze",
-    description: "A single seed came from our experiment with feminizing seeds, resulting in this frosty and chemical smelling strain.",
-    time: "8-9 weeks",
-    mother: "GMO x Hazy Lady",
-    father: "Sugar Cane",
-    profile: [1],
-    quantity: 0
-  },
-  // GHOST
-  {
     categoryId: 2,
     name: "Ectoplasm",
     description: "",
@@ -218,9 +177,16 @@ const products = () => {
       type: "seeds",
       name: product.name,
       description: product.description,
-      time: product.time,
-      mother: product.mother,
-      father: product.father,
+      details: JSON.stringify({
+        time: product.time,
+        height: "",
+        yield: "",
+        environment: "",
+        mother: product.mother,
+        motherProductId: null,
+        father: product.father,
+        fatherProductId: null
+      }),
       profile: [1],
       createdAt: new Date(),
       updatedAt: new Date()

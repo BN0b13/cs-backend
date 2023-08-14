@@ -128,6 +128,47 @@ class UserController {
         }
     }
 
+    async adminCreateCustomer(req, res) {
+        try {
+        const { 
+            email = null,
+            password = null,
+            firstName = null,
+            lastName = null,
+            phone = null,
+            billingAddress = null,
+            shippingAddress = null,
+            eula = null
+        } = req.body;
+
+        const params = {
+            email: email.toLowerCase(),
+            password,
+            firstName,
+            lastName,
+            phone,
+            billingAddress,
+            shippingAddress,
+            eula
+        };
+
+        Object.values(params).forEach(param => {
+            if(param === null) {
+                throw Error(`Missing ${params[param]} Param`);
+            }
+        });
+
+        const data = await userService.adminCreateCustomer(params);
+
+        res.send(data);
+        } catch (err) {
+            res.send({
+                err,
+                message: 'There was an error creating user'
+            });
+        }
+    }
+
     async initiatePasswordReset(req, res) {
         try {
             const {
@@ -233,6 +274,10 @@ class UserController {
                 email = null, 
                 password = null
             } = req.body;
+
+            if(email === 'deleted') {
+                throw Error(`Customer has been deleted, unable to log in.`);
+            }
     
             const params = {
                 email: email.toLowerCase(), 
@@ -249,6 +294,7 @@ class UserController {
 
             res.send(data);
         } catch (err) {
+            console.log(err);
             res.send({
                 err,
                 message: 'There was an error logging in'
@@ -391,6 +437,13 @@ class UserController {
         });
 
         const data = await userService.updateAccountPassword(id, params);
+        res.send(data);
+    }
+
+    async deleteCustomer(req, res) {
+        const { id } = req.userData;
+
+        const data = await userRepository.deleteCustomer(id);
         res.send(data);
     }
 

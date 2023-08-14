@@ -22,6 +22,7 @@ Category.init({
   thumbnailFilename: DataTypes.STRING,
   backSplashPath: DataTypes.STRING,
   backSplashFilename: DataTypes.STRING,
+  details: DataTypes.JSONB,
   status: DataTypes.BOOLEAN
 }, {
   sequelize,

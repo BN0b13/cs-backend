@@ -24,14 +24,8 @@ module.exports = {
       description: {
         type: Sequelize.STRING
       },
-      time: {
-        type: Sequelize.STRING
-      },
-      mother: {
-        type: Sequelize.STRING
-      },
-      father: {
-        type: Sequelize.STRING
+      details: {
+        type: Sequelize.JSONB
       },
       profile: {
         type: Sequelize.ARRAY(Sequelize.INTEGER)

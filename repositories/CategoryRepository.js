@@ -9,7 +9,8 @@ class CategoryRepository {
             name, 
             description, 
             type, 
-            image
+            image,
+            details
         } = params;
 
         const data = {
@@ -20,6 +21,7 @@ class CategoryRepository {
             backSplashPath: '',
             thumbnailFilename: image ? image.filename : '',
             thumbnailPath: image ? `/img/categories/${image.filename}` : '',
+            details,
             status: false
         };
 
