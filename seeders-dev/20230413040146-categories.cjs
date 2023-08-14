@@ -13,6 +13,10 @@ module.exports = {
       backSplashPath: '',
       backSplashFilename: '',
       status: false,
+      details: JSON.stringify({
+        motherProductId: null,
+        fatherProductId: null,
+      }),
       createdAt: new Date(),
       updatedAt: new Date()
     },
@@ -25,6 +29,10 @@ module.exports = {
       backSplashPath: '',
       backSplashFilename: '',
       status: true,
+      details: JSON.stringify({
+        motherProductId: null,
+        fatherProductId: null,
+      }),
       createdAt: new Date(),
       updatedAt: new Date()
     }
