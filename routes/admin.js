@@ -106,7 +106,6 @@ router.get('/admin', AdminTokenVerifier, HandleErrors(userController.getAdmin));
 router.post('/employees', AdminTokenVerifier, HandleErrors(userController.createEmployee));
 router.get('/employees', AdminTokenVerifier, HandleErrors(userController.getEmployees));
 
-router.post('/customers', AdminTokenVerifier, HandleErrors(userController.adminCreateCustomer));
 router.get('/customers', AdminTokenVerifier, HandleErrors(userController.getCustomers));
 
 router.get('/users', AdminTokenVerifier, HandleErrors(userController.getUsers));
