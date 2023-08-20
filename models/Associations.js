@@ -1,12 +1,12 @@
 import Cart from './Cart.js';
 import Category from './Category.js';
-import Contact from './Contact.js';
 import Coupon from './Coupon.js';
-import ProductProfile from './ProductProfile.js';
 import Inventory from './Inventory.js';
+import Message from './Message.js';
 import Order from './Order.js';
 import Product from './Product.js';
 import ProductImage from './ProductImage.js';
+import ProductProfile from './ProductProfile.js';
 import Role from './Role.js';
 import Theme from './Theme.js';
 import User from './User.js';
@@ -20,7 +20,7 @@ Category.hasMany(Product, {
     }
 });
 
-Contact.hasOne(User, {
+Message.hasOne(User, {
     foreignKey:{
         allowNull: false, 
         name:'id'
@@ -74,7 +74,7 @@ User.hasOne(Role, {
 export {
     Cart,
     Category,
-    Contact,
+    Message,
     Coupon,
     ProductProfile,
     Inventory,

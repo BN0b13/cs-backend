@@ -13,7 +13,7 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       eula: {
-        type: Sequelize.STRING
+        type: Sequelize.TEXT
       },
       version: {
         type: Sequelize.STRING

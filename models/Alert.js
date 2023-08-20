@@ -14,7 +14,7 @@ class Alert extends Model {
 }
 Alert.init({
   name: DataTypes.STRING,
-  description: DataTypes.STRING,
+  description: DataTypes.TEXT,
   active: DataTypes.BOOLEAN
 }, {
   sequelize,

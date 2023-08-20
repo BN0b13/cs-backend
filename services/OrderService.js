@@ -35,21 +35,6 @@ export default class OrderService {
             deliveryInsuranceTotal,
             couponId
         } = params;
-
-        // const {
-        //     token,
-        //     email,
-        //     userId,
-        //     products,
-        //     total,
-        //     billingAddress,
-        //     shippingAddress,
-        //     shippingId,
-        //     shippingTotal,
-        //     deliveryInsurance,
-        //     deliveryInsuranceTotal,
-        //     couponId
-        // } = params;
         
         const productIds = products.map(product => product.productId);
         const getProductsInCart = await productService.getProductsByIds(productIds);
@@ -91,7 +76,8 @@ export default class OrderService {
                     paid: false,
                     paymentLink: '',
                     fulfilledBy: null,
-                    tracking: null
+                    tracking: null,
+                    notes: null
                 };
 
                 const result = await Order.create(orderData, { transaction: t });

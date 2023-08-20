@@ -5,21 +5,21 @@ import {
 } from 'sequelize';
 import { sequelize } from '../db.js';
 
-  class Contact extends Model {
+  class Message extends Model {
     
     static associate(models) {
       
     }
   }
-  Contact.init({
+  Message.init({
     userId: DataTypes.INTEGER,
-    message: DataTypes.STRING,
+    message: DataTypes.TEXT,
     status: DataTypes.STRING,
     replied: DataTypes.BOOLEAN
   }, {
     sequelize,
     schema: process.env.PG_SCHEMA_NAME,
-    modelName: 'Contact',
+    modelName: 'Message',
   });
 
-  export default Contact;
+  export default Message;
