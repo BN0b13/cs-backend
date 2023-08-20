@@ -127,6 +127,47 @@ class UserController {
             });
         }
     }
+
+    async adminCreateCustomer(req, res) {
+        try {
+        const { 
+            email = null,
+            password = null,
+            firstName = null,
+            lastName = null,
+            phone = null,
+            billingAddress = null,
+            shippingAddress = null,
+            eula = null
+        } = req.body;
+
+        const params = {
+            email: email.toLowerCase(),
+            password,
+            firstName,
+            lastName,
+            phone,
+            billingAddress,
+            shippingAddress,
+            eula
+        };
+
+        Object.values(params).forEach(param => {
+            if(param === null) {
+                throw Error(`Missing ${params[param]} Param`);
+            }
+        });
+
+        const data = await userService.adminCreateCustomer(params);
+
+        res.send(data);
+        } catch (err) {
+            res.send({
+                err,
+                message: 'There was an error creating user'
+            });
+        }
+    }
     
     async initiatePasswordReset(req, res) {
         try {

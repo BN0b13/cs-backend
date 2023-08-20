@@ -8,7 +8,7 @@ import CartController from '../controllers/CartController.js';
 import CategoryController from '../controllers/CategoryController.js';
 import CheckoutController from '../controllers/CheckoutController.js';
 import ConfigurationController from '../controllers/ConfigurationController.js';
-import ContactController from '../controllers/ContactController.js';
+import MessageController from '../controllers/MessageController.js';
 import OrderController from '../controllers/OrderController.js';
 import ProductController from '../controllers/ProductController.js';
 import UserController from '../controllers/UserController.js';
@@ -19,7 +19,7 @@ const cartController = new CartController();
 const categoryController = new CategoryController();
 const checkoutController = new CheckoutController();
 const configurationController = new ConfigurationController();
-const contactController = new ContactController();
+const messageController = new MessageController();
 const orderController = new OrderController();
 const productController = new ProductController();
 const userController = new UserController();
@@ -58,7 +58,7 @@ router.get('/configuration', HandleErrors(configurationController.getPublicConfi
 
 // Contact
 
-router.post('/contact', TokenVerifier, HandleErrors(contactController.create));
+router.post('/contact', TokenVerifier, HandleErrors(messageController.create));
 
 // Login
 

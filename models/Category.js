@@ -16,7 +16,7 @@ class Category extends Model {
 }
 Category.init({
   name: DataTypes.STRING,
-  description: DataTypes.STRING,
+  description: DataTypes.TEXT,
   type: DataTypes.STRING,
   thumbnailPath: DataTypes.STRING,
   thumbnailFilename: DataTypes.STRING,

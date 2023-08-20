@@ -14,14 +14,18 @@ class CategoryController {
             name,
             description,
             type,
-            details
+            motherProductId,
+            fatherProductId
         } = req.body;
 
         const params = {
             name,
             description,
             type,
-            details,
+            details: {
+                motherProductId,
+                fatherProductId
+            },
             image: req.files[0] ? req.files[0] : ''
         };
         

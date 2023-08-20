@@ -1,5 +1,5 @@
 'use strict';
-const table = { schema: process.env.PG_SCHEMA_NAME, tableName: 'Contacts' };
+const table = { schema: process.env.PG_SCHEMA_NAME, tableName: 'Messages' };
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {

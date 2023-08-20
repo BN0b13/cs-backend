@@ -18,7 +18,7 @@ import { HandleErrors } from '../middleware/errorHandler.js';
 
 import CategoryController from '../controllers/CategoryController.js';
 import ConfigurationController from '../controllers/ConfigurationController.js';
-import ContactController from '../controllers/ContactController.js';
+import MessageController from '../controllers/MessageController.js';
 import InventoryController from '../controllers/InventoryController.js';
 import OrderController from '../controllers/OrderController.js';
 import ProductController from '../controllers/ProductController.js';
@@ -29,7 +29,7 @@ import WelcomeController from '../controllers/WelcomeController.js';
 
 const categoryController = new CategoryController();
 const configurationController = new ConfigurationController();
-const contactController = new ContactController();
+const messageController = new MessageController();
 const inventoryController = new InventoryController();
 const orderController = new OrderController();
 const productController = new ProductController();
@@ -55,7 +55,7 @@ router.get('/configuration', AdminTokenVerifier, HandleErrors(configurationContr
 
 // Contact
 
-router.get('/contact', AdminTokenVerifier, HandleErrors(contactController.getMessages));
+router.get('/contact', AdminTokenVerifier, HandleErrors(messageController.getMessages));
 
 // Inventory
 
@@ -106,6 +106,7 @@ router.get('/admin', AdminTokenVerifier, HandleErrors(userController.getAdmin));
 router.post('/employees', AdminTokenVerifier, HandleErrors(userController.createEmployee));
 router.get('/employees', AdminTokenVerifier, HandleErrors(userController.getEmployees));
 
+router.post('/customers', AdminTokenVerifier, HandleErrors(userController.adminCreateCustomer));
 router.get('/customers', AdminTokenVerifier, HandleErrors(userController.getCustomers));
 
 router.get('/users', AdminTokenVerifier, HandleErrors(userController.getUsers));

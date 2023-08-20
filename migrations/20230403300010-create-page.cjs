@@ -40,7 +40,7 @@ module.exports = {
         type: Sequelize.BOOLEAN
       },
       paragraph: {
-        type: Sequelize.STRING
+        type: Sequelize.TEXT
       },
       paragraphOn: {
         type: Sequelize.BOOLEAN

@@ -1,8 +1,8 @@
-import ContactRepository from '../repositories/ContactRepository.js';
+import MessageRepository from '../repositories/MessageRepository.js';
 
-const contactRepository = new ContactRepository();
+const messageRepository = new MessageRepository();
 
-class ContactController {
+class MessageController {
 
     // CREATE
 
@@ -18,16 +18,16 @@ class ContactController {
             message
         };
 
-        const data = await contactRepository.create(params);
+        const data = await messageRepository.create(params);
 
         res.send({
-            message: 'Contact Message Creation Result',
+            message: 'Message Creation Result',
             result: data
         });
         } catch (err) {
             res.send({
                 err,
-                message: 'There was an error creating contact message'
+                message: 'There was an error creating message'
             });
         }
     }
@@ -35,10 +35,10 @@ class ContactController {
     // READ
     
     async getMessages(req, res) {
-        const data = await contactRepository.getMessages();
+        const data = await messageRepository.getMessages();
         res.send(data);
     }
 
 }
 
-export default ContactController;
+export default MessageController;

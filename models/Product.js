@@ -17,7 +17,7 @@ Product.init({
   categoryId: DataTypes.INTEGER,
   type: DataTypes.STRING,
   name: DataTypes.STRING,
-  description: DataTypes.STRING,
+  description: DataTypes.TEXT,
   details: DataTypes.JSONB,
   profile: DataTypes.ARRAY(DataTypes.INTEGER)
 }, {

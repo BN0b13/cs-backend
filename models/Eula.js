@@ -12,7 +12,7 @@ class Eula extends Model {
   }
 }
 Eula.init({
-  eula: DataTypes.STRING,
+  eula: DataTypes.TEXT,
   version: DataTypes.STRING
 }, {
   sequelize,

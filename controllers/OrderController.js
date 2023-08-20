@@ -38,35 +38,6 @@ class OrderController {
             deliveryInsuranceTotal,
             couponId
         };
-        // const {
-        //     token,
-        //     email,
-        //     userId = req.userData.id,
-        //     products,
-        //     total,
-        //     billingAddress,
-        //     shippingAddress,
-        //     shippingId,
-        //     shippingTotal,
-        //     deliveryInsurance,
-        //     deliveryInsuranceTotal,
-        //     couponId = null
-        // } = req.body;
-
-        // const params = {
-        //     token,
-        //     email,
-        //     userId,
-        //     products,
-        //     total,
-        //     billingAddress,
-        //     shippingAddress,
-        //     shippingId,
-        //     shippingTotal,
-        //     deliveryInsurance,
-        //     deliveryInsuranceTotal,
-        //     couponId
-        // };
 
         const data = await orderService.createOrder(params);
 
@@ -124,7 +95,8 @@ class OrderController {
             refId = null,
             paymentLink = null,
             paid = null,
-            fulfilledBy = null
+            fulfilledBy = null,
+            notes = null
         } = req.body;
 
         const params = {
@@ -133,12 +105,11 @@ class OrderController {
             refId,
             paymentLink,
             paid,
-            fulfilledBy
+            fulfilledBy,
+            notes
         };
 
         Object.keys(params).forEach(param => params[param] == null && delete params[param]);
-
-        console.log('Params: ', params);
 
         const data = await orderRepository.updateOrder(orderId, params);
         res.send(data);

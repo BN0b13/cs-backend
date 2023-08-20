@@ -70,7 +70,9 @@ class ProductController {
                 type = null,
                 name = null,
                 description = null,
-                details = null,
+                time = null,
+                mother = null,
+                father = null,
                 profile = null,
                 inventoryType = null,
                 size = null,
@@ -84,7 +86,11 @@ class ProductController {
                 type,
                 name,
                 description,
-                details,
+                details: {
+                    time,
+                    mother,
+                    father
+                },
                 profile,
                 inventoryType,
                 size,
@@ -158,7 +164,9 @@ class ProductController {
                 type = null,
                 name = null,
                 description = null,
-                details = null,
+                time = null,
+                mother = null,
+                father = null,
                 profile = null,
                 productInventoryId = null,
                 inventoryType = null,
@@ -179,7 +187,11 @@ class ProductController {
                 type,
                 name,
                 description,
-                details,
+                details: {
+                    time,
+                    mother,
+                    father
+                },
                 profile
             };
 
