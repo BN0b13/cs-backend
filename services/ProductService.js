@@ -68,7 +68,7 @@ export default class ProductService {
             sizeDescription,
             price,
             quantity,
-            address = '',
+            address = null,
             bay = '',
             image
         } = params;

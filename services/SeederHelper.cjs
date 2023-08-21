@@ -205,7 +205,7 @@ const inventory = () => {
         size: 'Full Pack',
         sizeDescription: '12 seeds',
         sku: `${index + 1}.1`,
-        address: '',
+        address: null,
         bay: '',
         createdAt: new Date(),
         updatedAt: new Date()

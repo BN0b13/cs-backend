@@ -103,7 +103,8 @@ class ProductController {
             const data = await productService.createProductAndInventory(params);
 
             res.send({
-                message: 'Product Creation Result',
+                status: 201,
+                message: 'Product Created',
                 result: data
             });
         } catch (err) {
@@ -147,12 +148,13 @@ class ProductController {
             const data = await productService.addProductImage(params);
 
             res.send({
-                message: 'Product Creation Result',
+                status: 201,
+                message: 'Product Image Added',
                 result: data
             });
         } catch (err) {
-            console.log('CREATE Product Error: ', err);
-            throw Error('There was an error creating the product');
+            console.log('UPDATE Add Product Image Error: ', err);
+            throw Error('There was an error adding the product image');
         }
     }
 
@@ -220,12 +222,13 @@ class ProductController {
             const data = await productService.updateProduct(id, params, productInventoryId, inventoryParams, productImageId, productImageParams);
 
             res.send({
-                message: 'Product Creation Result',
+                status: 200,
+                message: 'Product Updated',
                 result: data
             });
         } catch (err) {
-            console.log('CREATE Product Error: ', err);
-            throw Error('There was an error creating the product');
+            console.log('UPDATE Product Error: ', err);
+            throw Error('There was an error updating the product');
         }
     }
 

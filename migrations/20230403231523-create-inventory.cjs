@@ -34,7 +34,7 @@ module.exports = {
         type: Sequelize.STRING
       },
       address: {
-        type: Sequelize.STRING
+        type: Sequelize.JSONB
       },
       bay: {
         type: Sequelize.STRING
