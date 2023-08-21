@@ -20,7 +20,7 @@ Inventory.init({
   size: DataTypes.STRING,
   sizeDescription: DataTypes.STRING,
   sku: DataTypes.STRING,
-  address: DataTypes.STRING,
+  address: DataTypes.JSONB,
   bay: DataTypes.STRING
 }, {
   sequelize,
