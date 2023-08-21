@@ -1,5 +1,9 @@
 #!/bin/bash
 
+git reset --hard
+
+git pull origin main
+
 rm -r public
 
 mkdir public
