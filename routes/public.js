@@ -77,6 +77,7 @@ router.get('/orders/:refId', TokenVerifier, HandleErrors(orderController.getOrde
 // Products
 
 router.get('/products', HandleErrors(productController.getProducts));
+router.get('/products/search/:keyword', HandleErrors(productController.searchProducts));
 router.get('/products/:id', HandleErrors(productController.getById));
 router.get('/products/type/:type', HandleErrors(productController.getProductsByType));
 router.get('/products/profiles/all', HandleErrors(productController.getProductProfiles));

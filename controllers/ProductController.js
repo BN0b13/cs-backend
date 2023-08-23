@@ -61,6 +61,14 @@ class ProductController {
         res.send(data);
     }
 
+    async searchProducts(req, res) {
+        const {
+            keyword = null
+        } = req.params;
+        const data = await productService.searchProducts(keyword);
+        res.send(data);
+    }
+
     // CREATE
 
     async create(req, res) {

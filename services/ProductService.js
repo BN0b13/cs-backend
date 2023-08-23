@@ -53,6 +53,66 @@ export default class ProductService {
         }
     }
 
+    searchProducts = async (keyword) => {
+        try {
+            const res = await sequelize.query(`
+            select "Product"."id",
+            "Product"."categoryId",
+            "Product"."type",
+            "Product"."name",
+            "Product"."description",
+            "Product"."details",
+            "Product"."profile",
+            "Product"."createdAt",
+            "Product"."updatedAt",
+            "Category"."id" as "Category.id",
+            "Category"."name" as "Category.name",
+            "Category"."description" as "Category.description",
+            "Category"."type" as "Category.type",
+            "Category"."thumbnailPath" as "Category.thumbnailPath",
+            "Category"."thumbnailFilename" as "Category.thumbnailFilename",
+            "Category"."backSplashPath" as "Category.backSplashPath",
+            "Category"."backSplashFilename" as "Category.backSplashFilename",
+            "Category"."details" as "Category.details",
+            "Category"."status" as "Category.status",
+            "Category"."createdAt" as "Category.createdAt",
+            "Category"."updatedAt" as "Category.updatedAt",
+            "Inventories"."id" as "Inventories.id",
+            "Inventories"."productId" as "Inventories.productId",
+            "Inventories"."type" as "Inventories.type",
+            "Inventories"."quantity" as "Inventories.quantity",
+            "Inventories"."price" as "Inventories.price",
+            "Inventories"."size" as "Inventories.size",
+            "Inventories"."sizeDescription" as "Inventories.sizeDescription",
+            "Inventories"."sku" as "Inventories.sku",
+            "Inventories"."address" as "Inventories.address",
+            "Inventories"."bay" as "Inventories.bay",
+            "Inventories"."createdAt" as "Inventories.createdAt",
+            "Inventories"."updatedAt" as "Inventories.updatedAt",
+            "ProductImages"."id" as "ProductImages.id",
+            "ProductImages"."productId" as "ProductImages.productId",
+            "ProductImages"."caption" as "ProductImages.caption",
+            "ProductImages"."filename" as "ProductImages.filename",
+            "ProductImages"."path" as "ProductImages.path",
+            "ProductImages"."position" as "ProductImages.position",
+            "ProductImages"."createdAt" as "ProductImages.createdAt",
+            "ProductImages"."updatedAt" as "ProductImages.updatedAt"
+            from  ${process.env.PG_SCHEMA_NAME}."Products" as "Product"
+            inner join ${process.env.PG_SCHEMA_NAME}."Categories" as "Category" on
+                "Product"."categoryId" = "Category"."id"
+            inner join ${process.env.PG_SCHEMA_NAME}."Inventories" as "Inventories" on
+                "Product"."id" = "Inventories"."productId"
+            left outer join ${process.env.PG_SCHEMA_NAME}."ProductImages" as "ProductImages" on
+                "Product"."id" = "ProductImages"."productId"
+            where ("Product".name ilike '%${keyword}%' or "Product".description ilike '%${keyword}%' or "Product".details->>'mother' ilike '%${keyword}%' or "Product".details->>'father' ilike '%${keyword}%')
+            `);
+            return res[0];
+        } catch (err) {
+            console.log('Search Products Error: ', err);
+            throw Error('There was an error searching Products');
+        }
+    }
+
     // CREATE
 
     createProductAndInventory = async (params) => {
