@@ -14,13 +14,9 @@ class Theme extends Model {
 Theme.init({
   name: DataTypes.STRING,
   description: DataTypes.STRING,
-  colorPrimary: DataTypes.STRING,
-  colorSecondary: DataTypes.STRING,
-  textPrimary: DataTypes.STRING,
-  textSecondary: DataTypes.STRING,
-  backgroundColor: DataTypes.STRING,
-  backgroundImage: DataTypes.STRING,
-  backgroundImageOn: DataTypes.BOOLEAN,
+  colors: DataTypes.JSONB,
+  images: DataTypes.JSONB,
+  options: DataTypes.JSONB
 }, {
   sequelize,
   schema: process.env.PG_SCHEMA_NAME,
