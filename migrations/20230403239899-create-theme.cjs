@@ -18,23 +18,14 @@ module.exports = {
       description: {
         type: Sequelize.STRING
       },
-      colorPrimary: {
-        type: Sequelize.STRING
+      colors: {
+        type: Sequelize.JSONB
       },
-      colorSecondary: {
-        type: Sequelize.STRING
+      images: {
+        type: Sequelize.JSONB
       },
-      textPrimary: {
-        type: Sequelize.STRING
-      },
-      textSecondary: {
-        type: Sequelize.STRING
-      },
-      backgroundColor: {
-        type: Sequelize.STRING
-      },
-      backgroundImage: {
-        type: Sequelize.STRING
+      options: {
+        type: Sequelize.JSONB
       },
       backgroundImageOn: {
         type: Sequelize.BOOLEAN
