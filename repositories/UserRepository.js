@@ -99,6 +99,8 @@ class UserRepository {
             emailVerified: user.emailVerified,
             favorites: user.favorites,
             subscriptions: user.subscriptions,
+            themeId: user.themeId,
+            themeInverted: user.themeInverted,
             cart: user.Cart,
             orders: user.Orders,
         }

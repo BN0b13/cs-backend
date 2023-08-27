@@ -11,6 +11,7 @@ import ConfigurationController from '../controllers/ConfigurationController.js';
 import MessageController from '../controllers/MessageController.js';
 import OrderController from '../controllers/OrderController.js';
 import ProductController from '../controllers/ProductController.js';
+import ThemeController from '../controllers/ThemeController.js';
 import UserController from '../controllers/UserController.js';
 import VisitController from '../controllers/VisitController.js';
 import WelcomeController from '../controllers/WelcomeController.js';
@@ -22,6 +23,7 @@ const configurationController = new ConfigurationController();
 const messageController = new MessageController();
 const orderController = new OrderController();
 const productController = new ProductController();
+const themeController = new ThemeController();
 const userController = new UserController();
 const visitController = new VisitController();
 const welcomeController = new WelcomeController();
@@ -82,6 +84,10 @@ router.get('/products/:id', HandleErrors(productController.getById));
 router.get('/products/type/:type', HandleErrors(productController.getProductsByType));
 router.get('/products/profiles/all', HandleErrors(productController.getProductProfiles));
 router.get('/products/profiles/search', HandleErrors(productController.getProductProfilesByIds));
+
+// Themes
+
+router.get('/theme', HandleErrors(themeController.getTheme));
 
 // Users
 router.post('/user', HandleErrors(userController.createCustomer));

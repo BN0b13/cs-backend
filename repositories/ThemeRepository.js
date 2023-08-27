@@ -14,6 +14,24 @@ class ThemeRepository {
         }
     }
 
+    async getTheme() {
+        try {
+            const res = await Theme.findOne({
+                where: {
+                    name: 'default'
+                }
+            });
+            
+            if(!res) {
+                return {};
+            }
+            return res;
+        } catch (err) {
+            console.log('GET Welcome Images Error: ', err);
+            throw Error('There was an error getting Welcome Images');
+        }
+    }
+
     // UPDATE
 
     // async updateWelcomeImageById(id, data) {

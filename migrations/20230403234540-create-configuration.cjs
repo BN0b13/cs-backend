@@ -12,71 +12,23 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
+      themeId: {
+        type: Sequelize.INTEGER
+      },
+      name: {
+        type: Sequelize.STRING
+      },
       url: {
         type: Sequelize.STRING
       },
-      companyName: {
-        type: Sequelize.STRING
-      },
-      companyPhoneOn: {
-        type: Sequelize.BOOLEAN
-      },
-      companyPhone: {
-        type: Sequelize.INTEGER
-      },
-      companyPhoneExt: {
-        type: Sequelize.INTEGER
-      },
-      companyEmailOn: {
-        type: Sequelize.BOOLEAN
-      },
-      companyEmail: {
-        type: Sequelize.STRING
-      },
-      companyShippingEmail: {
-        type: Sequelize.STRING
-      },
-      companyShippingAddressOn: {
-        type: Sequelize.BOOLEAN
-      },
-      companyShippingAddress: {
+      company: {
         type: Sequelize.JSONB
       },
-      companyBillingAddress: {
+      options: {
         type: Sequelize.JSONB
       },
-      customerServiceOn: {
-        type: Sequelize.BOOLEAN
-      },
-      customerServicePhone: {
-        type: Sequelize.INTEGER
-      },
-      customerServicePhoneExt: {
-        type: Sequelize.INTEGER
-      },
-      customerServiceEmail: {
-        type: Sequelize.STRING
-      },
-      deliveryInsuranceOn: {
-        type: Sequelize.BOOLEAN
-      },
-      deliveryInsuranceAmount: {
-        type: Sequelize.INTEGER
-      },
-      deliveryInsuranceDescription: {
-        type: Sequelize.STRING
-      },
-      ageVerifyOn: {
-        type: Sequelize.BOOLEAN
-      },
-      ageVerifyAgeLimit: {
-        type: Sequelize.INTEGER
-      },
-      inventoryReminderOn: {
-        type: Sequelize.BOOLEAN
-      },
-      inventoryFrequency: {
-        type: Sequelize.INTEGER
+      alerts: {
+        type: Sequelize.JSONB
       },
       createdAt: {
         allowNull: false,

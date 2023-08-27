@@ -10,7 +10,7 @@ mkdir img video
 
 cd img
 
-mkdir categories icons logos products welcome
+mkdir categories icons products themes welcome
 
 cd ..
 

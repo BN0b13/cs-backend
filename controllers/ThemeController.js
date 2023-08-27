@@ -9,49 +9,71 @@ class ThemeController {
     // CREATE
 
     async create(req, res) {
-        const {
-            name,
-            description,
-            colorPrimary,
-            colorSecondary,
-            textPrimary,
-            textSecondary,
-            backgroundColor,
-            backgroundImageOn,
-        } = req.body;
-
-        const params = {
-            name,
-            description,
-            colorPrimary,
-            colorSecondary,
-            textPrimary,
-            textSecondary,
-            backgroundColor,
-            backgroundImageOn,
-            image: req.files[0]
+        try {
+            const {
+                name,
+                description,
+                mainPrimary,
+                DarkPrimary,
+                LightPrimary,
+                accentPrimary,
+                svgPrimary,
+                backgroundPrimary,
+                backgroundOpacityDarkPrimary,
+                backgroundOpacityLightPrimary,
+                mainSecondary,
+                DarkSecondary,
+                LightSecondary,
+                accentSecondary,
+                svgSecondary,
+                backgroundSecondary,
+                backgroundOpacityDarkSecondary,
+                backgroundOpacityLightSecondary,
+                textPrimary,
+                textPrimaryAccent,
+                textSecondary,
+                textSecondaryAccent,
+                font,
+                backgroundImageOn,
+            } = req.body;
+    
+            const params = {
+                name,
+                description,
+                mainPrimary,
+                DarkPrimary,
+                LightPrimary,
+                accentPrimary,
+                svgPrimary,
+                backgroundPrimary,
+                backgroundOpacityDarkPrimary,
+                backgroundOpacityLightPrimary,
+                mainSecondary,
+                DarkSecondary,
+                LightSecondary,
+                accentSecondary,
+                svgSecondary,
+                backgroundSecondary,
+                backgroundOpacityDarkSecondary,
+                backgroundOpacityLightSecondary,
+                textPrimary,
+                textPrimaryAccent,
+                textSecondary,
+                textSecondaryAccent,
+                font,
+                backgroundImageOn,
+                image: null
+            }
+    
+            if(req.files ){ 
+                params.image = req.files[0]
+            }
+    
+            const data = await themeService.create(params);
+            res.send(data);
+        } catch (err) {
+            console.log('There was and error posting Theme: ', err);
         }
-
-        const data = await themeService.create(params);
-        res.send(data);
-    }
-
-    async postBackgroundImage(req, res) {
-        const {
-            caption = '',
-            link = '',
-            position
-        } = req.body;
-
-        const params = {
-            caption,
-            link,
-            position,
-            image: req.files[0]
-        }
-
-        const data = await themeService.saveBackgroundImage(params);
-        res.send(data);
     }
 
     // READ
@@ -60,28 +82,69 @@ class ThemeController {
         const data = await themeRepository.getThemes();
         res.send(data);
     }
+    
+    async getTheme(req, res) {
+        const data = await themeRepository.getTheme();
+        res.send(data);
+    }
 
     // // UPDATE
 
-    // async updateWelcomeImageById(req, res) {
-    //     const {
-    //         id,
-    //         caption = null,
-    //         link = null,
-    //         position = null
-    //     } = req.body;
+    async updateThemeColorScheme(req, res) {
+        const {
+            id,
+            name,
+            description,
+            mainPrimary,
+            DarkPrimary,
+            LightPrimary,
+            accentPrimary,
+            svgPrimary,
+            backgroundPrimary,
+            backgroundOpacityDarkPrimary,
+            backgroundOpacityLightPrimary,
+            mainSecondary,
+            DarkSecondary,
+            LightSecondary,
+            accentSecondary,
+            svgSecondary,
+            backgroundSecondary,
+            backgroundOpacityDarkSecondary,
+            backgroundOpacityLightSecondary,
+            textPrimary,
+            textPrimaryAccent,
+            textSecondary,
+            textSecondaryAccent
+        } = req.body;
 
-    //     const params = {
-    //         caption,
-    //         link,
-    //         position
-    //     };
+        const params = {
+            name,
+            description,
+            mainPrimary,
+            DarkPrimary,
+            LightPrimary,
+            accentPrimary,
+            svgPrimary,
+            backgroundPrimary,
+            backgroundOpacityDarkPrimary,
+            backgroundOpacityLightPrimary,
+            mainSecondary,
+            DarkSecondary,
+            LightSecondary,
+            accentSecondary,
+            svgSecondary,
+            backgroundSecondary,
+            backgroundOpacityDarkSecondary,
+            backgroundOpacityLightSecondary,
+            textPrimary,
+            textPrimaryAccent,
+            textSecondary,
+            textSecondaryAccent
+        };
 
-    //     Object.keys(params).forEach(param => params[param] == null && delete params[param]);
-
-    //     const data = await welcomeRepository.updateWelcomeImageById(id, params);
-    //     res.send(data);
-    // }
+        const data = await themeService.updateThemeColorScheme(id, params);
+        res.send(data);
+    }
 
     // // DELETE
 

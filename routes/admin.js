@@ -9,8 +9,8 @@ const __dirname = dirname(__filename);
 const router = express.Router();
 const uploadCategory = multer({ dest: path.join(__dirname, '..', 'public', 'img', 'categories')});
 const uploadIcon = multer({ dest: path.join(__dirname, '..', 'public', 'img', 'icons')});
-const uploadLogo = multer({ dest: path.join(__dirname, '..', 'public', 'img', 'logos')});
 const uploadProducts = multer({ dest: path.join(__dirname, '..', 'public', 'img', 'products')});
+const uploadThemes = multer({ dest: path.join(__dirname, '..', 'public', 'img', 'themes')});
 const uploadWelcome = multer({ dest: path.join(__dirname, '..', 'public', 'img', 'welcome')});
 
 import { AdminTokenVerifier } from '../middleware/adminTokenVerifier.js';
@@ -23,6 +23,7 @@ import InventoryController from '../controllers/InventoryController.js';
 import OrderController from '../controllers/OrderController.js';
 import ProductController from '../controllers/ProductController.js';
 import RoleController from '../controllers/RoleController.js';
+import ThemeController from '../controllers/ThemeController.js';
 import UserController from '../controllers/UserController.js';
 import VisitController from '../controllers/VisitController.js';
 import WelcomeController from '../controllers/WelcomeController.js';
@@ -34,6 +35,7 @@ const inventoryController = new InventoryController();
 const orderController = new OrderController();
 const productController = new ProductController();
 const roleController = new RoleController();
+const themeController = new ThemeController();
 const visitController = new VisitController();
 const userController = new UserController();
 const welcomeController = new WelcomeController();
@@ -80,23 +82,31 @@ router.patch('/orders/ship', AdminTokenVerifier, HandleErrors(orderController.sh
 
 // Products
 
-router.get('/products', AdminTokenVerifier, (productController.getInventory));
-router.get('/products/product-types', AdminTokenVerifier, (productController.getProductTypes));
-router.get('/products/category/:id', AdminTokenVerifier, (productController.getProductsByCategoryId));
+router.get('/products', AdminTokenVerifier, HandleErrors(productController.getInventory));
+router.get('/products/product-types', AdminTokenVerifier, HandleErrors(productController.getProductTypes));
+router.get('/products/category/:id', AdminTokenVerifier, HandleErrors(productController.getProductsByCategoryId));
 
-router.post('/products', AdminTokenVerifier, uploadProducts.array("files"), (productController.create));
+router.post('/products', AdminTokenVerifier, uploadProducts.array("files"), HandleErrors(productController.create));
 router.post('/products/profiles', AdminTokenVerifier, uploadIcon.array("files"), HandleErrors(productController.createProductProfile));
-router.patch('/products/images', AdminTokenVerifier, uploadProducts.array("files"), (productController.addProductImage));
+router.patch('/products/images', AdminTokenVerifier, uploadProducts.array("files"), HandleErrors(productController.addProductImage));
 
-router.patch('/products', AdminTokenVerifier, (productController.updateProduct));
+router.patch('/products', AdminTokenVerifier, HandleErrors(productController.updateProduct));
 
-router.delete('/products', AdminTokenVerifier, (productController.deleteProduct));
+router.delete('/products', AdminTokenVerifier, HandleErrors(productController.deleteProduct));
 
 // Roles
 
 router.post('/roles', AdminTokenVerifier, HandleErrors(roleController.create));
 
 router.get('/roles', AdminTokenVerifier, HandleErrors(roleController.getRoles));
+
+// Themes
+
+router.post('/themes', AdminTokenVerifier, uploadThemes.array("files"), HandleErrors(themeController.create));
+
+router.get('/themes', AdminTokenVerifier, HandleErrors(themeController.getThemes));
+
+router.patch('/themes/colors', AdminTokenVerifier, HandleErrors(themeController.updateThemeColorScheme));
 
 // Users
 
