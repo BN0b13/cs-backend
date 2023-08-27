@@ -15,6 +15,7 @@ Theme.init({
   name: DataTypes.STRING,
   description: DataTypes.STRING,
   colors: DataTypes.JSONB,
+  text: DataTypes.JSONB,
   images: DataTypes.JSONB,
   options: DataTypes.JSONB
 }, {

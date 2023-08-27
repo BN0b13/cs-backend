@@ -63,6 +63,9 @@ module.exports = {
       themeId: {
         type: Sequelize.INTEGER
       },
+      themeInverted: {
+        type: Sequelize.BOOLEAN
+      },
       eula: {
         type: Sequelize.BOOLEAN
       },

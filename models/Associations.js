@@ -1,5 +1,6 @@
 import Cart from './Cart.js';
 import Category from './Category.js';
+import Configuration from './Configuration.js';
 import Coupon from './Coupon.js';
 import Inventory from './Inventory.js';
 import Message from './Message.js';
@@ -18,6 +19,14 @@ Category.hasMany(Product, {
         allowNull: false, 
         name:'categoryId'
     }
+});
+
+Configuration.hasOne(Theme, {
+    foreignKey:{
+        allowNull: false, 
+        name:'id'
+    },
+    sourceKey: 'themeId'
 });
 
 Message.hasOne(User, {
@@ -74,6 +83,7 @@ User.hasOne(Role, {
 export {
     Cart,
     Category,
+    Configuration,
     Message,
     Coupon,
     ProductProfile,

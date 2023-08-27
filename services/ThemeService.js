@@ -9,11 +9,27 @@ export default class ThemeService {
             const {
                 name,
                 description,
-                colorPrimary,
-                colorSecondary,
+                mainPrimary,
+                DarkPrimary,
+                LightPrimary,
+                accentPrimary,
+                svgPrimary,
+                backgroundPrimary,
+                backgroundOpacityDarkPrimary,
+                backgroundOpacityLightPrimary,
+                mainSecondary,
+                DarkSecondary,
+                LightSecondary,
+                accentSecondary,
+                svgSecondary,
+                backgroundSecondary,
+                backgroundOpacityDarkSecondary,
+                backgroundOpacityLightSecondary,
                 textPrimary,
+                textPrimaryAccent,
                 textSecondary,
-                backgroundColor,
+                textSecondaryAccent,
+                font,
                 backgroundImageOn,
                 image = null
             } = params;
@@ -22,11 +38,33 @@ export default class ThemeService {
                 name,
                 description,
                 colors: {
-                colorPrimary,
-                colorSecondary,
-                textPrimary,
-                textSecondary,
-                backgroundColor
+                    primary: {
+                        main: mainPrimary,
+                        dark: DarkPrimary,
+                        light: LightPrimary,
+                        accent: accentPrimary,
+                        svg: svgPrimary,
+                        background: backgroundPrimary,
+                        backgroundOpacityDark: backgroundOpacityDarkPrimary,
+                        backgroundOpacityLight: backgroundOpacityLightPrimary,
+                        text: textPrimary,
+                        textSecondary: textPrimaryAccent
+                    },
+                    secondary: {
+                        main: mainSecondary,
+                        dark: DarkSecondary,
+                        light: LightSecondary,
+                        accent: accentSecondary,
+                        svg: svgSecondary,
+                        background: backgroundSecondary,
+                        backgroundOpacityDark: backgroundOpacityDarkSecondary,
+                        backgroundOpacityLight: backgroundOpacityLightSecondary,
+                        text: textSecondary,
+                        textSecondary: textSecondaryAccent
+                    }
+                },
+                text: {
+                    font
                 },
                 images: {
 
@@ -46,7 +84,79 @@ export default class ThemeService {
             return res;
         } catch(err) {
             console.log('Save Welcome Image To Server Error: ', err);
-            throw Error('There was an error getting saving welcome image to server');
+            throw Error('There was an error creating theme');
+        }
+    }
+
+    // UPDATE
+
+    async updateThemeColorScheme(id, params) {
+        try {
+            const {
+                mainPrimary,
+                DarkPrimary,
+                LightPrimary,
+                accentPrimary,
+                svgPrimary,
+                backgroundPrimary,
+                backgroundOpacityDarkPrimary,
+                backgroundOpacityLightPrimary,
+                mainSecondary,
+                DarkSecondary,
+                LightSecondary,
+                accentSecondary,
+                svgSecondary,
+                backgroundSecondary,
+                backgroundOpacityDarkSecondary,
+                backgroundOpacityLightSecondary,
+                textPrimary,
+                textPrimaryAccent,
+                textSecondary,
+                textSecondaryAccent
+            } = params;
+
+            const data = {
+                colors: {
+                    primary: {
+                        main: mainPrimary,
+                        dark: DarkPrimary,
+                        light: LightPrimary,
+                        accent: accentPrimary,
+                        svg: svgPrimary,
+                        background: backgroundPrimary,
+                        backgroundOpacityDark: backgroundOpacityDarkPrimary,
+                        backgroundOpacityLight: backgroundOpacityLightPrimary,
+                        text: textPrimary,
+                        textSecondary: textPrimaryAccent
+                    },
+                    secondary: {
+                        main: mainSecondary,
+                        dark: DarkSecondary,
+                        light: LightSecondary,
+                        accent: accentSecondary,
+                        svg: svgSecondary,
+                        background: backgroundSecondary,
+                        backgroundOpacityDark: backgroundOpacityDarkSecondary,
+                        backgroundOpacityLight: backgroundOpacityLightSecondary,
+                        text: textSecondary,
+                        textSecondary: textSecondaryAccent
+                    }
+                }
+            };
+            
+            const res = await Theme.update(
+                data,
+                {
+                    where: {
+                        id
+                    }
+                }
+            );
+
+            return res;
+        } catch (err) {
+            console.log('Update Theme error: ', err);
+            throw Error('There was an error updating the theme');
         }
     }
 

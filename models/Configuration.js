@@ -15,28 +15,11 @@ class Configuration extends Model {
   }
 }
 Configuration.init({
+  themeId: DataTypes.INTEGER,
+  name: DataTypes.STRING,
   url: DataTypes.STRING,
-  companyName: DataTypes.STRING,
-  companyPhoneOn: DataTypes.STRING,
-  companyPhone: DataTypes.INTEGER,
-  companyPhoneExt: DataTypes.INTEGER,
-  companyEmailOn: DataTypes.BOOLEAN,
-  companyEmail: DataTypes.STRING,
-  companyShippingEmail: DataTypes.STRING,
-  companyShippingAddressOn: DataTypes.BOOLEAN,
-  companyShippingAddress: DataTypes.JSONB,
-  companyBillingAddress: DataTypes.JSONB,
-  customerServiceOn: DataTypes.BOOLEAN,
-  customerServicePhone: DataTypes.INTEGER,
-  customerServicePhoneExt: DataTypes.INTEGER,
-  customerServiceEmail: DataTypes.STRING,
-  deliveryInsuranceOn: DataTypes.BOOLEAN,
-  deliveryInsuranceAmount: DataTypes.INTEGER,
-  deliveryInsuranceDescription: DataTypes.STRING,
-  ageVerifyOn: DataTypes.BOOLEAN,
-  ageVerifyAgeLimit: DataTypes.INTEGER,
-  inventoryReminderOn: DataTypes.BOOLEAN,
-  inventoryFrequency: DataTypes.INTEGER,
+  company: DataTypes.JSONB,
+  options: DataTypes.JSONB,
   alerts: DataTypes.JSONB
 }, {
   sequelize,

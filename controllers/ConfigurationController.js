@@ -18,7 +18,7 @@ class ConfigurationController {
 
     // UPDATE
 
-    // async updateCategoryById(req, res) {
+    // async updateConfiguration(req, res) {
     //     const {
     //         id,
     //         name = null,
@@ -36,7 +36,7 @@ class ConfigurationController {
 
     //     Object.keys(params).forEach(param => params[param] == null && delete params[param]);
 
-    //     const data = await configurationRepository.updateCategory(id, params);
+    //     const data = await configurationRepository.updateConfiguration(id, params);
     //     res.send(data);
     // }
 }

@@ -21,6 +21,9 @@ module.exports = {
       colors: {
         type: Sequelize.JSONB
       },
+      text: {
+        type: Sequelize.JSONB
+      },
       images: {
         type: Sequelize.JSONB
       },
