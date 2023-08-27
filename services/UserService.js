@@ -185,6 +185,7 @@ export default class UserService {
                     passwordToken: null,
                     credit: 0,
                     themeId: 1,
+                    themeInverted: false,
                     eula: true,
                     eulaVersion: 'v1.0.0'
                 };
@@ -233,7 +234,10 @@ export default class UserService {
                     emailToken: null,
                     passwordToken: null,
                     credit: 0,
-                    themeId: 1
+                    themeId: 1,
+                    themeInverted: false,
+                    eula: false,
+                    eulaVersion: 'v1.0.0'
                 };
     
                 const result = await User.create(data, { transaction: t });
@@ -281,7 +285,9 @@ export default class UserService {
                     passwordToken: null,
                     credit: 0,
                     themeId: 1,
-                    eulaVersion: '1.0.0'
+                    themeInverted: false,
+                    eula: true,
+                    eulaVersion: 'v1.0.0'
                 };
     
                 const result = await User.create(data, { transaction: t });
@@ -342,7 +348,9 @@ export default class UserService {
                     passwordToken: null,
                     credit: 0,
                     themeId: 1,
-                    eulaVersion: '1.0.0'
+                    themeInverted: false,
+                    eula: true,
+                    eulaVersion: 'v1.0.0'
                 };
     
                 const result = await User.create(data, { transaction: t });

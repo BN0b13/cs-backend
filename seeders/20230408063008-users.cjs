@@ -37,6 +37,7 @@ module.exports = {
       passwordToken: null,
       credit: 0,
       themeId: 1,
+      themeInverted: false,
       createdAt: new Date(),
       updatedAt: new Date()
     }

@@ -29,6 +29,7 @@ User.init({
   passwordToken: DataTypes.STRING,
   credit: DataTypes.INTEGER,
   themeId: DataTypes.INTEGER,
+  themeInverted: DataTypes.BOOLEAN,
   eula: DataTypes.BOOLEAN,
   eulaVersion: DataTypes.STRING
 }, {
