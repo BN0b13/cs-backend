@@ -55,7 +55,7 @@ export default class OrderService {
         
         checkInventory.data.map(inventory => newInventoryQuantity.push(inventory));
     
-        const t = await sequelize.transaction();
+        // const t = await sequelize.transaction();
 
         try {
             const res = await sequelize.transaction(async (t) => {

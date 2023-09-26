@@ -170,7 +170,7 @@ export default class UserService {
         
         const hashedPassword = await this.hashPassword(password);
         
-        const t = await sequelize.transaction();
+        // const t = await sequelize.transaction();
 
         try {
             const res = await sequelize.transaction(async (t) => {
@@ -220,7 +220,7 @@ export default class UserService {
         
         const hashedPassword = await this.hashPassword(password);
 
-        const t = await sequelize.transaction();
+        // const t = await sequelize.transaction();
         
         try {
             const res = await sequelize.transaction(async (t) => {
@@ -272,7 +272,7 @@ export default class UserService {
         
         const hashedPassword = await this.hashPassword(password);
         
-        const t = await sequelize.transaction();
+        // const t = await sequelize.transaction();
 
         try {
             const res = await sequelize.transaction(async (t) => {
@@ -335,7 +335,7 @@ export default class UserService {
             throw Error('Email already exists');
         }
         
-        const t = await sequelize.transaction();
+        // const t = await sequelize.transaction();
 
         try {
             const res = await sequelize.transaction(async (t) => {
