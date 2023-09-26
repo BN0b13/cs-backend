@@ -14,7 +14,7 @@ export const TokenVerifier = async (req, res, next) => {
     const token = req.headers.authorization ? req.headers.authorization.replace('Bearer ', '') : false;
 
     if(!token) {
-        const error = new UnauthorizedError()
+        const error = new UnauthorizedError();
         return res.status(error.code).json({ error });
     }
 
@@ -23,19 +23,19 @@ export const TokenVerifier = async (req, res, next) => {
     try {
         decoded = jwt.verify(token, process.env.JWT_SECRET);
     } catch (err) {
-        const error = new TokenExpiredError()
+        const error = new TokenExpiredError();
         return res.status(error.code).json({ error });
     }
 
     if(!decoded) {
-        const error = new TokenExpiredError()
+        const error = new TokenExpiredError();
         return res.status(error.code).json({ error });
     }
 
     const checkUserExists = await userRepository.getByPK(decoded.id);
 
     if(!checkUserExists) {
-        const error = new ModelNotFoundError()
+        const error = new ModelNotFoundError();
         return res.status(error.code).json({ error });
     }
 
