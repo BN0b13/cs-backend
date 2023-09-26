@@ -143,7 +143,7 @@ export default class ProductService {
             }
         }
 
-        const t = await sequelize.transaction();
+        // const t = await sequelize.transaction();
 
         try {
             const res = await sequelize.transaction(async (t) => {
@@ -251,7 +251,7 @@ export default class ProductService {
     }
 
     updateProduct = async (id, data, productInventoryId, productInventoryData, productImageId, productImageData) => {
-        const t = await sequelize.transaction();
+        // const t = await sequelize.transaction();
         try {
             const res = await sequelize.transaction(async (t) => {
                 let updateRes = {};
