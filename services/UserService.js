@@ -257,6 +257,7 @@ export default class UserService {
     }
     
     createCustomer = async (params) => {
+        console.log('CREATE Customer hit. Params: ', params);
         const {
             email, 
             password
@@ -265,6 +266,7 @@ export default class UserService {
         const emailExists = await this.getByEmail(email);
         
         if(emailExists.length > 0) {
+            console.log('Email already exists error');
             throw Error('Email already exists');
         }
         

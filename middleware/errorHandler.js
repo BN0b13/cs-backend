@@ -1,5 +1,6 @@
 export const HandleErrors = func => (req, res, next) => {
     func(req, res, next).catch(err => {
+        console.log('Handle Errors Middleware Error req: ', req);
         next(err);
     });
 }
