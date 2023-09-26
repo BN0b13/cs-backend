@@ -109,7 +109,7 @@ export default class OrderService {
         } catch (err) {
             await t.rollback();
             console.log('Product Create Error: ', err);
-            throw Error('There was an error creating the product');
+            throw Error('There was an error creating the Order');
         }
     }
 

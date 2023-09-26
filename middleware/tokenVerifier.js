@@ -32,7 +32,15 @@ export const TokenVerifier = async (req, res, next) => {
         return res.status(error.code).json({ error });
     }
 
-    const checkUserExists = await userRepository.getByPK(decoded.id);
+    let checkUserExists;
+
+    try {
+        checkUserExists = await userRepository.getByPK(decoded.id);
+    } catch (err) {
+        console.log('Token Verifier Check User Error: ', err);
+        const error = new ModelNotFoundError();
+        return res.status(error.code).json({ error });
+    }
 
     if(!checkUserExists) {
         const error = new ModelNotFoundError();
