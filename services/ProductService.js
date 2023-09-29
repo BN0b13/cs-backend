@@ -130,7 +130,7 @@ export default class ProductService {
             quantity,
             address = null,
             bay = '',
-            image
+            image = null
         } = params;
 
         const productProfile = [];
@@ -159,15 +159,17 @@ export default class ProductService {
                 const result = await Product.create(productData, { transaction: t });
                 const productId = result.id;
 
-                const productImageData = {
-                    productId,
-                    caption: name,
-                    filename: image.filename,
-                    path: `/img/products/${image.filename}`,
-                    position: 1
+                if(image !== null) {
+                    const productImageData = {
+                        productId,
+                        caption: name,
+                        filename: image.filename,
+                        path: `/img/products/${image.filename}`,
+                        position: 1
+                    }
+    
+                    await ProductImage.create(productImageData, { transaction: t });
                 }
-
-                await ProductImage.create(productImageData, { transaction: t });
 
                 const inventoryData = {
                     productId,
