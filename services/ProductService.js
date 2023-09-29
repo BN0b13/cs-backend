@@ -143,7 +143,6 @@ export default class ProductService {
             }
         }
 
-        // const t = await sequelize.transaction();
 
         try {
             const res = await sequelize.transaction(async (t) => {
@@ -195,7 +194,6 @@ export default class ProductService {
             
             return res;
         } catch (err) {
-            await t.rollback();
             console.log('Product Create Error: ', err);
             throw Error('There was an error creating the product');
         }
@@ -253,7 +251,6 @@ export default class ProductService {
     }
 
     updateProduct = async (id, data, productInventoryId, productInventoryData, productImageId, productImageData) => {
-        // const t = await sequelize.transaction();
         try {
             const res = await sequelize.transaction(async (t) => {
                 let updateRes = {};
@@ -304,7 +301,6 @@ export default class ProductService {
             
             return res;
         } catch (err) {
-            await t.rollback();
             console.log('Update User Error: ', err);
             throw Error('There was an error updating the user');
         }

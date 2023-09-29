@@ -169,8 +169,6 @@ export default class UserService {
         }
         
         const hashedPassword = await this.hashPassword(password);
-        
-        // const t = await sequelize.transaction();
 
         try {
             const res = await sequelize.transaction(async (t) => {
@@ -200,7 +198,6 @@ export default class UserService {
             
             return res;
         } catch (err) {
-            await t.rollback();
             console.log('Customer Create Error: ', err);
             throw Error('There was an error creating the customer');
         }
@@ -219,8 +216,6 @@ export default class UserService {
         }
         
         const hashedPassword = await this.hashPassword(password);
-
-        // const t = await sequelize.transaction();
         
         try {
             const res = await sequelize.transaction(async (t) => {
@@ -250,7 +245,6 @@ export default class UserService {
             
             return res;
         } catch (err) {
-            await t.rollback();
             console.log('Customer Create Error: ', err);
             throw Error('There was an error creating the customer');
         }
@@ -271,8 +265,6 @@ export default class UserService {
         }
         
         const hashedPassword = await this.hashPassword(password);
-        
-        // const t = await sequelize.transaction();
 
         try {
             const res = await sequelize.transaction(async (t) => {
@@ -317,7 +309,6 @@ export default class UserService {
                 email: res.email
             };
         } catch (err) {
-            await t.rollback();
             console.log('Customer Create Error: ', err);
             throw Error('There was an error creating the customer');
         }
@@ -334,8 +325,6 @@ export default class UserService {
         if(emailExists.length > 0) {
             throw Error('Email already exists');
         }
-        
-        // const t = await sequelize.transaction();
 
         try {
             const res = await sequelize.transaction(async (t) => {
@@ -380,7 +369,6 @@ export default class UserService {
                 email: res.email
             };
         } catch (err) {
-            await t.rollback();
             console.log('Customer Create Error: ', err);
             throw Error('There was an error creating the customer');
         }
