@@ -9,7 +9,7 @@ class CategoryRepository {
             name, 
             description, 
             type, 
-            image,
+            image = null,
             details
         } = params;
 

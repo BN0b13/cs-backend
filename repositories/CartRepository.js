@@ -49,6 +49,18 @@ class CartRepository {
         }
     }
 
+    async getCartsWithContents() {
+        try {
+            const res = await Cart.findAndCountAll();
+            const cartsWithContents = res.rows.filter(cart => cart.products.length > 0);
+
+            return cartsWithContents;
+        } catch (err) {
+            console.log('Get Cart Error: ', err);
+            throw Error('There was an error getting cart');
+        }
+    }
+
     // UPDATE
 
     async patchCart(id, data) {

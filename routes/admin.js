@@ -16,6 +16,7 @@ const uploadWelcome = multer({ dest: path.join(__dirname, '..', 'public', 'img',
 import { AdminTokenVerifier } from '../middleware/adminTokenVerifier.js';
 import { HandleErrors } from '../middleware/errorHandler.js';
 
+import CartController from '../controllers/CartController.js';
 import CategoryController from '../controllers/CategoryController.js';
 import ConfigurationController from '../controllers/ConfigurationController.js';
 import MessageController from '../controllers/MessageController.js';
@@ -28,6 +29,7 @@ import UserController from '../controllers/UserController.js';
 import VisitController from '../controllers/VisitController.js';
 import WelcomeController from '../controllers/WelcomeController.js';
 
+const cartController = new CartController();
 const categoryController = new CategoryController();
 const configurationController = new ConfigurationController();
 const messageController = new MessageController();
@@ -40,6 +42,9 @@ const visitController = new VisitController();
 const userController = new UserController();
 const welcomeController = new WelcomeController();
 
+// Carts
+
+router.get('/carts', AdminTokenVerifier, HandleErrors(cartController.getCartsWithContents));
 
 // Categories
 

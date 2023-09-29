@@ -20,6 +20,11 @@ class CartController {
         const data = await cartService.getCartContents(id);
         res.send(data);
     }
+    
+    async getCartsWithContents(req, res) {
+        const data = await cartRepository.getCartsWithContents();
+        res.send(data);
+    }
 
     // UPDATE
 
