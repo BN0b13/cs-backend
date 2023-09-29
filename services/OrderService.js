@@ -54,8 +54,6 @@ export default class OrderService {
         let newInventoryQuantity = [];
         
         checkInventory.data.map(inventory => newInventoryQuantity.push(inventory));
-    
-        // const t = await sequelize.transaction();
 
         try {
             const res = await sequelize.transaction(async (t) => {
@@ -107,7 +105,6 @@ export default class OrderService {
             //     throw Error('Payment failed');
             // }
         } catch (err) {
-            await t.rollback();
             console.log('Product Create Error: ', err);
             throw Error('There was an error creating the Order');
         }
