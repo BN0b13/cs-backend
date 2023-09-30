@@ -47,6 +47,38 @@ export default class CategoryService {
             throw Error('There was an error getting category by name');
         }
     }
+
+    // UPDATE
+
+    addCategoryThumbnail = async (params) => {
+        try {
+            const {
+                id,
+                image
+            } = params;
+
+            console.log('Add Category Image hit: ', id);
+
+            const data = {
+                thumbnailFilename: image.filename,
+                thumbnailPath: `/img/categories/${image.filename}`
+            };
+
+            const res = await Category.update(
+                data,
+                {
+                    where: {
+                        id: id
+                    }
+                }
+            );
+
+            return res;
+        } catch (err) {
+            console.log('UPDATE Category Add Thumbnail Error: ', err);
+            throw Error('There was an error updating the category adding thumbnail');
+        }
+    }
     
     // DELETE
 
