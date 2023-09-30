@@ -53,6 +53,7 @@ router.get('/categories', AdminTokenVerifier, HandleErrors(categoryController.ge
 router.post('/categories', AdminTokenVerifier, uploadCategory.array('files'), HandleErrors(categoryController.create));
 
 router.patch('/categories', AdminTokenVerifier, HandleErrors(categoryController.updateCategoryById));
+router.patch('/categories/images/thumbnail', AdminTokenVerifier, uploadCategory.array('files'), HandleErrors(categoryController.addThumbnail));
 
 router.delete('/categories', AdminTokenVerifier, HandleErrors(categoryController.deleteCategoryById));
 

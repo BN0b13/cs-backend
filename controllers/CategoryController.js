@@ -40,6 +40,30 @@ class CategoryController {
         }
     }
 
+    async addThumbnail(req, res) {
+        try {
+            const {
+                id
+            } = req.body;
+
+            const params = {
+                id,
+                image: req.files[0]
+            };
+            
+            const data = await categoryService.addCategoryThumbnail(params);
+
+            res.send({
+                status: 201,
+                message: 'Category Thumbnail Added',
+                result: data
+            });
+        } catch (err) {
+            console.log('Update Category Add Thumbnail Error: ', err);
+            throw Error('There was an error updating the Category to add thumbnail');
+        }
+    }
+
     // READ
     
     async getCategories(req, res) {
