@@ -118,9 +118,9 @@ router.patch('/user/delete-account', TokenVerifier, HandleErrors(userController.
 
 router.patch('/visits', HandleErrors(visitController.updateVisitCount));
 
-export default router;
-
 // Welcome
 
 router.get('/welcome/images', HandleErrors(welcomeController.getWelcomeImages));
 router.get('/welcome/content', HandleErrors(welcomeController.getWelcomeContent));
+
+export default router;
