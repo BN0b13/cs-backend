@@ -154,7 +154,7 @@ export default class OrderService {
 
             // if(processPayment.payment.status === 'COMPLETED') {
 
-                await emailService.orderReceivedEmail({ buyerEmail: email, orderRefId });
+                await emailService.orderReceivedEmail({ buyerEmail: email, refId: orderRefId });
 
                 await orderRepository.updateOrder(orderId, { status: 'new' });
 
