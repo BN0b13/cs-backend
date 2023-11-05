@@ -18,11 +18,13 @@ class OrderController {
     async processOrder(job) {
         const {
             userId,
+            email,
             orderRefId
         } = job.data;
 
         const params = {
             userId,
+            email,
             orderRefId
         };
 
