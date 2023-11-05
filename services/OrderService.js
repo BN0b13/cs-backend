@@ -104,6 +104,7 @@ export default class OrderService {
     processOrder = async (params) => {
         const {
             userId,
+            email,
             orderRefId
         } = params;
 
@@ -153,7 +154,7 @@ export default class OrderService {
 
             // if(processPayment.payment.status === 'COMPLETED') {
 
-                // await emailService.orderReceivedEmail({ buyerEmail: email, refId });
+                await emailService.orderReceivedEmail({ buyerEmail: email, orderRefId });
 
                 await orderRepository.updateOrder(orderId, { status: 'new' });
 

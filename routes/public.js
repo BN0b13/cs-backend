@@ -37,6 +37,7 @@ const orderQueue = new Bull("order", {
 const createOrder = async (req, res) => {
   const {
     userId = req.userData.id,
+    email,
     products,
     total,
     billingAddress,
@@ -50,6 +51,7 @@ const createOrder = async (req, res) => {
 
   const params = {
     userId,
+    email,
     products,
     total,
     billingAddress,
@@ -65,6 +67,7 @@ const createOrder = async (req, res) => {
 
   orderQueue.add({
     userId,
+    email,
     orderRefId: data.refId
   });
 
