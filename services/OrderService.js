@@ -1,4 +1,5 @@
 import { Op } from 'sequelize';
+import { v4 as uuidv4 } from 'uuid';
 
 import { sequelize } from "../db.js";
 
@@ -9,12 +10,16 @@ import EmailService from './EmailService.js';
 import InventoryService from './InventoryService.js';
 import PaymentService from './PaymentService.js'
 import ProductService from './ProductService.js';
+import OrderRepository from '../repositories/OrderRepository.js';
 
 const cartService = new CartService();
 const emailService = new EmailService();
 const inventoryService = new InventoryService();
 const paymentService = new PaymentService();
 const productService = new ProductService();
+const orderRepository = new OrderRepository();
+
+
 
 
 export default class OrderService {
@@ -23,7 +28,6 @@ export default class OrderService {
 
     createOrder = async (params) => {
         const {
-            email,
             userId,
             products,
             total,
@@ -35,25 +39,8 @@ export default class OrderService {
             deliveryInsuranceTotal,
             couponId
         } = params;
-        
-        const productIds = products.map(product => product.productId);
-        const getProductsInCart = await productService.getProductsByIds(productIds);
 
-        const checkInventory = this.confirmInventoryIsAvailable(getProductsInCart, products);
-
-        if(!checkInventory.result) {
-            console.log('Inventory not available');
-            return {
-                status: 404,
-                message: 'Inventory not available'
-            };
-        }
-
-        const refId = `CS${userId + 420}-${Date.now()}`;
-
-        let newInventoryQuantity = [];
-        
-        checkInventory.data.map(inventory => newInventoryQuantity.push(inventory));
+        const refId = uuidv4();
 
         try {
             const res = await sequelize.transaction(async (t) => {
@@ -70,7 +57,7 @@ export default class OrderService {
                     deliveryInsurance,
                     deliveryInsuranceTotal,
                     couponId,
-                    status: 'new',
+                    status: 'pending',
                     paid: false,
                     paymentLink: '',
                     fulfilledBy: null,
@@ -79,33 +66,105 @@ export default class OrderService {
                 };
 
                 const result = await Order.create(orderData, { transaction: t });
+                return result;
+            });
 
-                // TODO logic for new quantity after successful order
+            return {
+                result: res,
+                status: 201,
+                refId
+            };
+        } catch (err) {
+            console.log('Order Create Error: ', err);
+            throw Error('There was an error creating the Order');
+        }
+    }
+
+    sleep = (delay) => new Promise((resolve) => setTimeout(resolve, delay));
+
+    checkOrderStatus = async (id) => {
+        let orderPending = true;
+        let order;
+
+        while(orderPending) {
+            await this.sleep(1000);
+            const getOrder = await orderRepository.getOrderById(id);
+            console.log('GET ORDER res: ', getOrder);
+            console.log('GET ORDER status: ', getOrder.dataValues.status);
+            if(getOrder.dataValues.status !== 'pending') {
+                orderPending = false;
+                order = getOrder.dataValues;
+                break;
+            }
+        }
+
+        return order;
+    }
+
+    processOrder = async (params) => {
+        const {
+            userId,
+            orderRefId
+        } = params;
+
+        const order = await Order.findOne({
+            where: {
+                refId: orderRefId
+            }
+        });
+
+        const orderId = order.dataValues.id;
+        const products = order.dataValues.products;
+
+        
+        const productIds = products.map(product => product.productId);
+        const getProductsInCart = await productService.getProductsByIds(productIds);
+
+        const checkInventory = this.confirmInventoryIsAvailable(getProductsInCart, products);
+
+        if(!checkInventory.result) {
+            await orderRepository.deleteOrder(orderId);
+            await cartService.modifyCart(userId);
+
+            return {
+                status: 404,
+                message: 'Inventory not available'
+            };
+        }
+
+        let newInventoryQuantity = [];
+        
+        checkInventory.data.map(inventory => newInventoryQuantity.push(inventory));
+
+        try {
+            const res = await sequelize.transaction(async (t) => {
 
                 for(const singleInventory of newInventoryQuantity) {
-                    console.log('Id in for loop: ', singleInventory);
                     await inventoryService.modifyInventory(singleInventory, { transaction: t });
                 }
 
                 
                 await cartService.modifyCart(userId, { transaction: t });
 
-                return result;
+                return;
             });
 
             // const processPayment = await paymentService.processPayment({ token, total });
 
             // if(processPayment.payment.status === 'COMPLETED') {
-                await emailService.orderReceivedEmail({ buyerEmail: email, refId });
+
+                // await emailService.orderReceivedEmail({ buyerEmail: email, refId });
+
+                await orderRepository.updateOrder(orderId, { status: 'new' });
+
                 return {
-                    status: 201,
-                    refId
+                    status: 201
                 };
             // } else {
             //     throw Error('Payment failed');
             // }
         } catch (err) {
-            console.log('Product Create Error: ', err);
+            console.log('Order Create Error: ', err);
             throw Error('There was an error creating the Order');
         }
     }
@@ -130,8 +189,6 @@ export default class OrderService {
                 });
             }
         });
-
-        console.log('Data: ', data)
 
         return {
             result,
@@ -175,6 +232,12 @@ export default class OrderService {
                 }
             });
 
+            if(res.count === 0) {
+                return {
+                    status: 404
+                }
+            }
+
             const data = res.rows[0].products;
             const ids = data.map(item => item.productId);
             const products = await productService.getProductsByIds(ids);
@@ -188,8 +251,8 @@ export default class OrderService {
 
             return res;
         } catch (err) {
-            console.log('Get Orders Messages Error: ', err);
-            throw Error('There was an error getting all orders');
+            console.log('Get Order By Ref Error: ', err);
+            throw Error('There was an error getting order by ref');
         }
     }
 
@@ -258,4 +321,117 @@ export default class OrderService {
         }
 
     }
-} 
+}
+
+// const processOrder = async (job) => {
+
+//     const {
+//         userId,
+//         products,
+//         total,
+//         billingAddress,
+//         shippingAddress,
+//         shippingId,
+//         shippingTotal,
+//         deliveryInsurance,
+//         deliveryInsuranceTotal,
+//         couponId
+//     } = job;
+    
+    
+//     const productIds = products.map(product => product.productId);
+//     const getProductsInCart = await productService.getProductsByIds(productIds);
+
+//     const checkInventory = confirmInventoryIsAvailable(getProductsInCart, products);
+
+//     if(!checkInventory.result) {
+//         console.log('Inventory not available');
+//         return {
+//             status: 404,
+//             message: 'Inventory not available'
+//         };
+//     }
+
+//     const refId = `CS${userId + 420}-${Date.now()}`;
+
+//     let newInventoryQuantity = [];
+    
+//     checkInventory.data.map(inventory => newInventoryQuantity.push(inventory));
+
+//     try {
+//         const res = await sequelize.transaction(async (t) => {
+    
+//             const orderData = {
+//                 userId,
+//                 refId,
+//                 products,
+//                 total,
+//                 billingAddress,
+//                 shippingAddress,
+//                 shippingId,
+//                 shippingTotal,
+//                 deliveryInsurance,
+//                 deliveryInsuranceTotal,
+//                 couponId,
+//                 status: 'new',
+//                 paid: false,
+//                 paymentLink: '',
+//                 fulfilledBy: null,
+//                 tracking: null,
+//                 notes: null
+//             };
+
+//             const result = await Order.create(orderData, { transaction: t });
+
+//             for(const singleInventory of newInventoryQuantity) {
+//                 console.log('Id in for loop: ', singleInventory);
+//                 await inventoryService.modifyInventory(singleInventory, { transaction: t });
+//             }
+            
+//             await cartService.modifyCart(userId, { transaction: t });
+
+//             return result;
+//         });
+
+//         // await emailService.orderReceivedEmail({ buyerEmail: email, refId });
+//         return {
+//             res,
+//             status: 201,
+//             refId
+//         };
+//     } catch (err) {
+//         console.log('Order Create Error: ', err);
+//         throw Error('There was an error creating the Order');
+//     }
+// }
+
+// const confirmInventoryIsAvailable = (inventoryProducts, productsInCart) => {
+//     // Database indexing -> important for querying through large amounts of data
+//     let result = true;
+//     const data = [];
+    
+//     inventoryProducts.rows.map(product => {
+//         const inventoryId = product.Inventories[0].id;
+//         const inventoryQuantity = product.Inventories[0].quantity;
+//         const productInCart = productsInCart.filter(item => item.productId === product.id);
+//         const quantityRequested = productInCart[0].quantity;
+//         if(inventoryQuantity === 0 ||
+//             inventoryQuantity < quantityRequested) {
+//             result = false;
+//         } else {
+//             data.push({
+//                 id: inventoryId,
+//                 quantity: inventoryQuantity - quantityRequested
+//             });
+//         }
+//     });
+
+//     console.log('Data: ', data);
+
+//     return {
+//         result,
+//         data
+//     };
+// }
+
+// orderQueue.process(processOrder);

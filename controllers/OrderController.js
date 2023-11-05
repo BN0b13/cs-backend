@@ -9,45 +9,26 @@ class OrderController {
 
     // CREATE
 
-    async create(req, res) {
-        try {
-        const {
-            email,
-            userId = req.userData.id,
-            products,
-            total,
-            billingAddress,
-            shippingAddress,
-            shippingId,
-            shippingTotal,
-            deliveryInsurance,
-            deliveryInsuranceTotal,
-            couponId = null
-        } = req.body;
-
-        const params = {
-            email,
-            userId,
-            products,
-            total,
-            billingAddress,
-            shippingAddress,
-            shippingId,
-            shippingTotal,
-            deliveryInsurance,
-            deliveryInsuranceTotal,
-            couponId
-        };
-
+    async create(params) {
         const data = await orderService.createOrder(params);
 
-        res.send(data);
-        } catch (err) {
-            res.send({
-                err,
-                message: 'There was an error creating the order'
-            });
-        }
+        return data;
+    }
+
+    async processOrder(job) {
+        const {
+            userId,
+            orderRefId
+        } = job.data;
+
+        const params = {
+            userId,
+            orderRefId
+        };
+
+        const data = await orderService.processOrder(params);
+
+        return data;
     }
 
     // READ
@@ -86,6 +67,13 @@ class OrderController {
         const data = await orderService.getOrderByRef(refId);
         res.send(data);
     }
+
+    async checkOrderStatus(id) {
+        const data = await orderService.checkOrderStatus(id);
+        return data;
+    }
+
+    // UPDATE
 
     async updateOrder(req, res) {
         const {
@@ -132,8 +120,6 @@ class OrderController {
         };
 
         Object.keys(params).forEach(param => params[param] == null && delete params[param]);
-
-        console.log('Params: ', params);
 
         const data = await orderService.sendPaymentLink(orderId, params);
         res.send(data);
