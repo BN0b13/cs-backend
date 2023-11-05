@@ -30,6 +30,34 @@ class ProductRepository {
         }
     }
 
+    async getProductsByPage(page, size) {
+        try {
+            const currentPage = page * size;
+            const res = await Product.findAndCountAll({
+                limit: size,
+                offset: currentPage,
+                include: [
+                    { 
+                        model: Category,
+                        required: true
+                    },
+                    { 
+                        model: Inventory,
+                        required: true
+                    },
+                    { 
+                        model: ProductImage
+                    },
+                ]
+            });
+
+            return res;
+        } catch (err) {
+            console.log('GET Products By Page Error: ', err);
+            throw Error('There was an error getting products by page');
+        }
+    }
+
     async getProductInventoryById(id) {
         try {
             const res = await Product.findAndCountAll({

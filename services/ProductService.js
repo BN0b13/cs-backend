@@ -53,8 +53,15 @@ export default class ProductService {
         }
     }
 
-    searchProducts = async (keyword) => {
+    searchProducts = async (keyword, page, size) => {
         try {
+            const getCount = await sequelize.query(`
+            select *
+            from  ${process.env.PG_SCHEMA_NAME}."Products" as "Product"
+            where ("Product".name ilike '%${keyword}%' or "Product".description ilike '%${keyword}%' or "Product".details->>'mother' ilike '%${keyword}%' or "Product".details->>'father' ilike '%${keyword}%')
+            `);
+
+            const currentPage = page * size;
             const res = await sequelize.query(`
             select "Product"."id",
             "Product"."categoryId",
@@ -105,8 +112,14 @@ export default class ProductService {
             left outer join ${process.env.PG_SCHEMA_NAME}."ProductImages" as "ProductImages" on
                 "Product"."id" = "ProductImages"."productId"
             where ("Product".name ilike '%${keyword}%' or "Product".description ilike '%${keyword}%' or "Product".details->>'mother' ilike '%${keyword}%' or "Product".details->>'father' ilike '%${keyword}%')
+            LIMIT ${size}
+            OFFSET ${currentPage}
             `);
-            return res[0];
+
+            return {
+                count: getCount[1].rowCount,
+                rows: res[0]
+            };
         } catch (err) {
             console.log('Search Products Error: ', err);
             throw Error('There was an error searching Products');

@@ -1,4 +1,6 @@
 import express from 'express';
+import Bull from 'bull';
+
 const router = express.Router();
 
 import { TokenVerifier } from '../middleware/tokenVerifier.js';
@@ -27,6 +29,47 @@ const themeController = new ThemeController();
 const userController = new UserController();
 const visitController = new VisitController();
 const welcomeController = new WelcomeController();
+
+const orderQueue = new Bull("order", {
+  redis: "localhost:6379",
+});
+
+const createOrder = async (req, res) => {
+  const {
+    userId = req.userData.id,
+    products,
+    total,
+    billingAddress,
+    shippingAddress,
+    shippingId,
+    shippingTotal,
+    deliveryInsurance,
+    deliveryInsuranceTotal,
+    couponId = null
+  } = req.body;
+
+  const params = {
+    userId,
+    products,
+    total,
+    billingAddress,
+    shippingAddress,
+    shippingId,
+    shippingTotal,
+    deliveryInsurance,
+    deliveryInsuranceTotal,
+    couponId
+  };
+
+  const data = await orderController.create(params);
+
+  orderQueue.add({
+    userId,
+    orderRefId: data.refId
+  });
+
+  res.send(data);
+}
 
 router.get('/health', (req, res) => {
   res.send({
@@ -70,7 +113,7 @@ router.post('/login-admin', HandleErrors(userController.adminLogin));
 
 // Orders
 
-router.post('/orders', TokenVerifier, HandleErrors(orderController.create));
+router.post('/orders', TokenVerifier, HandleErrors(createOrder));
 
 router.get('/orders', TokenVerifier, HandleErrors(orderController.getOrdersByUserId));
 
@@ -79,7 +122,8 @@ router.get('/orders/:refId', TokenVerifier, HandleErrors(orderController.getOrde
 // Products
 
 router.get('/products', HandleErrors(productController.getProducts));
-router.get('/products/search/:keyword', HandleErrors(productController.searchProducts));
+router.get('/products/pagination', HandleErrors(productController.getProductsByPage));
+router.get('/products/search', HandleErrors(productController.searchProducts));
 router.get('/products/:id', HandleErrors(productController.getById));
 router.get('/products/type/:type', HandleErrors(productController.getProductsByType));
 router.get('/products/profiles/all', HandleErrors(productController.getProductProfiles));
@@ -122,5 +166,7 @@ router.patch('/visits', HandleErrors(visitController.updateVisitCount));
 
 router.get('/welcome/images', HandleErrors(welcomeController.getWelcomeImages));
 router.get('/welcome/content', HandleErrors(welcomeController.getWelcomeContent));
+
+orderQueue.process(orderController.processOrder);
 
 export default router;

@@ -13,6 +13,12 @@ class ProductController {
         const data = await productRepository.getProducts();
         res.send(data);
     }
+    
+    async getProductsByPage(req, res) {
+        const { page, size } = req.query;
+        const data = await productRepository.getProductsByPage(page, size);
+        res.send(data);
+    }
 
     async getById(req, res) {
         const { id } = req.params;
@@ -62,10 +68,18 @@ class ProductController {
     }
 
     async searchProducts(req, res) {
-        const {
-            keyword = null
-        } = req.params;
-        const data = await productService.searchProducts(keyword);
+        const { search = null, 
+                page = 0, 
+                size = 10, 
+        } = req.query;
+
+        console.log('query: ', req.query);
+
+        if(search === null) {
+            const data = await productRepository.getProductsByPage(page, size);
+            return res.send(data);
+        }
+        const data = await productService.searchProducts(search, page, size);
         res.send(data);
     }
 
