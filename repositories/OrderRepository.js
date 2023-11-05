@@ -32,6 +32,20 @@ class OrderRepository {
         }
     }
 
+    async getOrderById(id) {
+        try {
+            const res = await Order.findOne({
+                where: {
+                    id
+                }
+            });
+            return res;
+        } catch (err) {
+            console.log('Get Order Error: ', err);
+            throw Error('There was an error getting order by id');
+        }
+    }
+
     async getOrdersByUserId(id) {
         try {
             const res = await Order.findAndCountAll({
@@ -60,7 +74,6 @@ class OrderRepository {
 
     async getOrdersByRefId(refId) {
         try {
-            console.log('Ref id: ', refId);
             const res = await Order.findAndCountAll({
                 where: {
                     refId: refId
@@ -105,6 +118,25 @@ class OrderRepository {
             throw Error('There was an error updating the user');
         }
     }
+
+    // DELETE
+
+    async deleteOrder(id) {
+        try {
+            const res = await Order.destroy(
+                {
+                    where: {
+                                id
+                            }
+                }
+            );
+            return res;
+        } catch (err) {
+            console.log('DELETE Order Error: ', err);
+            throw Error('There was an error deleting the order');
+        }
+    }
+    
 }
 
 export default OrderRepository;

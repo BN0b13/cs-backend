@@ -61,10 +61,6 @@ router.delete('/categories', AdminTokenVerifier, HandleErrors(categoryController
 
 router.get('/configuration', AdminTokenVerifier, HandleErrors(configurationController.getAdminConfiguration));
 
-// Contact
-
-router.get('/contact', AdminTokenVerifier, HandleErrors(messageController.getMessages));
-
 // Inventory
 
 router.get('/inventory', AdminTokenVerifier, HandleErrors(inventoryController.getInventory));
@@ -74,6 +70,13 @@ router.get('/inventory/:id', AdminTokenVerifier, HandleErrors(inventoryControlle
 router.patch('/inventory', AdminTokenVerifier, HandleErrors(inventoryController.updateInventory));
 
 router.delete('/inventory', AdminTokenVerifier, HandleErrors(inventoryController.deleteInventory));
+
+// Messages
+
+router.get('/messages', AdminTokenVerifier, HandleErrors(messageController.getMessages));
+router.get('/messages/:id', AdminTokenVerifier, HandleErrors(messageController.getMessageById));
+
+router.patch('/messages', AdminTokenVerifier, HandleErrors(messageController.updateMessage));
 
 // Orders
 

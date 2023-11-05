@@ -3,7 +3,7 @@ export const HandleErrors = func => (req, res, next) => {
         const date = Date.now();
         console.log('Handle Errors Middleware Error date: ', date);
         console.log('IP Address error happened to: ', req.ip);
-        console.log('Handle Errors request: ', JSON.stringify(req));
+        console.log('Error: ', err);
         next(err);
     });
 }
