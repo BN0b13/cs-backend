@@ -139,6 +139,8 @@ router.delete('/users', AdminTokenVerifier, HandleErrors(userController.deleteUs
 // Visits
 
 router.get('/visits', AdminTokenVerifier, HandleErrors(visitController.getVisits));
+router.get('/visits/views', AdminTokenVerifier, HandleErrors(visitController.getTotalVisitCount));
+router.get('/visits/pagination', AdminTokenVerifier, HandleErrors(visitController.getVisitsByPage));
 
 // Welcome
 

@@ -6,8 +6,19 @@ class VisitController {
 
     // READ
     
+    async getTotalVisitCount(req, res) {
+        const data = await visitRepository.getTotalVisitCount();
+        res.send(data);
+    }
+    
     async getVisits(req, res) {
         const data = await visitRepository.getVisits();
+        res.send(data);
+    }
+
+    async getVisitsByPage(req, res) {
+        const { page, size } = req.query;
+        const data = await visitRepository.getVisitsByPage(page, size);
         res.send(data);
     }
 
