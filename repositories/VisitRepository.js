@@ -23,6 +23,24 @@ class VisitRepository {
 
     // READ
 
+    async getTotalVisitCount() {
+        try {
+            const res = await Visit.findAndCountAll({});
+
+            let totalCount = 0;
+            res.rows.map(row => {
+              return totalCount = totalCount + row.count;
+            });
+
+            return {
+                totalCount
+            };
+        } catch (err) {
+            console.log('Get Visit Messages Error: ', err);
+            throw Error('There was an error getting all roles');
+        }
+    }
+
     async getVisits() {
         try {
             const res = await Visit.findAndCountAll({});
@@ -30,6 +48,21 @@ class VisitRepository {
         } catch (err) {
             console.log('Get Visit Messages Error: ', err);
             throw Error('There was an error getting all roles');
+        }
+    }
+
+    async getVisitsByPage(page, size) {
+        try {
+            const currentPage = page * size;
+            const res = await Visit.findAndCountAll({
+                limit: size,
+                offset: currentPage
+            });
+
+            return res;
+        } catch (err) {
+            console.log('GET Views By Page Error: ', err);
+            throw Error('There was an error getting views by page');
         }
     }
 

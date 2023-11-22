@@ -17,7 +17,18 @@ export default class EmailService {
             text: data.emailBody,
             html: data.html
         }
+
+        const adminMsg = {
+            to: data.sellerEmail,
+            from: data.sellerEmail,
+            subject: data.emailSubject,
+            text: data.emailBody,
+            html: data.html
+        }
+
         try {
+            await sgMail.send(adminMsg);
+
             return await sgMail.send(msg);
         } catch (err) {
             console.log('Unable to send order received email. Error: ', err);

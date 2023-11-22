@@ -89,8 +89,7 @@ export default class OrderService {
         while(orderPending) {
             await this.sleep(1000);
             const getOrder = await orderRepository.getOrderById(id);
-            console.log('GET ORDER res: ', getOrder);
-            console.log('GET ORDER status: ', getOrder.dataValues.status);
+            
             if(getOrder.dataValues.status !== 'pending') {
                 orderPending = false;
                 order = getOrder.dataValues;
