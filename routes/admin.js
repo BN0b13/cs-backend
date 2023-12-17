@@ -102,6 +102,7 @@ router.patch('/products/images', AdminTokenVerifier, uploadProducts.array("files
 router.patch('/products', AdminTokenVerifier, HandleErrors(productController.updateProduct));
 
 router.delete('/products', AdminTokenVerifier, HandleErrors(productController.deleteProduct));
+router.delete('/products/product-image', AdminTokenVerifier, HandleErrors(productController.deleteProductImageById));
 
 // Roles
 
