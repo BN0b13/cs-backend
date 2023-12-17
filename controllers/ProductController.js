@@ -264,6 +264,15 @@ class ProductController {
         const data = await productService.deleteProduct(id);
         res.send(data);
     }
+
+    async deleteProductImageById(req, res) {
+        const {
+            id
+        } = req.body;
+
+        const data = await productService.deleteProductImageById(id);
+        res.send(data);
+    }
 }
 
 export default ProductController;

@@ -418,4 +418,46 @@ export default class ProductService {
             throw Error('There was an error deleting the product');
         }
     }
+
+    deleteProductImageById = async (id) => {
+        try {
+
+            const productImage = await ProductImage.findOne({
+                where: {
+                    id
+                }
+            });
+
+            console.log('GET product Image res: ', productImage);
+            
+            // Delete local image
+            fs.stat(`./public${productImage.path}`, function (err) {
+                if (err) {
+                    return console.error(err);
+                }
+            
+                fs.unlink(`./public${productImage.path}`,function(err){
+                    if(err) return console.log(err);
+                    console.log('file deleted successfully');
+                });
+            });
+
+            await ProductImage.destroy(
+                {
+                    where: {
+                        id: id
+                    }
+                }
+            );
+
+
+            return {
+                msg: "Product Image Deleted Successfully",
+                status: 200
+            }
+        } catch (err) {
+            console.log('DELETE Product Error: ', err);
+            throw Error('There was an error deleting the product');
+        }
+    }
 }
