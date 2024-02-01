@@ -1,6 +1,7 @@
 import fs from 'fs';
 import { Op } from 'sequelize';
 import { sequelize } from "../db.js";
+import { compressImage } from '../tools/images.js';
 
 import {
     Category,
@@ -181,6 +182,9 @@ export default class ProductService {
                     }
     
                     await ProductImage.create(productImageData, { transaction: t });
+
+                    const { path, filename } = image;
+                    await compressImage(path, `products/${filename}`);
                 }
 
                 const inventoryData = {
@@ -256,6 +260,9 @@ export default class ProductService {
 
             const res = await ProductImage.create(productImageData);
 
+            const { path, filename } = image;
+            await compressImage(path, `products/${filename}`);
+
             return res;
         } catch (err) {
             console.log('CREATE Product Image Error: ', err);
@@ -263,55 +270,17 @@ export default class ProductService {
         }
     }
 
-    updateProduct = async (id, data, productInventoryId, productInventoryData, productImageId, productImageData) => {
+    updateProduct = async (id, data) => {
         try {
-            const res = await sequelize.transaction(async (t) => {
-                let updateRes = {};
-
-                if(data !== undefined) {
-                    const updateProduct = await Product.update(
-                        data,
-                        {
-                            where: {
-                                id: id
-                            }
-                        },
-                        { transaction: t }
-                    );
-
-                    updateRes.updateProduct = { updateProduct };
+            const res = await Product.update(
+                data,
+                {
+                    where: {
+                        id: id
+                    }
                 }
+            );
 
-                if(productInventoryData !== undefined) {
-                    const updateInventory = await Inventory.update(
-                        productInventoryData,
-                        {
-                            where: {
-                                id: productInventoryId
-                            }
-                        },
-                        { transaction: t }
-                    );
-
-                    updateRes.updateInventory = { updateInventory };
-                }
-
-                if(productImageData !== undefined) {
-                    const updateProductImage = await ProductImage.update(
-                        productImageData,
-                        {
-                            where: {
-                                id: productImageId
-                            }
-                        },
-                        { transaction: t }
-                    );
-
-                    updateRes.updateProductImage = updateProductImage;
-                }
-                return updateRes;
-            });
-            
             return res;
         } catch (err) {
             console.log('Update User Error: ', err);
@@ -392,6 +361,28 @@ export default class ProductService {
                             console.log('file deleted successfully');
                         });
                     });
+
+                    fs.stat(`./public${productImage.path}-mobile.webp`, function (err) {
+                        if (err) {
+                            return console.error(err);
+                        }
+                    
+                        fs.unlink(`./public${productImage.path}-mobile.webp`,function(err){
+                            if(err) return console.log(err);
+                            console.log('file deleted successfully');
+                        });
+                    });
+
+                    fs.stat(`./public${productImage.path}-desktop.webp`, function (err) {
+                        if (err) {
+                            return console.error(err);
+                        }
+                    
+                        fs.unlink(`./public${productImage.path}-desktop.webp`,function(err){
+                            if(err) return console.log(err);
+                            console.log('file deleted successfully');
+                        });
+                    });
                     
                     deleteProductImagesRes.push({
                         productImageId: productImage.id,
@@ -427,8 +418,6 @@ export default class ProductService {
                     id
                 }
             });
-
-            console.log('GET product Image res: ', productImage);
             
             // Delete local image
             fs.stat(`./public${productImage.path}`, function (err) {
@@ -437,6 +426,28 @@ export default class ProductService {
                 }
             
                 fs.unlink(`./public${productImage.path}`,function(err){
+                    if(err) return console.log(err);
+                    console.log('file deleted successfully');
+                });
+            });
+
+            fs.stat(`./public${productImage.path}-mobile.webp`, function (err) {
+                if (err) {
+                    return console.error(err);
+                }
+            
+                fs.unlink(`./public${productImage.path}-mobile.webp`,function(err){
+                    if(err) return console.log(err);
+                    console.log('file deleted successfully');
+                });
+            });
+
+            fs.stat(`./public${productImage.path}-desktop.webp`, function (err) {
+                if (err) {
+                    return console.error(err);
+                }
+            
+                fs.unlink(`./public${productImage.path}-desktop.webp`,function(err){
                     if(err) return console.log(err);
                     console.log('file deleted successfully');
                 });

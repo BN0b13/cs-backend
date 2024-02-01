@@ -1,5 +1,6 @@
 import fs from 'fs';
 import { Op } from 'sequelize';
+import { compressImage } from '../tools/images.js';
 import WelcomeImage from '../models/WelcomeImage.js';
 
 export default class WelcomeService {
@@ -22,6 +23,9 @@ export default class WelcomeService {
             };
 
             const res = await WelcomeImage.create(data);
+
+            const { path, filename } = image;
+            await compressImage(path, `welcome/${filename}`);
 
             return res;
         } catch(err) {
@@ -62,6 +66,29 @@ export default class WelcomeService {
                          console.log('file deleted successfully');
                     });
                  });
+
+
+                 fs.stat(`./public${imagePath}-mobile.webp`, function (err) {
+                    if (err) {
+                        return console.error(err);
+                    }
+                
+                    fs.unlink(`./public${imagePath}-mobile.webp`,function(err){
+                        if(err) return console.log(err);
+                        console.log('file deleted successfully');
+                    });
+                });
+
+                fs.stat(`./public${imagePath}-desktop.webp`, function (err) {
+                    if (err) {
+                        return console.error(err);
+                    }
+                
+                    fs.unlink(`./public${imagePath}-desktop.webp`,function(err){
+                        if(err) return console.log(err);
+                        console.log('file deleted successfully');
+                    });
+                });
             }
 
             const res = await WelcomeImage.destroy(

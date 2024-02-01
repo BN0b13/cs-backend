@@ -2,39 +2,6 @@ import { Category, Product } from '../models/Associations.js';
 
 class CategoryRepository {
 
-    // CREATE
-
-    async create(params) {
-        const { 
-            name, 
-            description, 
-            type, 
-            image = null,
-            details
-        } = params;
-
-        const data = {
-            name,
-            description,
-            type,
-            backSplashFilename: '',
-            backSplashPath: '',
-            thumbnailFilename: image ? image.filename : '',
-            thumbnailPath: image ? `/img/categories/${image.filename}` : '',
-            details,
-            status: false
-        };
-
-        try {
-            const res = await Category.create(data);
-            
-            return res;
-        } catch (err) {
-            console.log(err);
-            throw Error('There was an error creating the category');
-        }
-    }
-
     // READ
 
     async getCategories() {

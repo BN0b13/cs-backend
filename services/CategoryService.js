@@ -1,3 +1,6 @@
+import fs from 'fs';
+import { compressImage } from '../tools/images.js';
+
 import { Category, Product, ProductImage } from '../models/Associations.js';
 
 export default class CategoryService {
@@ -45,6 +48,44 @@ export default class CategoryService {
         } catch (err) {
             console.log('Get Category by name Error: ', err);
             throw Error('There was an error getting category by name');
+        }
+    }
+
+    // CREATE
+
+    async create(params) {
+        const { 
+            name, 
+            description, 
+            type, 
+            image = null,
+            details
+        } = params;
+
+        const data = {
+            name,
+            description,
+            type,
+            backSplashFilename: '',
+            backSplashPath: '',
+            thumbnailFilename: image ? image.filename : '',
+            thumbnailPath: image ? `/img/categories/${image.filename}` : '',
+            details,
+            status: false
+        };
+
+        try {
+            const res = await Category.create(data);
+
+            if(image) {
+                const { path, filename } = image;
+                await compressImage(path, `categories/${filename}`);
+            }
+            
+            return res;
+        } catch (err) {
+            console.log(err);
+            throw Error('There was an error creating the category');
         }
     }
 
@@ -115,6 +156,42 @@ export default class CategoryService {
                             }
                 }
             );
+
+            console.log('getCategory res: ', getCategory);
+
+            fs.stat(`./public${getCategory.rows[0].thumbnailPath}`, function (err) {
+                if (err) {
+                    return console.error(err);
+                }
+             
+                fs.unlink(`./public${getCategory.rows[0].thumbnailPath}`,function(err){
+                     if(err) return console.log(err);
+                     console.log('file deleted successfully');
+                });
+             });
+
+
+             fs.stat(`./public${getCategory.rows[0].thumbnailPath}-mobile.webp`, function (err) {
+                if (err) {
+                    return console.error(err);
+                }
+            
+                fs.unlink(`./public${getCategory.rows[0].thumbnailPath}-mobile.webp`,function(err){
+                    if(err) return console.log(err);
+                    console.log('file deleted successfully');
+                });
+            });
+
+            fs.stat(`./public${getCategory.rows[0].thumbnailPath}-desktop.webp`, function (err) {
+                if (err) {
+                    return console.error(err);
+                }
+            
+                fs.unlink(`./public${getCategory.rows[0].thumbnailPath}-desktop.webp`,function(err){
+                    if(err) return console.log(err);
+                    console.log('file deleted successfully');
+                });
+            });
             
             return {
                 status: 200,

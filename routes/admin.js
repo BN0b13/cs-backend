@@ -19,6 +19,7 @@ import { HandleErrors } from '../middleware/errorHandler.js';
 import CartController from '../controllers/CartController.js';
 import CategoryController from '../controllers/CategoryController.js';
 import ConfigurationController from '../controllers/ConfigurationController.js';
+import CouponController from '../controllers/CouponController.js';
 import MessageController from '../controllers/MessageController.js';
 import InventoryController from '../controllers/InventoryController.js';
 import OrderController from '../controllers/OrderController.js';
@@ -33,6 +34,7 @@ const cartController = new CartController();
 const categoryController = new CategoryController();
 const configurationController = new ConfigurationController();
 const messageController = new MessageController();
+const couponController = new CouponController();
 const inventoryController = new InventoryController();
 const orderController = new OrderController();
 const productController = new ProductController();
@@ -61,6 +63,15 @@ router.delete('/categories', AdminTokenVerifier, HandleErrors(categoryController
 
 router.get('/configuration', AdminTokenVerifier, HandleErrors(configurationController.getAdminConfiguration));
 
+// Coupons
+
+router.get('/coupons', AdminTokenVerifier, HandleErrors(couponController.getCoupons));
+router.get('/coupons/:id', AdminTokenVerifier, HandleErrors(couponController.getCouponById));
+
+router.post('/coupons', AdminTokenVerifier, HandleErrors(couponController.create));
+
+router.patch('/coupons', AdminTokenVerifier, HandleErrors(couponController.updateCoupon));
+
 // Inventory
 
 router.get('/inventory', AdminTokenVerifier, HandleErrors(inventoryController.getInventory));
@@ -70,6 +81,10 @@ router.get('/inventory/:id', AdminTokenVerifier, HandleErrors(inventoryControlle
 router.patch('/inventory', AdminTokenVerifier, HandleErrors(inventoryController.updateInventory));
 
 router.delete('/inventory', AdminTokenVerifier, HandleErrors(inventoryController.deleteInventory));
+
+// Login
+
+router.post('/login', HandleErrors(userController.adminLogin));
 
 // Messages
 

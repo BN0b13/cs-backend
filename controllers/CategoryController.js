@@ -29,7 +29,7 @@ class CategoryController {
             image: req.files[0] ? req.files[0] : ''
         };
         
-        const data = await categoryRepository.create(params);
+        const data = await categoryService.create(params);
         
         res.send(data);
         } catch (err) {
