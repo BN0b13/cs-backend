@@ -25,7 +25,7 @@ export default class WelcomeService {
             const res = await WelcomeImage.create(data);
 
             const { path, filename } = image;
-            // await compressImage(path, `welcome/${filename}`);
+            await compressImage(path, `welcome/${filename}`);
 
             return res;
         } catch(err) {
