@@ -79,7 +79,7 @@ export default class CategoryService {
 
             if(image) {
                 const { path, filename } = image;
-                await compressImage(path, `categories/${filename}`);
+                // await compressImage(path, `categories/${filename}`);
             }
             
             return res;
