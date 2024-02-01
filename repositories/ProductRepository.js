@@ -85,6 +85,43 @@ class ProductRepository {
         }
     }
 
+    async getProductById(id) {
+        try {
+            const res = await Product.findOne({
+                where: {
+                    id
+                },
+                include: [
+                    { 
+                        model: Category,
+                        required: true
+                    },
+                    { 
+                        model: Inventory,
+                        required: true
+                    },
+                    { 
+                        model: ProductImage
+                    },
+                ]
+            });
+
+            if(res === null) {
+                return {
+                    statusCode: 404
+                }
+            }
+
+            return {
+                statusCode: 200,
+                data: res
+            };
+        } catch (err) {
+            console.log('GET Product Error: ', err);
+            throw Error('There was an error getting products');
+        }
+    }
+
     async getProductInventoryByName(name) {
         try {
             const res = await Product.findAndCountAll({

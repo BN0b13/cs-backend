@@ -26,6 +26,12 @@ class ProductController {
         res.send(data);
     }
 
+    async getProductById(req, res) {
+        const { id } = req.params;
+        const data = await productRepository.getProductById(id);
+        res.send(data);
+    }
+
     async getByName(req, res) {
         const { name } = req.params;
         const data = await productRepository.getProductInventoryByName(name);
@@ -155,10 +161,11 @@ class ProductController {
     // UPDATE
 
     async addProductImage(req, res) {
+        console.log('WHO HURT YOU?????');
         try {
             const {
                 id,
-                caption,
+                caption = null,
             } = req.body;
 
             const params = {
@@ -166,7 +173,7 @@ class ProductController {
                 caption,
                 image: req.files[0]
             };
-            
+
             const data = await productService.addProductImage(params);
 
             res.send({
@@ -182,6 +189,7 @@ class ProductController {
 
     async updateProduct(req, res) {
         try {
+            console.log('Update Product req: ', req.body);
             const {
                 id,
                 categoryId = null,
@@ -191,19 +199,7 @@ class ProductController {
                 time = null,
                 mother = null,
                 father = null,
-                profile = null,
-                productInventoryId = null,
-                inventoryType = null,
-                quantity = null,
-                price = null,
-                size = null,
-                sizeDescription = null,
-                sku = null,
-                address = null,
-                bay = null,
-                productImageId = null,
-                caption = null,
-                position = null
+                profile = null
             } = req.body;
 
             const params = {
@@ -219,33 +215,12 @@ class ProductController {
                 profile
             };
 
-            const inventoryParams = {
-                type: inventoryType,
-                quantity,
-                price,
-                size,
-                sizeDescription,
-                sku,
-                address,
-                bay
-            }
-
-            const productImageParams = {
-                caption,
-                position
-            }
-
             Object.keys(params).forEach(param => params[param] == null && delete params[param]);
 
-            Object.keys(inventoryParams).forEach(inventoryParam => inventoryParams[inventoryParam] == null && delete inventoryParams[inventoryParam]);
-            
-            Object.keys(productImageParams).forEach(productImageParam => productImageParams[productImageParam] == null && delete productImageParams[productImageParam]);
-
-            const data = await productService.updateProduct(id, params, productInventoryId, inventoryParams, productImageId, productImageParams);
+            const data = await productService.updateProduct(id, params);
 
             res.send({
-                status: 200,
-                message: 'Product Updated',
+                statusCode: 200,
                 result: data
             });
         } catch (err) {

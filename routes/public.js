@@ -112,8 +112,6 @@ router.post('/contact', TokenVerifier, HandleErrors(messageController.create));
 
 router.post('/login', HandleErrors(userController.login));
 
-router.post('/login-admin', HandleErrors(userController.adminLogin));
-
 // Orders
 
 router.post('/orders', TokenVerifier, HandleErrors(createOrder));
@@ -127,7 +125,7 @@ router.get('/orders/:refId', TokenVerifier, HandleErrors(orderController.getOrde
 router.get('/products', HandleErrors(productController.getProducts));
 router.get('/products/pagination', HandleErrors(productController.getProductsByPage));
 router.get('/products/search', HandleErrors(productController.searchProducts));
-router.get('/products/:id', HandleErrors(productController.getById));
+router.get('/products/:id', HandleErrors(productController.getProductById));
 router.get('/products/type/:type', HandleErrors(productController.getProductsByType));
 router.get('/products/profiles/all', HandleErrors(productController.getProductProfiles));
 router.get('/products/profiles/search', HandleErrors(productController.getProductProfilesByIds));
