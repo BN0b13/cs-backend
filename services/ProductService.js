@@ -184,7 +184,7 @@ export default class ProductService {
                     await ProductImage.create(productImageData, { transaction: t });
 
                     const { path, filename } = image;
-                    // await compressImage(path, `products/${filename}`);
+                    await compressImage(path, `products/${filename}`);
                 }
 
                 const inventoryData = {
@@ -261,7 +261,7 @@ export default class ProductService {
             const res = await ProductImage.create(productImageData);
 
             const { path, filename } = image;
-            // await compressImage(path, `products/${filename}`);
+            await compressImage(path, `products/${filename}`);
 
             return res;
         } catch (err) {
