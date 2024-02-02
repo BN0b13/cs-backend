@@ -1,10 +1,10 @@
-import CheckoutRepository from "../repositories/CheckoutRepository.js";
+import CheckoutService from "../services/CheckoutService.js";
 
-const checkoutRepository = new CheckoutRepository();
+const checkoutService = new CheckoutService();
 
 class CheckoutController {
     async checkoutSetup(req, res) {
-        const data = checkoutRepository.checkoutSetUp();
+        const data = await checkoutService.checkoutSetUp();
         res.send(data);
     }
 }
