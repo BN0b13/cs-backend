@@ -13,6 +13,7 @@ import ConfigurationController from '../controllers/ConfigurationController.js';
 import MessageController from '../controllers/MessageController.js';
 import OrderController from '../controllers/OrderController.js';
 import ProductController from '../controllers/ProductController.js';
+import SaleController from '../controllers/SaleController.js';
 import ThemeController from '../controllers/ThemeController.js';
 import UserController from '../controllers/UserController.js';
 import VisitController from '../controllers/VisitController.js';
@@ -25,6 +26,7 @@ const configurationController = new ConfigurationController();
 const messageController = new MessageController();
 const orderController = new OrderController();
 const productController = new ProductController();
+const saleController = new SaleController();
 const themeController = new ThemeController();
 const userController = new UserController();
 const visitController = new VisitController();
@@ -46,7 +48,8 @@ const createOrder = async (req, res) => {
     shippingTotal,
     deliveryInsurance,
     deliveryInsuranceTotal,
-    couponId = null
+    couponId = null,
+    saleId = null
   } = req.body;
 
   const params = {
@@ -60,7 +63,8 @@ const createOrder = async (req, res) => {
     shippingTotal,
     deliveryInsurance,
     deliveryInsuranceTotal,
-    couponId
+    couponId,
+    saleId
   };
 
   const data = await orderController.create(params);
@@ -129,6 +133,10 @@ router.get('/products/:id', HandleErrors(productController.getProductById));
 router.get('/products/type/:type', HandleErrors(productController.getProductsByType));
 router.get('/products/profiles/all', HandleErrors(productController.getProductProfiles));
 router.get('/products/profiles/search', HandleErrors(productController.getProductProfilesByIds));
+
+// Sales
+
+router.get('/sales', HandleErrors(saleController.getActiveSales))
 
 // Themes
 

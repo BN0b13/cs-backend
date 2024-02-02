@@ -19,9 +19,6 @@ const paymentService = new PaymentService();
 const productService = new ProductService();
 const orderRepository = new OrderRepository();
 
-
-
-
 export default class OrderService {
 
     // Create
@@ -37,7 +34,8 @@ export default class OrderService {
             shippingTotal,
             deliveryInsurance,
             deliveryInsuranceTotal,
-            couponId
+            couponId,
+            saleId
         } = params;
 
         const refId = uuidv4();
@@ -57,6 +55,7 @@ export default class OrderService {
                     deliveryInsurance,
                     deliveryInsuranceTotal,
                     couponId,
+                    saleId,
                     status: 'pending',
                     paid: false,
                     paymentLink: '',

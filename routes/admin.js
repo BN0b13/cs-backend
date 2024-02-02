@@ -25,6 +25,7 @@ import InventoryController from '../controllers/InventoryController.js';
 import OrderController from '../controllers/OrderController.js';
 import ProductController from '../controllers/ProductController.js';
 import RoleController from '../controllers/RoleController.js';
+import SaleController from '../controllers/SaleController.js';
 import ThemeController from '../controllers/ThemeController.js';
 import UserController from '../controllers/UserController.js';
 import VisitController from '../controllers/VisitController.js';
@@ -39,6 +40,7 @@ const inventoryController = new InventoryController();
 const orderController = new OrderController();
 const productController = new ProductController();
 const roleController = new RoleController();
+const saleController = new SaleController();
 const themeController = new ThemeController();
 const visitController = new VisitController();
 const userController = new UserController();
@@ -124,6 +126,15 @@ router.delete('/products/product-image', AdminTokenVerifier, HandleErrors(produc
 router.post('/roles', AdminTokenVerifier, HandleErrors(roleController.create));
 
 router.get('/roles', AdminTokenVerifier, HandleErrors(roleController.getRoles));
+
+// Sales
+
+router.post('/sales', AdminTokenVerifier, HandleErrors(saleController.create));
+
+router.get('/sales', AdminTokenVerifier, HandleErrors(saleController.getSales));
+
+router.patch('/sales', AdminTokenVerifier, HandleErrors(saleController.updateSale));
+router.patch('/sales/activation', AdminTokenVerifier, HandleErrors(saleController.changeActivationStatus));
 
 // Themes
 

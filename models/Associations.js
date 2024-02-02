@@ -9,6 +9,7 @@ import Product from './Product.js';
 import ProductImage from './ProductImage.js';
 import ProductProfile from './ProductProfile.js';
 import Role from './Role.js';
+import Sale from './Sale.js';
 import Theme from './Theme.js';
 import User from './User.js';
 import Visit from './Visit.js';
@@ -92,6 +93,7 @@ export {
     Product,
     ProductImage,
     Role,
+    Sale,
     Theme,
     User,
     Visit,

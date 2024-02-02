@@ -26,7 +26,7 @@
   },
   "homepage": "https://github.com/BN0b13/cs-backend#readme",
   "dependencies": {
-    "@sendgrid/mail": "^7.7.0",
+    "@sendgrid/mail": "^8.1.0",
     "@square/web-sdk": "^2.0.1",
     "bcrypt": "^5.1.0",
     "bull": "^4.11.4",
@@ -45,11 +45,11 @@
     "pg": "^8.10.0",
     "sequelize": "^6.30.0",
     "sharp": "^0.33.2",
-    "square": "^26.0.0",
+    "square": "^25.1.0",
     "uuid": "^9.0.0"
   },
   "devDependencies": {
-    "nodemon": "^2.0.21",
+    "nodemon": "^3.0.3",
     "sequelize-cli": "^6.6.0"
   }
 }
