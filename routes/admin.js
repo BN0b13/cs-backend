@@ -20,6 +20,7 @@ import CartController from '../controllers/CartController.js';
 import CategoryController from '../controllers/CategoryController.js';
 import ConfigurationController from '../controllers/ConfigurationController.js';
 import CouponController from '../controllers/CouponController.js';
+import GiveawayController from '../controllers/GiveawayController.js';
 import MessageController from '../controllers/MessageController.js';
 import InventoryController from '../controllers/InventoryController.js';
 import OrderController from '../controllers/OrderController.js';
@@ -34,9 +35,10 @@ import WelcomeController from '../controllers/WelcomeController.js';
 const cartController = new CartController();
 const categoryController = new CategoryController();
 const configurationController = new ConfigurationController();
-const messageController = new MessageController();
 const couponController = new CouponController();
+const giveawayController = new GiveawayController();
 const inventoryController = new InventoryController();
+const messageController = new MessageController();
 const orderController = new OrderController();
 const productController = new ProductController();
 const roleController = new RoleController();
@@ -73,6 +75,10 @@ router.get('/coupons/:id', AdminTokenVerifier, HandleErrors(couponController.get
 router.post('/coupons', AdminTokenVerifier, HandleErrors(couponController.create));
 
 router.patch('/coupons', AdminTokenVerifier, HandleErrors(couponController.updateCoupon));
+
+// Giveaway
+
+router.get('/giveaway/signup/today/:amount', AdminTokenVerifier, HandleErrors(giveawayController.getRandomSignUpsFromToday));
 
 // Inventory
 
