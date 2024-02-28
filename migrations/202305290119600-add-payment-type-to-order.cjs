@@ -9,15 +9,13 @@ module.exports = {
       return Promise.all([
         queryInterface.addColumn(
           table,
-          'saleId',
+          'paymentType',
           {
-            type: Sequelize.INTEGER
+            type: Sequelize.STRING
           },
           {
             transaction: t
           }),
-    
-       
       ])
     });
     
@@ -28,7 +26,7 @@ module.exports = {
       return Promise.all([
         queryInterface.removeColumn(
           table,
-          'saleId',
+          'paymentType',
           {
             transaction: t
           })

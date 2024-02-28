@@ -35,7 +35,9 @@ export default class OrderService {
             deliveryInsurance,
             deliveryInsuranceTotal,
             couponId,
-            saleId
+            saleId,
+            notes = null,
+            paymentType
         } = params;
 
         const refId = uuidv4();
@@ -61,7 +63,8 @@ export default class OrderService {
                     paymentLink: '',
                     fulfilledBy: null,
                     tracking: null,
-                    notes: null
+                    notes,
+                    paymentType
                 };
 
                 const result = await Order.create(orderData, { transaction: t });
