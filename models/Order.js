@@ -30,7 +30,9 @@ Order.init({
   paymentLink: DataTypes.STRING,
   fulfilledBy: DataTypes.INTEGER,
   tracking: DataTypes.STRING,
-  notes: DataTypes.TEXT
+  notes: DataTypes.TEXT,
+  saleId: DataTypes.INTEGER,
+  paymentType: DataTypes.STRING
 }, {
   sequelize,
   schema: process.env.PG_SCHEMA_NAME,

@@ -49,7 +49,8 @@ const createOrder = async (req, res) => {
     deliveryInsurance,
     deliveryInsuranceTotal,
     couponId = null,
-    saleId = null
+    saleId = null,
+    paymentType
   } = req.body;
 
   const params = {
@@ -64,7 +65,8 @@ const createOrder = async (req, res) => {
     deliveryInsurance,
     deliveryInsuranceTotal,
     couponId,
-    saleId
+    saleId,
+    paymentType
   };
 
   const data = await orderController.create(params);
