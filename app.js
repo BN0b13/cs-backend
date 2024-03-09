@@ -16,6 +16,7 @@ const __dirname = dirname(__filename);
 const cron = new Cron();
 
 cron.backup();
+cron.handleScheduledGiveaways();
 
 const app = express();
 const port = process.env.PORT;
@@ -32,9 +33,9 @@ app.use(
 );
 
 //Prod
-app.use(cors({
-  origin: ['https://cosmicstrains.com', 'https://www.cosmicstrains.com', 'https://admin.cosmicstrains.com']
-}));
+// app.use(cors({
+//   origin: ['https://cosmicstrains.com', 'https://www.cosmicstrains.com', 'https://admin.cosmicstrains.com']
+// }));
 
 
 // Local
@@ -42,7 +43,7 @@ app.use(cors({
 //   origin: ['http://localhost:5050', 'http://localhost:3000' ]
 // }));
 
-// app.use(cors({ origin: '*' }));
+app.use(cors({ origin: '*' }));
 
 app.disable('x-powered-by');
 

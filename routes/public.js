@@ -10,6 +10,7 @@ import CartController from '../controllers/CartController.js';
 import CategoryController from '../controllers/CategoryController.js';
 import CheckoutController from '../controllers/CheckoutController.js';
 import ConfigurationController from '../controllers/ConfigurationController.js';
+import GiveawayController from '../controllers/GiveawayController.js';
 import MessageController from '../controllers/MessageController.js';
 import OrderController from '../controllers/OrderController.js';
 import ProductController from '../controllers/ProductController.js';
@@ -23,6 +24,7 @@ const cartController = new CartController();
 const categoryController = new CategoryController();
 const checkoutController = new CheckoutController();
 const configurationController = new ConfigurationController();
+const giveawayController = new GiveawayController();
 const messageController = new MessageController();
 const orderController = new OrderController();
 const productController = new ProductController();
@@ -87,6 +89,12 @@ router.get('/health', (req, res) => {
   });
 });
 
+// Account
+
+router.get('/account/activate/:passwordToken', HandleErrors(userController.getUserByPasswordToken));
+
+router.patch('/account/activate', HandleErrors(userController.activateAdminCreatedAccount));
+
 // Cart
 
 router.get('/cart', TokenVerifier, HandleErrors(cartController.getCart));
@@ -113,6 +121,15 @@ router.get('/configuration', HandleErrors(configurationController.getPublicConfi
 // Contact
 
 router.post('/contact', TokenVerifier, HandleErrors(messageController.create));
+
+// Giveaways
+
+router.get('/giveaways', HandleErrors(giveawayController.getPublicGiveaways));
+router.get('/giveaways/:id', HandleErrors(giveawayController.getPublicGiveawayById));
+
+router.post('/giveaways/active/user-status', TokenVerifier, HandleErrors(giveawayController.checkIfUserEnteredContest));
+
+router.patch('/giveaways/active/enter', TokenVerifier, HandleErrors(giveawayController.enterUserIntoGiveaway));
 
 // Login
 
