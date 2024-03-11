@@ -21,11 +21,17 @@ module.exports = {
       entries: {
         type: Sequelize.JSONB
       },
+      winners: {
+        type: Sequelize.JSONB
+      },
       name: {
         type: Sequelize.STRING
       },
       description: {
         type: Sequelize.TEXT
+      },
+      disclaimer: {
+        type: Sequelize.STRING
       },
       rules: {
         type: Sequelize.JSONB
@@ -42,11 +48,20 @@ module.exports = {
       expirationDate: {
         type: Sequelize.STRING
       },
-      userLimit: {
+      completionDate: {
+        type: Sequelize.STRING
+      },
+      entryLimit: {
         type: Sequelize.INTEGER
+      },
+      entryType: {
+        type: Sequelize.STRING
       },
       status: {
         type: Sequelize.STRING
+      },
+      options: {
+        type: Sequelize.JSONB
       },
       createdAt: {
         allowNull: false,

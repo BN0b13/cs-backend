@@ -107,6 +107,7 @@ class UserRepository {
             themeInverted: user.themeInverted,
             cart: user.Cart,
             orders: user.Orders,
+            credit: user.credit
         }
 
         return data;

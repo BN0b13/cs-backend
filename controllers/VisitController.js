@@ -15,6 +15,12 @@ class VisitController {
         const data = await visitRepository.getVisits();
         res.send(data);
     }
+    
+    async getVisitsByDateRange(req, res) {
+        
+        const data = await visitRepository.getVisitsByDateRange();
+        res.send(data);
+    }
 
     async getVisitsByPage(req, res) {
         const { page, size } = req.query;

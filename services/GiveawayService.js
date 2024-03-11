@@ -47,6 +47,11 @@ export default class GiveawayService {
     }
 
     async getGiveawayById(userId, id) {
+        if(!id) {
+            return {
+                error: 'Invalid Giveaway ID'
+            }
+        }
         const user = await User.findOne({
             where: {
                 id: userId
@@ -83,7 +88,15 @@ export default class GiveawayService {
                 }
             ]
         });
+
+        res.rows.map(giveaway => {
+            giveaway.entries = giveaway.entries.length;
+            giveaway.userId = null;
+            giveaway.Company.userId = null;
+        });
+
         const filteredResults = res.rows.filter(giveaway => giveaway.status !== 'created' || !giveaway.Company.active);
+
         return filteredResults;
     }
 
@@ -105,6 +118,20 @@ export default class GiveawayService {
             }
         }
 
+        res.entries = res.entries.length;
+        res.userId = null;
+        res.Company.userId = null;
+
+        if(res.status === 'completed') {
+            const winnersNoUserData = res.winners.map(winner => ({
+                    username: winner.username,
+                    prize: winner.prize
+                }));
+
+            res.winners = winnersNoUserData;
+            return res;
+        }
+
         return res;
     }
 
@@ -123,8 +150,15 @@ export default class GiveawayService {
 
         const userEntryStatus = res.entries.filter(entry => entry.id === userId);
 
+        if(userEntryStatus.length > 0) {
+            return {
+                error: 'User has already entered contest',
+                entry: userEntryStatus
+            }
+        }
+
         return {
-            userEntryStatus
+            success: 'User is able to enter contest'
         }
     }
 
@@ -160,6 +194,10 @@ export default class GiveawayService {
     // UPDATE
 
     async updateGiveaway(id, data) {
+        if(data.hasOwnProperty('status') && data.status === 'completed') {
+            return await this.completeGiveawayAndDrawWinners(id);
+        }
+
         let modifiedData = data;
         const getGiveaway = await Giveaway.findOne({
             where: {
@@ -167,7 +205,7 @@ export default class GiveawayService {
             }
         });
 
-        if(getGiveaway.type !== 'manual' && getGiveaway.status !== ('created')) {
+        if(getGiveaway.type !== 'manual' && getGiveaway.status !== 'created') {
             return {
                 error: `Giveaway is ${getGiveaway.status} and unable to be updated.`
             }
@@ -216,19 +254,51 @@ export default class GiveawayService {
             for(const giveaway of activeGiveaways) {
                 if(nowUnix > giveaway.expirationDate) {
                     console.log(`${giveaway.name} is ready to update status to completed.`);
-                    await Giveaway.update(
-                        {
-                            status: 'completed'
-                        },
-                        {
-                            where: {
-                                id: giveaway.id
-                            }
-                        }
-                    );
+                    await this.completeGiveawayAndDrawWinners(giveaway.id);
                 }
             }
         }
+    }
+
+    async completeGiveawayAndDrawWinners(id) {
+        const getGiveaway = await Giveaway.findOne({
+            where: {
+                id
+            }
+        });
+
+        let winners = [];
+        let winnerCount = 0;
+
+        const shuffled = getGiveaway.entries.sort(() => 0.5 - Math.random());
+        
+        getGiveaway.prizes.map(prize => {
+            const res = shuffled.slice(winnerCount, prize.prizeWinnerLimit + winnerCount);
+            res.forEach(winner => {
+                winnerCount++;
+                winners.push({
+                    ...winner,
+                    prize
+                });
+            });
+        });
+
+        const completedDate = new Date().getTime();
+
+        const data = {
+            winners,
+            status: 'completed',
+            completedDate
+        }
+
+        return await Giveaway.update(
+            data,
+            {
+                where: {
+                    id
+                }
+            }
+        )
     }
 
     async enterUserIntoGiveaway(id, userId) {
@@ -238,11 +308,23 @@ export default class GiveawayService {
             }
         });
 
-        // if(getGiveaway.entries && getGiveaway.entries.map(entry => entry.id === userId)) {
-        //     return {
-        //         error: `User has already entered giveaway ${getGiveaway.name}`
-        //     }
-        // }
+        if(getGiveaway.status === 'completed') {
+            return {
+                error: 'Giveaway is completed and can no longer be entered'
+            }
+        }
+
+        if(getGiveaway.entries && getGiveaway.entries.filter(entry => entry.id === userId).length > 0) {
+            return {
+                error: `You have already entered giveaway ${getGiveaway.name}`
+            }
+        }
+
+        if(getGiveaway.type === 'entryLimit' && getGiveaway.entries && getGiveaway.entries > getGiveaway.entryLimit) {
+            return {
+                error: `Giveaway ${getGiveaway.name} has reached entry limit`
+            }
+        }
 
         const getUser = await User.findOne({
             where: {
@@ -253,8 +335,24 @@ export default class GiveawayService {
         const entries = [...getGiveaway.entries, {
             id: userId,
             username: getUser.username,
-            email: getUser.email
+            email: getUser.email,
+            enteredAt: new Date().getTime()
         }];
+
+        if(getGiveaway.type === 'entryLimit' && getGiveaway.entries && entries.length === getGiveaway.entryLimit) {
+            await Giveaway.update(
+                {
+                    entries
+                },
+                {
+                    where: {
+                        id
+                    }
+                }
+            );
+
+            return await this.completeGiveawayAndDrawWinners(id);
+        }
 
         return await Giveaway.update(
             {
@@ -300,4 +398,5 @@ export default class GiveawayService {
             message: `${getGiveaway.name} was successfully deleted.`
         }
     }
+
 }

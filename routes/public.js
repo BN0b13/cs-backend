@@ -38,6 +38,10 @@ const orderQueue = new Bull("order", {
   redis: "localhost:6379",
 });
 
+const giveawayQueue = new Bull("giveaway", {
+  redis: "localhost:6379",
+});
+
 const createOrder = async (req, res) => {
   const {
     userId = req.userData.id,
@@ -52,7 +56,8 @@ const createOrder = async (req, res) => {
     deliveryInsuranceTotal,
     couponId = null,
     saleId = null,
-    paymentType
+    paymentType,
+    credit = null
   } = req.body;
 
   const params = {
@@ -68,7 +73,8 @@ const createOrder = async (req, res) => {
     deliveryInsuranceTotal,
     couponId,
     saleId,
-    paymentType
+    paymentType,
+    credit
   };
 
   const data = await orderController.create(params);
@@ -196,5 +202,6 @@ router.get('/welcome/images', HandleErrors(welcomeController.getWelcomeImages));
 router.get('/welcome/content', HandleErrors(welcomeController.getWelcomeContent));
 
 orderQueue.process(orderController.processOrder);
+giveawayQueue.process(giveawayController.enterUserIntoGiveaway);
 
 export default router;

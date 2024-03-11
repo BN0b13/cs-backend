@@ -11,6 +11,7 @@ import InventoryService from './InventoryService.js';
 import PaymentService from './PaymentService.js'
 import ProductService from './ProductService.js';
 import OrderRepository from '../repositories/OrderRepository.js';
+import UserRepository from '../repositories/UserRepository.js';
 
 const cartService = new CartService();
 const emailService = new EmailService();
@@ -18,8 +19,26 @@ const inventoryService = new InventoryService();
 const paymentService = new PaymentService();
 const productService = new ProductService();
 const orderRepository = new OrderRepository();
+const userRepository = new UserRepository();
 
 export default class OrderService {
+
+    // Read
+
+    checkUserCreditAmount = async (params) => {
+        const {
+            userId,
+            credit
+        } = params;
+
+        const getUser = await userRepository.getUserById(userId);
+
+        if(!getUser.credit || getUser.credit < credit) {
+            return false
+        }
+
+        return true;
+    }
 
     // Create
 
@@ -37,8 +56,18 @@ export default class OrderService {
             couponId,
             saleId,
             notes = null,
-            paymentType
+            paymentType,
+            credit = null
         } = params;
+
+        if(credit) {
+            const creditCheck = await this.checkUserCreditAmount(params);
+            if(!creditCheck) {
+                return {
+                    error: 'User does not have enough credit on account to support the amount on order'
+                }
+            }
+        }
 
         const refId = uuidv4();
 
@@ -64,7 +93,8 @@ export default class OrderService {
                     fulfilledBy: null,
                     tracking: null,
                     notes,
-                    paymentType
+                    paymentType,
+                    credit
                 };
 
                 const result = await Order.create(orderData, { transaction: t });
@@ -324,116 +354,3 @@ export default class OrderService {
 
     }
 }
-
-// const processOrder = async (job) => {
-
-//     const {
-//         userId,
-//         products,
-//         total,
-//         billingAddress,
-//         shippingAddress,
-//         shippingId,
-//         shippingTotal,
-//         deliveryInsurance,
-//         deliveryInsuranceTotal,
-//         couponId
-//     } = job;
-    
-    
-//     const productIds = products.map(product => product.productId);
-//     const getProductsInCart = await productService.getProductsByIds(productIds);
-
-//     const checkInventory = confirmInventoryIsAvailable(getProductsInCart, products);
-
-//     if(!checkInventory.result) {
-//         console.log('Inventory not available');
-//         return {
-//             status: 404,
-//             message: 'Inventory not available'
-//         };
-//     }
-
-//     const refId = `CS${userId + 420}-${Date.now()}`;
-
-//     let newInventoryQuantity = [];
-    
-//     checkInventory.data.map(inventory => newInventoryQuantity.push(inventory));
-
-//     try {
-//         const res = await sequelize.transaction(async (t) => {
-    
-//             const orderData = {
-//                 userId,
-//                 refId,
-//                 products,
-//                 total,
-//                 billingAddress,
-//                 shippingAddress,
-//                 shippingId,
-//                 shippingTotal,
-//                 deliveryInsurance,
-//                 deliveryInsuranceTotal,
-//                 couponId,
-//                 status: 'new',
-//                 paid: false,
-//                 paymentLink: '',
-//                 fulfilledBy: null,
-//                 tracking: null,
-//                 notes: null
-//             };
-
-//             const result = await Order.create(orderData, { transaction: t });
-
-//             for(const singleInventory of newInventoryQuantity) {
-//                 console.log('Id in for loop: ', singleInventory);
-//                 await inventoryService.modifyInventory(singleInventory, { transaction: t });
-//             }
-            
-//             await cartService.modifyCart(userId, { transaction: t });
-
-//             return result;
-//         });
-
-//         // await emailService.orderReceivedEmail({ buyerEmail: email, refId });
-//         return {
-//             res,
-//             status: 201,
-//             refId
-//         };
-//     } catch (err) {
-//         console.log('Order Create Error: ', err);
-//         throw Error('There was an error creating the Order');
-//     }
-// }
-
-// const confirmInventoryIsAvailable = (inventoryProducts, productsInCart) => {
-//     // Database indexing -> important for querying through large amounts of data
-//     let result = true;
-//     const data = [];
-    
-//     inventoryProducts.rows.map(product => {
-//         const inventoryId = product.Inventories[0].id;
-//         const inventoryQuantity = product.Inventories[0].quantity;
-//         const productInCart = productsInCart.filter(item => item.productId === product.id);
-//         const quantityRequested = productInCart[0].quantity;
-//         if(inventoryQuantity === 0 ||
-//             inventoryQuantity < quantityRequested) {
-//             result = false;
-//         } else {
-//             data.push({
-//                 id: inventoryId,
-//                 quantity: inventoryQuantity - quantityRequested
-//             });
-//         }
-//     });
-
-//     console.log('Data: ', data);
-
-//     return {
-//         result,
-//         data
-//     };
-// }
-
-// orderQueue.process(processOrder);

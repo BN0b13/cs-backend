@@ -8,10 +8,11 @@ import EmailService from './EmailService.js';
 
 import { Cart, Company, User } from '../models/Associations.js';
 
-import { passwordValidation } from '../tools/user.js';
+import UserTools from '../tools/user.js';
 
 const authManagement = new AuthManagement();
 const emailService = new EmailService();
+const userTools = new UserTools();
 
 export default class UserService {
     hashPassword = async (password) => {
@@ -393,7 +394,8 @@ export default class UserService {
 
                 if(result.roleId == 5) {
                     const companyData = {
-                        userId: result.id
+                        userId: result.id,
+                        active: true
                     }
     
                     await Company.create(companyData, { transaction: t });
@@ -542,7 +544,7 @@ export default class UserService {
                 }
             }
             
-            if(!passwordValidation(newPassword) || currentPassword === newPassword) {
+            if(!userTools.passwordValidation(newPassword) || currentPassword === newPassword) {
                 return {
                     status: 406,
                     error: 'Password does not meet validation standards'
@@ -589,8 +591,6 @@ export default class UserService {
                             }
                 }
             );
-
-            console.log('Update user res: ', res);
 
             const token = await authManagement.createToken({ id: getUser.id });
 

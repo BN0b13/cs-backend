@@ -402,7 +402,8 @@ class UserController {
             phone = null,
             billingAddress = null,
             shippingAddress = null,
-            subscriptions = null
+            subscriptions = null,
+            credit = null
         } = req.body;
 
         const params = {
@@ -413,7 +414,8 @@ class UserController {
             phone,
             billingAddress,
             shippingAddress,
-            subscriptions
+            subscriptions,
+            credit
         };
 
         Object.keys(params).forEach(param => params[param] == null && delete params[param]);
@@ -459,7 +461,8 @@ class UserController {
             firstName = null,
             lastName = null,
             phone = null,
-            billingAddress = null
+            billingAddress = null,
+            eula = null
         } = req.body;
 
         const params = {
@@ -469,12 +472,13 @@ class UserController {
             lastName,
             phone,
             billingAddress,
-            shippingAddress: billingAddress
+            shippingAddress: billingAddress,
+            eula
         };
 
         Object.values(params).forEach(param => {
             if(param === null) {
-                throw Error(`Missing ${params[param]} Param`);
+                throw Error(`Missing ${param} Param`);
             }
         });
 

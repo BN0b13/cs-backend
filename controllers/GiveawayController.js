@@ -46,18 +46,23 @@ class GiveawayController {
     // Create
 
     async createGiveaway(req, res) {
+        console.log('req body: ', req.body);
+        console.log('User data: ', req.userData);
         const { id } = req.userData;
         try {
             const {
                 companyId = null,
                 name = null,
                 description = null,
+                disclaimer = null,
                 rules = null,
                 prizes = null,
                 type = null,
                 startDate = null,
                 expirationDate = null,
-                userLimit = null
+                entryLimit = null,
+                entryType = null,
+                options = null
             } = req.body;
 
             const requiredParams = {
@@ -65,7 +70,9 @@ class GiveawayController {
                 companyId,
                 name,
                 description,
-                prizes
+                prizes,
+                type,
+                entryType
             };
 
             Object.values(requiredParams).forEach(param => {
@@ -82,11 +89,12 @@ class GiveawayController {
             }
 
             const optionalParams = {
+                disclaimer,
                 rules,
-                type,
                 startDate,
                 expirationDate,
-                userLimit,
+                entryLimit,
+                options
             }
 
             Object.keys(optionalParams).forEach(param => optionalParams[param] == null && delete optionalParams[param]);
@@ -97,7 +105,11 @@ class GiveawayController {
                 entries: []
             }
 
+            console.log('PARAMS: ', params);
+
             const data = await giveawayService.createGiveaway(params);
+
+            console.log('Data res: ', data);
 
             res.send(data);
         } catch (err) {
@@ -115,24 +127,29 @@ class GiveawayController {
             id,
             name = null,
             description = null,
+            disclaimer = null,
+            entries = null,
             rules = null,
             prizes = null,
             type = null,
             startDate = null,
             expirationDate = null,
-            userLimit = null,
-            status = null
+            entryLimit = null,
+            entryType = null,
+            status = null,
+            options = null
         } = req.body;
 
         const params = {
             name,
             description,
+            entries,
             rules,
             prizes,
             type,
             startDate,
             expirationDate,
-            userLimit,
+            entryLimit,
             status
         };
 
@@ -145,7 +162,6 @@ class GiveawayController {
     async enterUserIntoGiveaway(req, res) {
         const { id } = req.userData;
         const { giveawayId } = req.body;
-        console.log('REQ Body: ', req.body);
         const data = await giveawayService.enterUserIntoGiveaway(giveawayId, id);
         res.send(data);
     }
