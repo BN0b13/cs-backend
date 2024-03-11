@@ -393,9 +393,8 @@ class UserController {
     // UPDATE
 
     async updateUser(req, res) {
-        const { id } = req.userData;
         const {
-            username = null,
+            id,
             password = null,
             firstName = null,
             lastName = null,
