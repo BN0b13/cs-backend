@@ -391,15 +391,16 @@ class UserController {
     // UPDATE
 
     async updateUser(req, res) {
-        const { id } = req.userData;
         const {
+            id,
             password = null,
             firstName = null,
             lastName = null,
             phone = null,
             billingAddress = null,
             shippingAddress = null,
-            subscriptions = null
+            subscriptions = null,
+            credit = null
         } = req.body;
 
         const params = {
@@ -409,7 +410,8 @@ class UserController {
             phone,
             billingAddress,
             shippingAddress,
-            subscriptions
+            subscriptions,
+            credit
         };
 
         Object.keys(params).forEach(param => params[param] == null && delete params[param]);
