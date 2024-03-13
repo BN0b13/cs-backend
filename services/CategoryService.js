@@ -98,8 +98,6 @@ export default class CategoryService {
                 image
             } = params;
 
-            console.log('Add Category Image hit: ', id);
-
             const data = {
                 thumbnailFilename: image.filename,
                 thumbnailPath: `/img/categories/${image.filename}`
@@ -157,8 +155,6 @@ export default class CategoryService {
                 }
             );
 
-            console.log('getCategory res: ', getCategory);
-
             fs.stat(`./public${getCategory.rows[0].thumbnailPath}`, function (err) {
                 if (err) {
                     return console.error(err);
@@ -166,7 +162,6 @@ export default class CategoryService {
              
                 fs.unlink(`./public${getCategory.rows[0].thumbnailPath}`,function(err){
                      if(err) return console.log(err);
-                     console.log('file deleted successfully');
                 });
              });
 
@@ -178,7 +173,6 @@ export default class CategoryService {
             
                 fs.unlink(`./public${getCategory.rows[0].thumbnailPath}-mobile.webp`,function(err){
                     if(err) return console.log(err);
-                    console.log('file deleted successfully');
                 });
             });
 
@@ -189,7 +183,6 @@ export default class CategoryService {
             
                 fs.unlink(`./public${getCategory.rows[0].thumbnailPath}-desktop.webp`,function(err){
                     if(err) return console.log(err);
-                    console.log('file deleted successfully');
                 });
             });
             

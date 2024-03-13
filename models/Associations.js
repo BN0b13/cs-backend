@@ -1,7 +1,9 @@
 import Cart from './Cart.js';
 import Category from './Category.js';
+import Company from './Company.js';
 import Configuration from './Configuration.js';
 import Coupon from './Coupon.js';
+import Giveaway from './Giveaway.js';
 import Inventory from './Inventory.js';
 import Message from './Message.js';
 import Order from './Order.js';
@@ -22,6 +24,14 @@ Category.hasMany(Product, {
     }
 });
 
+Company.hasOne(User, {
+    foreignKey:{
+        allowNull: false, 
+        name:'id'
+    },
+    sourceKey: 'userId'
+});
+
 Configuration.hasOne(Theme, {
     foreignKey:{
         allowNull: false, 
@@ -30,11 +40,43 @@ Configuration.hasOne(Theme, {
     sourceKey: 'themeId'
 });
 
+Giveaway.hasOne(User, {
+    foreignKey:{
+        allowNull: false, 
+        name:'id'
+    },
+    sourceKey: 'userId'
+});
+
+Giveaway.hasOne(Company, {
+    foreignKey:{
+        allowNull: false, 
+        name:'id'
+    },
+    sourceKey: 'companyId'
+});
+
 Message.hasOne(User, {
     foreignKey:{
         allowNull: false, 
         name:'id'
     }
+});
+
+Order.hasOne(Coupon, {
+    foreignKey:{
+        allowNull: false, 
+        name:'id'
+    },
+    sourceKey: 'couponId'
+});
+
+Order.hasOne(Sale, {
+    foreignKey:{
+        allowNull: false, 
+        name:'id'
+    },
+    sourceKey: 'saleId'
 });
 
 Product.hasOne(Category, {
@@ -66,6 +108,20 @@ User.hasOne(Cart, {
     }
 });
 
+User.hasOne(Company, {
+    foreignKey:{
+        allowNull: false, 
+        name:'userId'
+    }
+});
+
+User.hasOne(Giveaway, {
+    foreignKey:{
+        allowNull: false, 
+        name:'userId'
+    }
+});
+
 User.hasMany(Order, {
     foreignKey:{
         allowNull: false, 
@@ -84,14 +140,16 @@ User.hasOne(Role, {
 export {
     Cart,
     Category,
+    Company,
     Configuration,
-    Message,
     Coupon,
-    ProductProfile,
+    Giveaway,
     Inventory,
+    Message,
     Order,
     Product,
     ProductImage,
+    ProductProfile,
     Role,
     Sale,
     Theme,

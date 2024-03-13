@@ -10,6 +10,7 @@ import CartController from '../controllers/CartController.js';
 import CategoryController from '../controllers/CategoryController.js';
 import CheckoutController from '../controllers/CheckoutController.js';
 import ConfigurationController from '../controllers/ConfigurationController.js';
+import GiveawayController from '../controllers/GiveawayController.js';
 import MessageController from '../controllers/MessageController.js';
 import OrderController from '../controllers/OrderController.js';
 import ProductController from '../controllers/ProductController.js';
@@ -23,6 +24,7 @@ const cartController = new CartController();
 const categoryController = new CategoryController();
 const checkoutController = new CheckoutController();
 const configurationController = new ConfigurationController();
+const giveawayController = new GiveawayController();
 const messageController = new MessageController();
 const orderController = new OrderController();
 const productController = new ProductController();
@@ -33,6 +35,10 @@ const visitController = new VisitController();
 const welcomeController = new WelcomeController();
 
 const orderQueue = new Bull("order", {
+  redis: "localhost:6379",
+});
+
+const giveawayQueue = new Bull("giveaway", {
   redis: "localhost:6379",
 });
 
@@ -50,7 +56,8 @@ const createOrder = async (req, res) => {
     deliveryInsuranceTotal,
     couponId = null,
     saleId = null,
-    paymentType
+    paymentType,
+    credit = null
   } = req.body;
 
   const params = {
@@ -66,7 +73,8 @@ const createOrder = async (req, res) => {
     deliveryInsuranceTotal,
     couponId,
     saleId,
-    paymentType
+    paymentType,
+    credit
   };
 
   const data = await orderController.create(params);
@@ -86,6 +94,12 @@ router.get('/health', (req, res) => {
     message: 'API is healthy and responding'
   });
 });
+
+// Account
+
+router.get('/account/activate/:passwordToken', HandleErrors(userController.getUserByPasswordToken));
+
+router.patch('/account/activate', HandleErrors(userController.activateAdminCreatedAccount));
 
 // Cart
 
@@ -113,6 +127,15 @@ router.get('/configuration', HandleErrors(configurationController.getPublicConfi
 // Contact
 
 router.post('/contact', TokenVerifier, HandleErrors(messageController.create));
+
+// Giveaways
+
+router.get('/giveaways', HandleErrors(giveawayController.getPublicGiveaways));
+router.get('/giveaways/:id', HandleErrors(giveawayController.getPublicGiveawayById));
+
+router.post('/giveaways/active/user-status', TokenVerifier, HandleErrors(giveawayController.checkIfUserEnteredContest));
+
+router.patch('/giveaways/active/enter', TokenVerifier, HandleErrors(giveawayController.enterUserIntoGiveaway));
 
 // Login
 
@@ -179,5 +202,6 @@ router.get('/welcome/images', HandleErrors(welcomeController.getWelcomeImages));
 router.get('/welcome/content', HandleErrors(welcomeController.getWelcomeContent));
 
 orderQueue.process(orderController.processOrder);
+giveawayQueue.process(giveawayController.enterUserIntoGiveaway);
 
 export default router;

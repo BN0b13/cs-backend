@@ -31,7 +31,12 @@ User.init({
   themeId: DataTypes.INTEGER,
   themeInverted: DataTypes.BOOLEAN,
   eula: DataTypes.BOOLEAN,
-  eulaVersion: DataTypes.STRING
+  eulaVersion: DataTypes.STRING,
+  socials: DataTypes.JSONB,
+  username: DataTypes.STRING,
+  profilePictureName: DataTypes.STRING,
+  profilePicturePath: DataTypes.STRING,
+  status: DataTypes.STRING
 }, {
   sequelize,
   schema: process.env.PG_SCHEMA_NAME,

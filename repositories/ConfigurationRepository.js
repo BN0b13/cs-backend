@@ -57,8 +57,6 @@ class ConfigurationRepository {
                 ]
             });
 
-            console.log('Public Configuration: ', res);
-
             const data = res;
 
             return data;
