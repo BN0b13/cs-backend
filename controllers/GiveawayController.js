@@ -46,8 +46,6 @@ class GiveawayController {
     // Create
 
     async createGiveaway(req, res) {
-        console.log('req body: ', req.body);
-        console.log('User data: ', req.userData);
         const { id } = req.userData;
         try {
             const {
@@ -105,11 +103,7 @@ class GiveawayController {
                 entries: []
             }
 
-            console.log('PARAMS: ', params);
-
             const data = await giveawayService.createGiveaway(params);
-
-            console.log('Data res: ', data);
 
             res.send(data);
         } catch (err) {

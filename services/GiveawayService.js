@@ -228,13 +228,13 @@ export default class GiveawayService {
     }
 
     async handleScheduledGiveaways(giveaways) {
-        const nowUnix = new Date().getTime();
+        const nowUnix = new Date().getTime() + 5000;
         const pendingGiveaways = giveaways.filter(giveaway => giveaway.status === ('created'));
         const activeGiveaways = giveaways.filter(giveaway => giveaway.status === ('active'));
 
         if(pendingGiveaways.length > 0) {
             for(const giveaway of pendingGiveaways) {
-                if(nowUnix > giveaway.startDate) {
+                if(nowUnix >= giveaway.startDate) {
                     console.log(`${giveaway.name} is ready to update status to active.`);
                     await Giveaway.update(
                         {
@@ -252,7 +252,7 @@ export default class GiveawayService {
 
         if(activeGiveaways.length > 0) {
             for(const giveaway of activeGiveaways) {
-                if(nowUnix > giveaway.expirationDate) {
+                if(nowUnix >= giveaway.expirationDate) {
                     console.log(`${giveaway.name} is ready to update status to completed.`);
                     await this.completeGiveawayAndDrawWinners(giveaway.id);
                 }
@@ -272,16 +272,50 @@ export default class GiveawayService {
 
         const shuffled = getGiveaway.entries.sort(() => 0.5 - Math.random());
         
-        getGiveaway.prizes.map(prize => {
+        // getGiveaway.prizes.map(prize => {
+        //     const res = shuffled.slice(winnerCount, prize.prizeWinnerLimit + winnerCount);
+        //     res.forEach(winner => {
+        //         winnerCount++;
+        //         winners.push({
+        //             ...winner,
+        //             prize
+        //         });
+        //     });
+        // });
+
+        for(let prize of getGiveaway.prizes) {
             const res = shuffled.slice(winnerCount, prize.prizeWinnerLimit + winnerCount);
-            res.forEach(winner => {
+            for(let winner of res) {
+                if(prize.prizeType === 'credit') {
+                    const user = await User.findOne({
+                        where: {
+                            email: winner.email
+                        }
+                    });
+
+                    const data = {
+                        credit: user.credit + parseInt(prize.prize)
+                    };
+
+                    const updateRes = await User.update(
+                        data,
+                        {
+                            where: {
+                                id: user.id
+                            }
+                        }
+                    );
+
+                    console.log(`Adding $${prize.prize/100} credit to user id: ${user.id}, email: ${user.email}. Update result: `, updateRes);
+                }
+
                 winnerCount++;
                 winners.push({
                     ...winner,
                     prize
                 });
-            });
-        });
+            }
+        }
 
         const completedDate = new Date().getTime();
 

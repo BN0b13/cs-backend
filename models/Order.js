@@ -33,7 +33,7 @@ Order.init({
   notes: DataTypes.TEXT,
   saleId: DataTypes.INTEGER,
   paymentType: DataTypes.STRING,
-  credit: DataTypes.INTEGER
+  credit: DataTypes.JSONB
 }, {
   sequelize,
   schema: process.env.PG_SCHEMA_NAME,

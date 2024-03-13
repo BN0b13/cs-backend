@@ -2,7 +2,7 @@ import { Op } from 'sequelize';
 
 import { sequelize } from '../db.js';
 
-import Order from '../models/Order.js';
+import { Coupon, Order, Sale } from '../models/Associations.js';
 
 class OrderRepository {
 
@@ -10,20 +10,15 @@ class OrderRepository {
 
     async getOrders() {
         try {
-            const res = await Order.findAndCountAll({});
-            return res;
-        } catch (err) {
-            console.log('Get Orders Messages Error: ', err);
-            throw Error('There was an error getting all orders');
-        }
-    }
-
-    async getOrderId(id) {
-        try {
             const res = await Order.findAndCountAll({
-                where: {
-                    id: id
-                }
+                include: [
+                    { 
+                        model: Coupon
+                    },
+                    { 
+                        model: Sale
+                    }
+                ]
             });
             return res;
         } catch (err) {
@@ -37,7 +32,15 @@ class OrderRepository {
             const res = await Order.findOne({
                 where: {
                     id
-                }
+                },
+                include: [
+                    { 
+                        model: Coupon
+                    },
+                    { 
+                        model: Sale
+                    }
+                ]
             });
             return res;
         } catch (err) {
@@ -51,7 +54,15 @@ class OrderRepository {
             const res = await Order.findAndCountAll({
                 where: {
                     userId: id
-                }
+                },
+                include: [
+                    { 
+                        model: Coupon
+                    },
+                    { 
+                        model: Sale
+                    }
+                ]
             });
             return res;
         } catch (err) {
@@ -72,13 +83,22 @@ class OrderRepository {
         }
     }
 
-    async getOrdersByRefId(refId) {
+    async getOrderByRefId(refId) {
         try {
-            const res = await Order.findAndCountAll({
+            const res = await Order.findOne({
                 where: {
                     refId: refId
-                }
+                },
+                include: [
+                    { 
+                        model: Coupon
+                    },
+                    { 
+                        model: Sale
+                    }
+                ]
             });
+
             return res;
         } catch (err) {
             console.log('Get Orders Messages Error: ', err);
@@ -88,10 +108,18 @@ class OrderRepository {
 
     async getOrderByRef(refId) {
         try {
-            const res = await Order.findAndCountAll({
+            const res = await Order.findOne({
                 where: {
                     refId
-                }
+                },
+                include: [
+                    { 
+                        model: Coupon
+                    },
+                    { 
+                        model: Sale
+                    }
+                ]
             });
             return res;
         } catch (err) {

@@ -63,6 +63,22 @@ Message.hasOne(User, {
     }
 });
 
+Order.hasOne(Coupon, {
+    foreignKey:{
+        allowNull: false, 
+        name:'id'
+    },
+    sourceKey: 'couponId'
+});
+
+Order.hasOne(Sale, {
+    foreignKey:{
+        allowNull: false, 
+        name:'id'
+    },
+    sourceKey: 'saleId'
+});
+
 Product.hasOne(Category, {
     foreignKey:{
         allowNull: false, 

@@ -57,7 +57,6 @@ class MessageController {
     // UPDATE
 
     async updateMessage(req, res) {
-        console.log('UPDATE message hit: ', req.body);
         const {
             id,
             status = null,

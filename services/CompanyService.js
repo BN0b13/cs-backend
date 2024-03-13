@@ -51,8 +51,6 @@ export default class CompanyService {
             image
         } = params;
 
-        console.log('Params: ', params);
-
         const { 
             path, 
             filename 
@@ -118,7 +116,6 @@ export default class CompanyService {
             
                 fs.unlink(`./public${company.logoPath}`,function(err){
                     if(err) return console.log(err);
-                    console.log('file deleted successfully');
                 });
             });
 
@@ -129,7 +126,6 @@ export default class CompanyService {
             
                 fs.unlink(`./public${company.logoPath}-mobile.webp`,function(err){
                     if(err) return console.log(err);
-                    console.log('file deleted successfully');
                 });
             });
 
@@ -140,7 +136,6 @@ export default class CompanyService {
             
                 fs.unlink(`./public${company.logoPath}-desktop.webp`,function(err){
                     if(err) return console.log(err);
-                    console.log('file deleted successfully');
                 });
             });
         }
@@ -173,7 +168,6 @@ export default class CompanyService {
             
                 fs.unlink(`./public${company.logoPath}`,function(err){
                     if(err) return console.log(err);
-                    console.log('file deleted successfully');
                 });
             });
 
@@ -184,7 +178,6 @@ export default class CompanyService {
             
                 fs.unlink(`./public${company.logoPath}-mobile.webp`,function(err){
                     if(err) return console.log(err);
-                    console.log('file deleted successfully');
                 });
             });
 
@@ -195,7 +188,6 @@ export default class CompanyService {
             
                 fs.unlink(`./public${company.logoPath}-desktop.webp`,function(err){
                     if(err) return console.log(err);
-                    console.log('file deleted successfully');
                 });
             });
         }

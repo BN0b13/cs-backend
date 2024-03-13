@@ -42,7 +42,7 @@ class OrderController {
     
     async getOrderId(req, res) {
         const { id } = req.params;
-        const data = await orderRepository.getOrderId(id);
+        const data = await orderRepository.getOrderById(id);
         res.send(data);
     }
     
@@ -58,9 +58,9 @@ class OrderController {
         res.send(data);
     }
     
-    async getOrdersByRefId(req, res) {
+    async getOrderByRefId(req, res) {
         const { refId } = req.params;
-        const data = await orderRepository.getOrdersByRefId(refId);
+        const data = await orderRepository.getOrderByRefId(refId);
         res.send(data);
     }
     

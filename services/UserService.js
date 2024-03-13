@@ -395,7 +395,33 @@ export default class UserService {
                 if(result.roleId == 5) {
                     const companyData = {
                         userId: result.id,
-                        active: true
+                        active: true,
+                        socials: [{
+                            discord: {
+                                url: '',
+                                display: false
+                            },
+                            facebook: {
+                                url: '',
+                                display: false
+                            },
+                            instagram: {
+                                url: '',
+                                display: false
+                            },
+                            linkedIn: {
+                                url: '',
+                                display: false
+                            },
+                            reddit: {
+                                url: '',
+                                display: false
+                            },
+                            twitter: {
+                                url: '',
+                                display: false
+                            }
+                        }]
                     }
     
                     await Company.create(companyData, { transaction: t });
@@ -554,7 +580,17 @@ export default class UserService {
             const hashedPassword = await this.hashPassword(newPassword);
 
             const res = await this.updateUserPassword(id, hashedPassword);
-            return res;
+
+            console.log('Update password res: ', res.length);
+            if(res.length === 1) {
+                return {
+                    success: 'Password updated successfully'
+                }
+            } else {
+                return {
+                    error: 'Something went wrong. Please try again.'
+                }
+            }
         } catch (err) {
             console.log('Update User Error: ', err);
             throw Error('There was an error updating the user');

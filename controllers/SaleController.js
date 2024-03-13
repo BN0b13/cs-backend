@@ -8,7 +8,6 @@ class SaleController {
 
     async create(req, res) {
         try {
-            console.log('CREATE Sale body: ', req.body);
             const {
                 categoryId = null,
                 productId = null,

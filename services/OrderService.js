@@ -3,41 +3,52 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { sequelize } from "../db.js";
 
-import { Order } from '../models/Associations.js';
+import { User } from '../models/Associations.js';
+import { Coupon, Order, Sale } from '../models/Associations.js';
 
 import CartService from './CartService.js';
 import EmailService from './EmailService.js';
 import InventoryService from './InventoryService.js';
+import OrderRepository from '../repositories/OrderRepository.js';
 import PaymentService from './PaymentService.js'
 import ProductService from './ProductService.js';
-import OrderRepository from '../repositories/OrderRepository.js';
+import SaleService from './SaleService.js';
 import UserRepository from '../repositories/UserRepository.js';
 
 const cartService = new CartService();
 const emailService = new EmailService();
 const inventoryService = new InventoryService();
+const orderRepository = new OrderRepository();
 const paymentService = new PaymentService();
 const productService = new ProductService();
-const orderRepository = new OrderRepository();
+const saleService = new SaleService();
 const userRepository = new UserRepository();
 
 export default class OrderService {
 
     // Read
 
-    checkUserCreditAmount = async (params) => {
-        const {
-            userId,
-            credit
-        } = params;
+    checkUserCreditAmount = async (userId, credit, total) => {
+        let updatedCredit = credit;
+
+        if(credit > total) {
+            updatedCredit = credit - total;
+        }
 
         const getUser = await userRepository.getUserById(userId);
 
-        if(!getUser.credit || getUser.credit < credit) {
-            return false
+        if(!getUser.credit || getUser.credit < updatedCredit) {
+            return {
+                error: 'User does not have enough credit on account to support the amount on order'
+            }
         }
 
-        return true;
+        return {
+            currentUserCredit: getUser.credit,
+            newUserCredit: getUser.credit - updatedCredit,
+            credit: updatedCredit,
+            total: total - updatedCredit
+        };
     }
 
     // Create
@@ -46,26 +57,33 @@ export default class OrderService {
         const {
             userId,
             products,
-            total,
             billingAddress,
             shippingAddress,
             shippingId,
             shippingTotal,
             deliveryInsurance,
             deliveryInsuranceTotal,
-            couponId,
-            saleId,
+            couponId = null,
             notes = null,
             paymentType,
             credit = null
         } = params;
+        let total = (shippingTotal || 0) + (deliveryInsuranceTotal || 0);
+
+        const handleSales = await saleService.updateOrderTotalWithActiveSales(products, shippingTotal, deliveryInsuranceTotal);
+        total = total + handleSales.total;
+
+        let orderCreditData = null;
 
         if(credit) {
-            const creditCheck = await this.checkUserCreditAmount(params);
-            if(!creditCheck) {
+            const creditCheck = await this.checkUserCreditAmount(userId, credit, total);
+            if(creditCheck.error) {
                 return {
-                    error: 'User does not have enough credit on account to support the amount on order'
+                    error: creditCheck.error
                 }
+            } else {
+                orderCreditData = creditCheck;
+                total = creditCheck.total
             }
         }
 
@@ -86,16 +104,29 @@ export default class OrderService {
                     deliveryInsurance,
                     deliveryInsuranceTotal,
                     couponId,
-                    saleId,
+                    saleId: handleSales.saleId,
                     status: 'pending',
                     paid: false,
                     paymentLink: '',
                     fulfilledBy: null,
                     tracking: null,
                     notes,
-                    paymentType,
-                    credit
+                    paymentType
                 };
+
+                if(orderCreditData) {
+                    orderData.credit = orderCreditData;
+                    const newUserCredit = {
+                        credit: orderCreditData.newUserCredit
+                    };
+
+                    await User.update(newUserCredit, {
+                        where: {
+                            id: userId
+                        },
+                        transaction: t 
+                    });
+                }
 
                 const result = await Order.create(orderData, { transaction: t });
                 return result;
@@ -235,7 +266,15 @@ export default class OrderService {
             const res = await Order.findAndCountAll({
                 where: {
                     userId: id
-                }
+                },
+                include: [
+                    { 
+                        model: Coupon
+                    },
+                    { 
+                        model: Sale
+                    }
+                ]
             });
 
             const data = res.rows[0].products;
@@ -258,19 +297,27 @@ export default class OrderService {
 
     async getOrderByRef(refId) {
         try {
-            const res = await Order.findAndCountAll({
+            const res = await Order.findOne({
                 where: {
                     refId
-                }
+                },
+                include: [
+                    { 
+                        model: Coupon
+                    },
+                    { 
+                        model: Sale
+                    }
+                ]
             });
 
-            if(res.count === 0) {
+            if(!res) {
                 return {
                     status: 404
                 }
             }
 
-            const data = res.rows[0].products;
+            const data = res.products;
             const ids = data.map(item => item.productId);
             const products = await productService.getProductsByIds(ids);
             const productData = products.rows.map(item => item.dataValues);
@@ -279,7 +326,7 @@ export default class OrderService {
                 item['product'] = productData.filter(product => product.id === item.productId);
             });
 
-            res.rows[0].products = data;
+            res.products = data;
 
             return res;
         } catch (err) {

@@ -40,8 +40,6 @@ class UserRepository {
         try {
             const getUser = await this.getSingleUserByEmail(email);
 
-            console.log('Admin Login GET user: ', );
-
             if(!getUser) {
                 throw Error('Email does not exist');
             }

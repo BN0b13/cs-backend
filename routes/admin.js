@@ -137,7 +137,7 @@ router.patch('/messages', AdminTokenVerifier, HandleErrors(messageController.upd
 router.get('/orders', AdminTokenVerifier, HandleErrors(orderController.getOrders));
 router.get('/orders/search/id/:id', AdminTokenVerifier, HandleErrors(orderController.getOrderId));
 router.get('/orders/search/product-id/:productId', AdminTokenVerifier, HandleErrors(orderController.getOrdersByProductId));
-router.get('/orders/search/ref-id/:refId', AdminTokenVerifier, HandleErrors(orderController.getOrdersByRefId));
+router.get('/orders/search/ref-id/:refId', AdminTokenVerifier, HandleErrors(orderController.getOrderByRefId));
 
 router.patch('/orders', AdminTokenVerifier, HandleErrors(orderController.updateOrder));
 router.patch('/orders/payment-link', AdminTokenVerifier, HandleErrors(orderController.paymentLink));
@@ -195,7 +195,7 @@ router.get('/users', AdminTokenVerifier, HandleErrors(userController.getUsers));
 router.get('/user/:id', AdminTokenVerifier, HandleErrors(userController.getUserById));
 
 // TODO make admin patch function
-router.patch('/users', AdminTokenVerifier, HandleErrors(userController.updateUser));
+router.patch('/users', AdminTokenVerifier, HandleErrors(userController.updateAdminUser));
 
 router.delete('/users', AdminTokenVerifier, HandleErrors(userController.deleteUser));
 

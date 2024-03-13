@@ -11,7 +11,7 @@ module.exports = {
           table,
           'credit',
           {
-            type: Sequelize.INTEGER
+            type: Sequelize.JSONB
           },
           {
             transaction: t

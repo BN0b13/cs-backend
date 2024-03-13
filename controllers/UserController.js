@@ -393,8 +393,42 @@ class UserController {
     // UPDATE
 
     async updateUser(req, res) {
+        const { id } = req.userData;
+        const {
+            username,
+            password = null,
+            firstName = null,
+            lastName = null,
+            phone = null,
+            billingAddress = null,
+            shippingAddress = null,
+            subscriptions = null,
+            credit = null
+        } = req.body;
+
+        const params = {
+            username,
+            password,
+            firstName,
+            lastName,
+            phone,
+            billingAddress,
+            shippingAddress,
+            subscriptions,
+            credit
+        };
+
+        Object.keys(params).forEach(param => params[param] == null && delete params[param]);
+
+        const data = await userService.updateUser(id, params);
+        res.send(data);
+    }
+
+    async updateAdminUser(req, res) {
+
         const {
             id,
+            username,
             password = null,
             firstName = null,
             lastName = null,
