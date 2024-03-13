@@ -1,16 +1,18 @@
 import * as bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { sequelize } from "../db.js";
+import { Op } from 'sequelize';
 
 import AuthManagement from '../services/AuthManagement.js';
 import EmailService from './EmailService.js';
 
-import { Cart, User } from '../models/Associations.js';
+import { Cart, Company, User } from '../models/Associations.js';
 
-import { passwordValidation } from '../tools/user.js';
+import UserTools from '../tools/user.js';
 
 const authManagement = new AuthManagement();
 const emailService = new EmailService();
+const userTools = new UserTools();
 
 export default class UserService {
     hashPassword = async (password) => {
@@ -22,8 +24,27 @@ export default class UserService {
         return await bcrypt.compare(data, encrypted);
     }
 
-    createEmailToken = async (id, email) => {
-        const token = jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: 3600 });
+    checkIfUsernameExists = async (username, id = null) => {
+        const res = await User.findOne({
+            where: {
+                username: {
+                    [Op.iLike]: username
+                }
+                
+            }
+        });
+
+        if(res) {
+            if(res.id === id) {
+                return false
+            }
+            return true;
+        }
+        return false;
+    }
+
+    createEmailToken = async (id, email, expiresIn = 3600) => {
+        const token = jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn });
         await this.updateUserEmailToken(token, email);
 
         return token;
@@ -140,6 +161,14 @@ export default class UserService {
         return await this.updateUserPasswordByToken(passwordToken, hashedPassword);
     }
 
+    getByUsername = async (username) => {
+        return await User.findAll({
+            where: {
+                username
+            }
+        });
+    }
+
     getByEmail = async (email) => {
         return await User.findAll({
             where: {
@@ -185,7 +214,8 @@ export default class UserService {
                     themeId: 1,
                     themeInverted: false,
                     eula: true,
-                    eulaVersion: 'v1.0.0'
+                    eulaVersion: 'v1.0.0',
+                    status: 'active'
                 };
     
                 const result = await User.create(data, { transaction: t });
@@ -232,7 +262,8 @@ export default class UserService {
                     themeId: 1,
                     themeInverted: false,
                     eula: false,
-                    eulaVersion: 'v1.0.0'
+                    eulaVersion: 'v1.0.0',
+                    status: 'active'
                 };
     
                 const result = await User.create(data, { transaction: t });
@@ -251,17 +282,26 @@ export default class UserService {
     }
     
     createCustomer = async (params) => {
-        console.log('CREATE Customer hit. Params: ', params);
         const {
-            email, 
+            email,
+            username, 
             password
         } = params;
     
         const emailExists = await this.getByEmail(email);
         
         if(emailExists.length > 0) {
-            console.log('Email already exists error');
-            throw Error('Email already exists');
+            return {
+                status: 422,
+                error: 'Unable to sign up'
+            }
+        }
+    
+        if(await this.checkIfUsernameExists(username)) {
+            return {
+                statusCode: 422,
+                error: 'Username already exists'
+            }
         }
         
         const hashedPassword = await this.hashPassword(password);
@@ -281,7 +321,8 @@ export default class UserService {
                     themeId: 1,
                     themeInverted: false,
                     eula: true,
-                    eulaVersion: 'v1.0.0'
+                    eulaVersion: 'v1.0.0',
+                    status: 'active'
                 };
     
                 const result = await User.create(data, { transaction: t });
@@ -314,10 +355,9 @@ export default class UserService {
         }
     }
     
-    adminCreateCustomer = async (params) => {
+    adminCreateAccount = async (params) => {
         const {
-            email, 
-            password
+            email
         } = params;
     
         const emailExists = await this.getByEmail(email);
@@ -328,20 +368,20 @@ export default class UserService {
 
         try {
             const res = await sequelize.transaction(async (t) => {
+                const passwordToken = jwt.sign({ email }, process.env.JWT_SECRET);
+
                 const data = { 
                     ...params,
+                    password: 'none',
                     emailOriginal: email,
-                    password,
                     subscriptions: [],
                     emailVerified: false,
-                    roleId: 4,
-                    emailToken: null,
-                    passwordToken: null,
+                    passwordToken,
                     credit: 0,
                     themeId: 1,
                     themeInverted: false,
-                    eula: true,
-                    eulaVersion: 'v1.0.0'
+                    eula: false,
+                    status: 'pending'
                 };
     
                 const result = await User.create(data, { transaction: t });
@@ -352,8 +392,46 @@ export default class UserService {
     
                 await Cart.create(cartData, { transaction: t });
 
+                if(result.roleId == 5) {
+                    const companyData = {
+                        userId: result.id,
+                        active: true,
+                        socials: [{
+                            discord: {
+                                url: '',
+                                display: false
+                            },
+                            facebook: {
+                                url: '',
+                                display: false
+                            },
+                            instagram: {
+                                url: '',
+                                display: false
+                            },
+                            linkedIn: {
+                                url: '',
+                                display: false
+                            },
+                            reddit: {
+                                url: '',
+                                display: false
+                            },
+                            twitter: {
+                                url: '',
+                                display: false
+                            }
+                        }]
+                    }
+    
+                    await Company.create(companyData, { transaction: t });
+                }
+
                 
-                return result;
+                return {
+                    ...result,
+                    passwordToken
+                };
             });
 
             // Refactoring how a verified email works - eg. subscriptions
@@ -371,6 +449,36 @@ export default class UserService {
         } catch (err) {
             console.log('Customer Create Error: ', err);
             throw Error('There was an error creating the customer');
+        }
+    }
+
+    // UPDATE
+
+    async updateUser(id, params) {
+        try {
+            let data = params;
+            if(await this.checkIfUsernameExists(data.username, id)) {
+                return {
+                    statusCode: 422,
+                    error: 'Username already exists'
+                }
+            }
+
+            if(data.password) {
+                data.password = await this.hashPassword(data.password);
+            }
+
+            return await User.update(
+                data,
+                {
+                    where: {
+                                id: id
+                            }
+                }
+            );
+        } catch (err) {
+            console.log('Update User Error: ', err);
+            throw Error('There was an error updating the user');
         }
     }
 
@@ -462,7 +570,7 @@ export default class UserService {
                 }
             }
             
-            if(!passwordValidation(newPassword) || currentPassword === newPassword) {
+            if(!userTools.passwordValidation(newPassword) || currentPassword === newPassword) {
                 return {
                     status: 406,
                     error: 'Password does not meet validation standards'
@@ -472,7 +580,61 @@ export default class UserService {
             const hashedPassword = await this.hashPassword(newPassword);
 
             const res = await this.updateUserPassword(id, hashedPassword);
-            return res;
+
+            console.log('Update password res: ', res.length);
+            if(res.length === 1) {
+                return {
+                    success: 'Password updated successfully'
+                }
+            } else {
+                return {
+                    error: 'Something went wrong. Please try again.'
+                }
+            }
+        } catch (err) {
+            console.log('Update User Error: ', err);
+            throw Error('There was an error updating the user');
+        }
+    }
+
+    async activateAdminCreatedUser(passwordToken, data) {
+        try {
+            if(await this.checkIfUsernameExists(data.username)) {
+                return {
+                    statusCode: 422,
+                    error: 'Username already exists'
+                }
+            }
+
+            const getUser = await User.findOne({
+                where: {
+                    passwordToken
+                }
+            });
+
+            const hashedPassword = await this.hashPassword(data.password);
+
+            const res = await User.update(
+                {
+                    ...data,
+                    password: hashedPassword,
+                    passwordToken: null,
+                    status: 'active'
+                },
+                {
+                    where: {
+                                id: getUser.id
+                            }
+                }
+            );
+
+            const token = await authManagement.createToken({ id: getUser.id });
+
+            return {
+                status: 200,
+                token,
+                email: getUser.email
+            };
         } catch (err) {
             console.log('Update User Error: ', err);
             throw Error('There was an error updating the user');

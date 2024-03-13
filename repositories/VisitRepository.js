@@ -1,4 +1,4 @@
-import { Sequelize } from 'sequelize';
+import { Sequelize, Op } from 'sequelize';
 
 import Visit from '../models/Visit.js';
 
@@ -44,6 +44,24 @@ class VisitRepository {
     async getVisits() {
         try {
             const res = await Visit.findAndCountAll({});
+            return res;
+        } catch (err) {
+            console.log('Get Visit Messages Error: ', err);
+            throw Error('There was an error getting all roles');
+        }
+    }
+
+    async getVisitsByDateRange() {
+        try {
+            const startDate = new Date(1704869030);
+            const endDate = new Date(1710053030);
+            const res = await Visit.findAndCountAll({
+                where: {
+                    createdAt: {
+                       [Op.between]: [startDate, endDate],
+                    },
+                  },
+            });
             return res;
         } catch (err) {
             console.log('Get Visit Messages Error: ', err);

@@ -32,7 +32,8 @@ Order.init({
   tracking: DataTypes.STRING,
   notes: DataTypes.TEXT,
   saleId: DataTypes.INTEGER,
-  paymentType: DataTypes.STRING
+  paymentType: DataTypes.STRING,
+  credit: DataTypes.JSONB
 }, {
   sequelize,
   schema: process.env.PG_SCHEMA_NAME,

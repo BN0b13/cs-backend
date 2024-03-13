@@ -1,7 +1,7 @@
 import AuthManagement from '../services/AuthManagement.js';
 import UserService from '../services/UserService.js';
 
-import { Cart, Order, Role, User } from '../models/Associations.js';
+import { Cart, Company, Giveaway, Order, Role, User } from '../models/Associations.js';
 
 const authManagement = new AuthManagement();
 const userService = new UserService();
@@ -40,13 +40,11 @@ class UserRepository {
         try {
             const getUser = await this.getSingleUserByEmail(email);
 
-            console.log('Admin Login GET user: ', );
-
             if(!getUser) {
                 throw Error('Email does not exist');
             }
 
-            if(getUser.roleId !== 1) {
+            if(getUser.roleId === 4) {
                 throw Error('Access Denied');
             }
 
@@ -84,12 +82,16 @@ class UserRepository {
                 },
                 { 
                     model: Order
+                },
+                {
+                    model: Role
                 }
             ]
         });
 
         const data = {
             email: user.email,
+            username: user.username,
             firstName: user.firstName,
             lastName: user.lastName,
             phone: user.phone,
@@ -103,9 +105,18 @@ class UserRepository {
             themeInverted: user.themeInverted,
             cart: user.Cart,
             orders: user.Orders,
+            credit: user.credit
         }
 
         return data;
+    }
+
+    async getUserByPasswordToken(passwordToken) {
+        return await User.findAll({
+            where: {
+                passwordToken
+            }
+        });
     }
 
     async getByEmail(email) {
@@ -135,6 +146,12 @@ class UserRepository {
                     { 
                         model: Cart
                     },
+                    {
+                        model: Company
+                    },
+                    {
+                        model: Giveaway
+                    },
                     { 
                         model: Order
                     },
@@ -152,10 +169,10 @@ class UserRepository {
 
     async getUserById(id) {
         try {
-            const res = await User.findAll(
+            return await User.findOne(
                 {
                     where: {
-                        id:id
+                        id
                     },
                     include: [
                         { 
@@ -170,7 +187,6 @@ class UserRepository {
                     ]
                 }
             );
-            return res;
         } catch (err) {
             console.log('Get Users Error: ', err);
             throw Error('There was an error getting all users');
@@ -234,25 +250,6 @@ class UserRepository {
         });
     }
 
-    // UPDATE
-
-    async updateUser(id, data) {
-        try {
-            const res = await User.update(
-                data,
-                {
-                    where: {
-                                id: id
-                            }
-                }
-            );
-            return res;
-        } catch (err) {
-            console.log('Update User Error: ', err);
-            throw Error('There was an error updating the user');
-        }
-    }
-
     // DELETE
 
     async deleteUser(id) {
@@ -273,9 +270,15 @@ class UserRepository {
 
     async deleteCustomer(id) {
         try {
+            if(id === 1) {
+                return {
+                    error: 'Cannot DELETE Super Admin user'
+                }
+            }
             const res = await User.update(
                 {
-                    email: 'deleted'
+                    email: 'deleted',
+                    username: ''
                 },
                 {
                     where: {

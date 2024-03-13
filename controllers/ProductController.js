@@ -79,8 +79,6 @@ class ProductController {
                 size = 10, 
         } = req.query;
 
-        console.log('query: ', req.query);
-
         if(search === null) {
             const data = await productRepository.getProductsByPage(page, size);
             return res.send(data);
@@ -161,7 +159,6 @@ class ProductController {
     // UPDATE
 
     async addProductImage(req, res) {
-        console.log('WHO HURT YOU?????');
         try {
             const {
                 id,
@@ -189,7 +186,6 @@ class ProductController {
 
     async updateProduct(req, res) {
         try {
-            console.log('Update Product req: ', req.body);
             const {
                 id,
                 categoryId = null,

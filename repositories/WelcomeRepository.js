@@ -35,8 +35,6 @@ class WelcomeRepository {
 
     async updateWelcomeImageById(id, data) {
         try {
-            console.log('Updating id: ', id);
-            console.log('Data: ', data);
             const res = await WelcomeImage.update(
                 data,
                 {

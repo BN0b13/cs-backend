@@ -18,7 +18,8 @@ class UserController {
             lastName = null,
             phone = null,
             billingAddress = null,
-            shippingAddress = null
+            shippingAddress = null,
+            username = null
         } = req.body;
 
         const params = {
@@ -28,7 +29,8 @@ class UserController {
             lastName,
             phone,
             billingAddress,
-            shippingAddress
+            shippingAddress,
+            username
         };
 
         Object.values(params).forEach(param => {
@@ -57,7 +59,8 @@ class UserController {
             lastName = null,
             phone = null,
             billingAddress = null,
-            shippingAddress = null
+            shippingAddress = null,
+            username = null
         } = req.body;
 
         const params = {
@@ -67,7 +70,8 @@ class UserController {
             lastName,
             phone,
             billingAddress,
-            shippingAddress
+            shippingAddress,
+            username
         };
 
         Object.values(params).forEach(param => {
@@ -97,7 +101,8 @@ class UserController {
             phone = null,
             billingAddress = null,
             shippingAddress = null,
-            eula = null
+            eula = null,
+            username = null
         } = req.body;
 
         const params = {
@@ -108,7 +113,8 @@ class UserController {
             phone,
             billingAddress,
             shippingAddress,
-            eula
+            eula,
+            username
         };
 
         Object.values(params).forEach(param => {
@@ -128,28 +134,16 @@ class UserController {
         }
     }
 
-    async adminCreateCustomer(req, res) {
+    async adminCreateAccount(req, res) {
         try {
         const { 
             email = null,
-            password = null,
-            firstName = null,
-            lastName = null,
-            phone = null,
-            billingAddress = null,
-            shippingAddress = null,
-            eula = null
+            roleId = null
         } = req.body;
 
         const params = {
             email: email.toLowerCase(),
-            password,
-            firstName,
-            lastName,
-            phone,
-            billingAddress,
-            shippingAddress,
-            eula
+            roleId
         };
 
         Object.values(params).forEach(param => {
@@ -158,7 +152,7 @@ class UserController {
             }
         });
 
-        const data = await userService.adminCreateCustomer(params);
+        const data = await userService.adminCreateAccount(params);
 
         res.send(data);
         } catch (err) {
@@ -274,10 +268,6 @@ class UserController {
                 email = null, 
                 password = null
             } = req.body;
-
-            if(email === 'deleted') {
-                throw Error(`Customer has been deleted, unable to log in.`);
-            }
     
             const params = {
                 email: email.toLowerCase(), 
@@ -352,6 +342,18 @@ class UserController {
         res.send(data);
     }
 
+    async getAccountById(req, res) {
+        const { id } = req.userData;
+        const data = await userRepository.getUserById(id);
+        res.send(data);
+    }
+
+    async getUserByPasswordToken(req, res) {
+        const { passwordToken } = req.params;
+        const data = await userRepository.getUserByPasswordToken(passwordToken);
+        res.send(data);
+    }
+
     async getByPK(req, res) {
         // Primary Key
         const { id } = req.params;
@@ -391,8 +393,9 @@ class UserController {
     // UPDATE
 
     async updateUser(req, res) {
+        const { id } = req.userData;
         const {
-            id,
+            username,
             password = null,
             firstName = null,
             lastName = null,
@@ -404,6 +407,7 @@ class UserController {
         } = req.body;
 
         const params = {
+            username,
             password,
             firstName,
             lastName,
@@ -416,7 +420,40 @@ class UserController {
 
         Object.keys(params).forEach(param => params[param] == null && delete params[param]);
 
-        const data = await userRepository.updateUser(id, params);
+        const data = await userService.updateUser(id, params);
+        res.send(data);
+    }
+
+    async updateAdminUser(req, res) {
+
+        const {
+            id,
+            username,
+            password = null,
+            firstName = null,
+            lastName = null,
+            phone = null,
+            billingAddress = null,
+            shippingAddress = null,
+            subscriptions = null,
+            credit = null
+        } = req.body;
+
+        const params = {
+            username,
+            password,
+            firstName,
+            lastName,
+            phone,
+            billingAddress,
+            shippingAddress,
+            subscriptions,
+            credit
+        };
+
+        Object.keys(params).forEach(param => params[param] == null && delete params[param]);
+
+        const data = await userService.updateUser(id, params);
         res.send(data);
     }
 
@@ -446,6 +483,39 @@ class UserController {
         const { id } = req.userData;
 
         const data = await userRepository.deleteCustomer(id);
+        res.send(data);
+    }
+
+    async activateAdminCreatedAccount(req, res) {
+        const {
+            passwordToken = null,
+            username = null,
+            password = null,
+            firstName = null,
+            lastName = null,
+            phone = null,
+            billingAddress = null,
+            eula = null
+        } = req.body;
+
+        const params = {
+            username,
+            password,
+            firstName,
+            lastName,
+            phone,
+            billingAddress,
+            shippingAddress: billingAddress,
+            eula
+        };
+
+        Object.values(params).forEach(param => {
+            if(param === null) {
+                throw Error(`Missing ${param} Param`);
+            }
+        });
+
+        const data = await userService.activateAdminCreatedUser(passwordToken, params);
         res.send(data);
     }
 
