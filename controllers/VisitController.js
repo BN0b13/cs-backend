@@ -17,8 +17,11 @@ class VisitController {
     }
     
     async getVisitsByDateRange(req, res) {
-        
-        const data = await visitRepository.getVisitsByDateRange();
+        const {
+            start,
+            end
+        } = req.body;
+        const data = await visitRepository.getVisitsByDateRange({ start, end });
         res.send(data);
     }
 
