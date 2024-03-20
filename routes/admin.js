@@ -205,7 +205,7 @@ router.delete('/users', AdminTokenVerifier, HandleErrors(userController.deleteUs
 router.get('/visits', AdminTokenVerifier, HandleErrors(visitController.getVisits));
 router.get('/visits/views', AdminTokenVerifier, HandleErrors(visitController.getTotalVisitCount));
 router.get('/visits/pagination', AdminTokenVerifier, HandleErrors(visitController.getVisitsByPage));
-router.get('/visits/date', AdminTokenVerifier, HandleErrors(visitController.getVisitsByDateRange));
+router.post('/visits/date', AdminTokenVerifier, HandleErrors(visitController.getVisitsByDateRange));
 
 // Welcome
 
