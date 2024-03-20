@@ -1,7 +1,7 @@
 import fs from 'fs';
 import { compressImage } from '../tools/images.js';
 
-import { Category, Product, ProductImage } from '../models/Associations.js';
+import { Category, Inventory, Product, ProductImage } from '../models/Associations.js';
 
 export default class CategoryService {
 
@@ -37,6 +37,9 @@ export default class CategoryService {
                             include: [
                                 {
                                     model: ProductImage
+                                },
+                                { 
+                                    model: Inventory
                                 }
                             ]
                         },

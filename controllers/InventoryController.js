@@ -4,6 +4,48 @@ const inventoryRepository = new InventoryRepository();
 
 class InventoryController {
 
+    // CREATE
+
+    async createInventory(req, res) {
+        const {
+            productId = null,
+            type = null,
+            size = null,
+            sizeDescription = null,
+            price = null,
+            quantity = null,
+            sku = null,
+            address = null,
+            bay = null
+        } = req.body;
+
+        const requiredParams = {
+            productId,
+            type,
+            size,
+            sizeDescription,
+            price,
+            quantity,
+            sku
+        };
+
+        Object.values(requiredParams).forEach(param => {
+            if(param === null) {
+                throw Error(`Missing ${requiredParams[param]} Param`);
+            }
+        });
+
+        const params = {
+            ...requiredParams,
+            address,
+            bay
+
+        };
+
+        const data = await inventoryRepository.createInventory(params);
+        res.send(data);
+    }
+
     // READ
     
     async getInventory(req, res) {
@@ -43,11 +85,7 @@ class InventoryController {
             bay
         };
 
-        Object.values(params).forEach(param => {
-            if(param === null) {
-                throw Error(`Missing ${params[param]} Param`);
-            }
-        });
+        Object.keys(params).forEach(param => params[param] == null && delete params[param]);
 
         const data = await inventoryRepository.updateInventory(id, params);
         res.send(data);

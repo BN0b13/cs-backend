@@ -2,6 +2,18 @@ import { Inventory } from '../models/Associations.js';
 
 class InventoryRepository {
 
+    // CREATE
+
+    async createInventory(data) {
+        try {
+            const res = await Inventory.create(data);
+            return res;
+        } catch (err) {
+            console.log('CREATE Inventory error: ', err);
+            throw Error('There was an error creating Inventory');
+        }
+    }
+
     // READ
 
     async getInventory() {

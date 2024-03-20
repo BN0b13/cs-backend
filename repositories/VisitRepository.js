@@ -1,4 +1,5 @@
 import { Sequelize, Op } from 'sequelize';
+import dayjs from 'dayjs';
 
 import Visit from '../models/Visit.js';
 
@@ -51,14 +52,15 @@ class VisitRepository {
         }
     }
 
-    async getVisitsByDateRange() {
+    async getVisitsByDateRange({ start, end }) {
         try {
-            const startDate = new Date(1704869030);
-            const endDate = new Date(1710053030);
+            const startDate = dayjs.unix(start);
+            const endDate = dayjs.unix(end);
+            
             const res = await Visit.findAndCountAll({
                 where: {
                     createdAt: {
-                       [Op.between]: [startDate, endDate],
+                       [Op.between]: [startDate.$d, endDate.$d],
                     },
                   },
             });
