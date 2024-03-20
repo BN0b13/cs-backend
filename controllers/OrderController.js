@@ -75,6 +75,15 @@ class OrderController {
         return data;
     }
 
+    async getOrdersByDateRange(req, res) {
+        const {
+            start,
+            end
+        } = req.body;
+        const data = await orderRepository.getOrdersByDateRange({ start, end });
+        res.send(data);
+    }
+
     // UPDATE
 
     async updateOrder(req, res) {

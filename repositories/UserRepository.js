@@ -250,6 +250,37 @@ class UserRepository {
         });
     }
 
+    async getCustomersByDateRange({ start, end }) {
+        try {
+            const startDate = dayjs.unix(start);
+            const endDate = dayjs.unix(end);
+            
+            const res = await User.findAndCountAll({
+                where: {
+                    createdAt: {
+                       [Op.between]: [startDate.$d, endDate.$d],
+                    },
+                    roleId: 4
+                  },
+                  include: [
+                      { 
+                          model: Cart
+                      },
+                      { 
+                          model: Order
+                      },
+                      { 
+                          model: Role
+                      }
+                  ]
+            });
+            return res;
+        } catch (err) {
+            console.log('Get Customers by date range Error: ', err);
+            throw Error('There was an error getting customers by date range');
+        }
+    }
+
     // DELETE
 
     async deleteUser(id) {

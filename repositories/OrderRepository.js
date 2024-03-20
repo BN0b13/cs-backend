@@ -1,4 +1,4 @@
-import { Op } from 'sequelize';
+import { Sequelize, Op } from 'sequelize';
 
 import { sequelize } from '../db.js';
 
@@ -125,6 +125,33 @@ class OrderRepository {
         } catch (err) {
             console.log('Get Orders Messages Error: ', err);
             throw Error('There was an error getting all orders');
+        }
+    }
+
+    async getOrdersByDateRange({ start, end }) {
+        try {
+            const startDate = dayjs.unix(start);
+            const endDate = dayjs.unix(end);
+            
+            const res = await Order.findAndCountAll({
+                where: {
+                    createdAt: {
+                       [Op.between]: [startDate.$d, endDate.$d],
+                    },
+                },
+                include: [
+                    { 
+                        model: Coupon
+                    },
+                    { 
+                        model: Sale
+                    }
+                ]
+            });
+            return res;
+        } catch (err) {
+            console.log('Get Order By Date Range Error: ', err);
+            throw Error('There was an error getting order by date range');
         }
     }
 

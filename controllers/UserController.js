@@ -372,6 +372,15 @@ class UserController {
         res.send(data);
     }
 
+    async getCustomersByDateRange(req, res) {
+        const {
+            start,
+            end
+        } = req.body;
+        const data = await userRepository.getCustomersByDateRange({ start, end });
+        res.send(data);
+    }
+
     async sendEmailVerificationEmail(req, res) {
         const { id } = req.userData;
         const data = userService.sendEmailVerificationEmail({ id });
