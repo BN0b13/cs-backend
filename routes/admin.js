@@ -140,6 +140,8 @@ router.get('/orders/search/id/:id', AdminTokenVerifier, HandleErrors(orderContro
 router.get('/orders/search/product-id/:productId', AdminTokenVerifier, HandleErrors(orderController.getOrdersByProductId));
 router.get('/orders/search/ref-id/:refId', AdminTokenVerifier, HandleErrors(orderController.getOrderByRefId));
 
+router.post('/orders/date', AdminTokenVerifier, HandleErrors(orderController.getOrdersByDateRange));
+
 router.patch('/orders', AdminTokenVerifier, HandleErrors(orderController.updateOrder));
 router.patch('/orders/payment-link', AdminTokenVerifier, HandleErrors(orderController.paymentLink));
 router.patch('/orders/ship', AdminTokenVerifier, HandleErrors(orderController.shipOrder));
@@ -190,6 +192,7 @@ router.get('/admin', AdminTokenVerifier, HandleErrors(userController.getAdmin));
 router.post('/employees', AdminTokenVerifier, HandleErrors(userController.createEmployee));
 router.get('/employees', AdminTokenVerifier, HandleErrors(userController.getEmployees));
 
+router.post('/customers/date', AdminTokenVerifier, HandleErrors(userController.getCustomersByDateRange));
 router.get('/customers', AdminTokenVerifier, HandleErrors(userController.getCustomers));
 
 router.get('/users', AdminTokenVerifier, HandleErrors(userController.getUsers));
