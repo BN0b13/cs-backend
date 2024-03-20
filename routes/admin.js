@@ -114,8 +114,9 @@ router.delete('/giveaways', ContributorTokenVerifier, HandleErrors(giveawayContr
 // Inventory
 
 router.get('/inventory', AdminTokenVerifier, HandleErrors(inventoryController.getInventory));
-
 router.get('/inventory/:id', AdminTokenVerifier, HandleErrors(inventoryController.getByPK));
+
+router.post('/inventory', AdminTokenVerifier, HandleErrors(inventoryController.createInventory));
 
 router.patch('/inventory', AdminTokenVerifier, HandleErrors(inventoryController.updateInventory));
 
