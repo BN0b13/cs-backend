@@ -22,7 +22,7 @@ export default class SaleService {
 
         for(let product in products) {
             const getInventory = await inventoryRepository.getInventoryById(products[product].inventoryId);
-            console.log('GET Inventory res: ', res);
+            console.log('GET Inventory res: ', getInventory);
             total = total + getInventory.price;
             orderProductsArray.push({...products[product], price: getInventory.price});
         }
