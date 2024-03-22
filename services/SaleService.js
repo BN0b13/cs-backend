@@ -16,11 +16,13 @@ const saleRepository = new SaleRepository();
 export default class SaleService {
 
     updateOrderTotalWithActiveSales = async (products) => {
+        console.log('Update Order Total with active sales: PRODUCTS: ', products);
         let total = 0;
         const orderProductsArray = [];
 
         for(let product in products) {
             const getInventory = await inventoryRepository.getInventoryById(products[product].inventoryId);
+            console.log('GET Inventory res: ', res);
             total = total + getInventory.price;
             orderProductsArray.push({...products[product], price: getInventory.price});
         }
