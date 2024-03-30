@@ -39,6 +39,20 @@ class CartController {
         res.send(data);
     }
 
+    async adminUpdateCart(req, res) {
+        const {
+            id = null,
+            products = null 
+        } = req.body;
+        
+        const params = {
+            products
+        };
+
+        const data = await cartRepository.patchCart(id, params);
+        res.send(data);
+    }
+
 }
 
 export default CartController;
