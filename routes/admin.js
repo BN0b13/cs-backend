@@ -61,7 +61,7 @@ router.post('/accounts', AdminTokenVerifier, HandleErrors(userController.adminCr
 // Carts
 
 router.get('/carts', AdminTokenVerifier, HandleErrors(cartController.getCartsWithContents));
-router.post('/carts', AdminTokenVerifier, HandleErrors(cartController.adminUpdateCart));
+router.patch('/carts', AdminTokenVerifier, HandleErrors(cartController.adminUpdateCart));
 
 // Categories
 
