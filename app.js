@@ -32,7 +32,7 @@ app.use(
   })
 );
 
-Prod
+// Prod
 app.use(cors({
   origin: ['https://cosmicstrains.com', 'https://www.cosmicstrains.com', 'https://admin.cosmicstrains.com']
 }));
