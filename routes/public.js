@@ -188,7 +188,7 @@ router.get('/user/verify-email/:token', HandleErrors(userController.completeEmai
 
 router.get('/user', TokenVerifier, HandleErrors(userController.getUser));
 
-router.patch('/user', TokenVerifier, HandleErrors(userController.updateUser));
+router.patch('/user', TokenVerifier, HandleErrors(userController.updateCustomer));
 
 router.patch('/user/delete-account', TokenVerifier, HandleErrors(userController.deleteCustomer));
 

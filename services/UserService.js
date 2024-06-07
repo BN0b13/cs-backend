@@ -15,6 +15,35 @@ const emailService = new EmailService();
 const userTools = new UserTools();
 
 export default class UserService {
+    // READ
+
+    searchUsers = async (keyword, page, size) => {
+        try {
+            const getCount = await sequelize.query(`
+            select *
+            from  ${process.env.PG_SCHEMA_NAME}."Users" as "User"
+            where ("User".email ilike '%${keyword}%' or "User".username ilike '%${keyword}%' or "User"."firstName" ilike '%${keyword}%' or "User"."lastName" ilike '%${keyword}%')
+            `);
+
+            const currentPage = page * size;
+            const res = await sequelize.query(`
+            select *
+            from  ${process.env.PG_SCHEMA_NAME}."Users" as "User"
+            where ("User".email ilike '%${keyword}%' or "User".username ilike '%${keyword}%' or "User"."firstName" ilike '%${keyword}%' or "User"."lastName" ilike '%${keyword}%')
+            LIMIT ${size}
+            OFFSET ${currentPage}
+            `);
+
+            return {
+                count: getCount[1].rowCount,
+                rows: res[0]
+            };
+        } catch (err) {
+            console.log('Search Users Error: ', err);
+            throw Error('There was an error searching Users');
+        }
+    }
+
     hashPassword = async (password) => {
         const salt = await bcrypt.genSalt(parseInt(process.env.BCRYPTSALT));
         return await bcrypt.hash(password, salt);
@@ -457,7 +486,7 @@ export default class UserService {
     async updateUser(id, params) {
         try {
             let data = params;
-            if(await this.checkIfUsernameExists(data.username, id)) {
+            if(data.username && await this.checkIfUsernameExists(data.username, id)) {
                 return {
                     statusCode: 422,
                     error: 'Username already exists'
