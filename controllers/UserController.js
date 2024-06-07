@@ -381,6 +381,20 @@ class UserController {
         res.send(data);
     }
 
+    async searchUsers(req, res) {
+        const { search = null, 
+                page = 0, 
+                size = 10, 
+        } = req.query;
+
+        if(search === null) {
+            const data = await userRepository.getUsersByPage(page, size);
+            return res.send(data);
+        }
+        const data = await userService.searchUsers(search, page, size);
+        res.send(data);
+    }
+
     async sendEmailVerificationEmail(req, res) {
         const { id } = req.userData;
         const data = userService.sendEmailVerificationEmail({ id });
@@ -400,6 +414,34 @@ class UserController {
     }
 
     // UPDATE
+
+    async updateCustomer(req, res) {
+        const { id } = req.userData;
+        const {
+            username,
+            firstName = null,
+            lastName = null,
+            phone = null,
+            billingAddress = null,
+            shippingAddress = null,
+            subscriptions = null
+        } = req.body;
+
+        const params = {
+            username,
+            firstName,
+            lastName,
+            phone,
+            billingAddress,
+            shippingAddress,
+            subscriptions
+        };
+
+        Object.keys(params).forEach(param => params[param] == null && delete params[param]);
+
+        const data = await userService.updateUser(id, params);
+        res.send(data);
+    }
 
     async updateUser(req, res) {
         const { id } = req.userData;

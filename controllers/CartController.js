@@ -30,7 +30,7 @@ class CartController {
 
     async patchCart(req, res) {
         const { id } = req.userData;
-        const { products = null } = req.body;
+        const { products = [] } = req.body;
         const params = {
             products
         };
@@ -38,21 +38,6 @@ class CartController {
         const data = await cartRepository.patchCart(id, params);
         res.send(data);
     }
-
-    async adminUpdateCart(req, res) {
-        const {
-            id = null,
-            products = null 
-        } = req.body;
-        
-        const params = {
-            products
-        };
-
-        const data = await cartRepository.patchCart(id, params);
-        res.send(data);
-    }
-
 }
 
 export default CartController;

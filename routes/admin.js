@@ -61,7 +61,6 @@ router.post('/accounts', AdminTokenVerifier, HandleErrors(userController.adminCr
 // Carts
 
 router.get('/carts', AdminTokenVerifier, HandleErrors(cartController.getCartsWithContents));
-router.patch('/carts', AdminTokenVerifier, HandleErrors(cartController.adminUpdateCart));
 
 // Categories
 
@@ -198,6 +197,7 @@ router.get('/customers', AdminTokenVerifier, HandleErrors(userController.getCust
 
 router.get('/users', AdminTokenVerifier, HandleErrors(userController.getUsers));
 router.get('/user/:id', AdminTokenVerifier, HandleErrors(userController.getUserById));
+router.get('/users/search', AdminTokenVerifier, HandleErrors(userController.searchUsers));
 
 // TODO make admin patch function
 router.patch('/users', AdminTokenVerifier, HandleErrors(userController.updateAdminUser));
