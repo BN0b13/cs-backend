@@ -55,7 +55,7 @@ export default class ProductService {
         }
     }
 
-    searchProducts = async (keyword, page, size) => {
+    searchShopProducts = async (keyword, page, size) => {
         try {
             const getCount = await sequelize.query(`
             select *
@@ -117,6 +117,45 @@ export default class ProductService {
             LIMIT ${size}
             OFFSET ${currentPage}
             `);
+
+            return {
+                count: getCount[1].rowCount,
+                rows: res[0]
+            };
+        } catch (err) {
+            console.log('Search Products Error: ', err);
+            throw Error('There was an error searching Products');
+        }
+    }
+
+    searchProducts = async (keyword, page, size) => {
+        try {
+            const getCount = await sequelize.query(`
+            select *
+            from  ${process.env.PG_SCHEMA_NAME}."Products" as "Product"
+            where ("Product".name ilike '%${keyword}%' or "Product".description ilike '%${keyword}%' or "Product".details->>'mother' ilike '%${keyword}%' or "Product".details->>'father' ilike '%${keyword}%')
+            `);
+
+            const currentPage = page * size;
+            const res = await sequelize.query(`
+                select "Product"."id",
+                "Product"."categoryId",
+                "Product"."type",
+                "Product"."name",
+                "Product"."description",
+                "Product"."details",
+                "Product"."profile",
+                "Product"."createdAt",
+                "Product"."updatedAt",
+                "Category"."id" as "Category.id",
+                "Category"."name" as "Category.name"
+                from  ${process.env.PG_SCHEMA_NAME}."Products" as "Product"
+                inner join ${process.env.PG_SCHEMA_NAME}."Categories" as "Category" on
+                    "Product"."categoryId" = "Category"."id"
+                where ("Product".name ilike '%${keyword}%' or "Product".description ilike '%${keyword}%' or "Product".details->>'mother' ilike '%${keyword}%' or "Product".details->>'father' ilike '%${keyword}%')
+                LIMIT ${size}
+                OFFSET ${currentPage}
+                `);
 
             return {
                 count: getCount[1].rowCount,

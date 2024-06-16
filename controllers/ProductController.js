@@ -73,7 +73,23 @@ class ProductController {
         res.send(data);
     }
 
+    async searchShopProducts(req, res) {
+        // Search for the shop
+        const { search = null, 
+                page = 0, 
+                size = 10, 
+        } = req.query;
+
+        if(search === null) {
+            const data = await productRepository.getProductsByPage(page, size);
+            return res.send(data);
+        }
+        const data = await productService.searchShopProducts(search, page, size);
+        res.send(data);
+    }
+
     async searchProducts(req, res) {
+        // Admin search
         const { search = null, 
                 page = 0, 
                 size = 10, 

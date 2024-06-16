@@ -94,6 +94,20 @@ class CategoryController {
         res.send(data);
     }
 
+    async searchCategories(req, res) {
+        const { search = null, 
+                page = 0, 
+                size = 10, 
+        } = req.query;
+
+        if(search === null) {
+            const data = await categoryRepository.getCategoriesByPage(page, size);
+            return res.send(data);
+        }
+        const data = await categoryService.searchCategories(search, page, size);
+        res.send(data);
+    }
+
     // UPDATE
 
     async updateCategoryById(req, res) {

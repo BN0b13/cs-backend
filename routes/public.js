@@ -153,7 +153,7 @@ router.get('/orders/:refId', TokenVerifier, HandleErrors(orderController.getOrde
 
 router.get('/products', HandleErrors(productController.getProducts));
 router.get('/products/pagination', HandleErrors(productController.getProductsByPage));
-router.get('/products/search', HandleErrors(productController.searchProducts));
+router.get('/products/search', HandleErrors(productController.searchShopProducts));
 router.get('/products/:id', HandleErrors(productController.getProductById));
 router.get('/products/type/:type', HandleErrors(productController.getProductsByType));
 router.get('/products/profiles/all', HandleErrors(productController.getProductProfiles));
