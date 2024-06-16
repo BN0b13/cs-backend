@@ -284,6 +284,32 @@ class UserRepository {
         }
     }
 
+    async getUsersByPage(page, size) {
+        try {
+            const currentPage = page * size;
+            const res = await User.findAndCountAll({
+                limit: size,
+                offset: currentPage,
+                include: [
+                    { 
+                        model: Cart
+                    },
+                    { 
+                        model: Order
+                    },
+                    { 
+                        model: Role
+                    }
+                ]
+            });
+
+            return res;
+        } catch (err) {
+            console.log('GET Users By Page Error: ', err);
+            throw Error('There was an error getting users by page');
+        }
+    }
+
     // DELETE
 
     async deleteUser(id) {

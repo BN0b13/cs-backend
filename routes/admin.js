@@ -52,12 +52,6 @@ const visitController = new VisitController();
 const userController = new UserController();
 const welcomeController = new WelcomeController();
 
-// Accounts
-
-router.get('/account', ContributorTokenVerifier, HandleErrors(userController.getAccountById))
-
-router.post('/accounts', AdminTokenVerifier, HandleErrors(userController.adminCreateAccount));
-
 // Carts
 
 router.get('/carts', AdminTokenVerifier, HandleErrors(cartController.getCartsWithContents));
@@ -65,6 +59,7 @@ router.get('/carts', AdminTokenVerifier, HandleErrors(cartController.getCartsWit
 // Categories
 
 router.get('/categories', AdminTokenVerifier, HandleErrors(categoryController.getCategoriesWithoutAssociations));
+router.get('/categories/search', AdminTokenVerifier, HandleErrors(categoryController.searchCategories));
 
 router.post('/categories', AdminTokenVerifier, uploadCategory.array('files'), HandleErrors(categoryController.create));
 
@@ -139,6 +134,7 @@ router.get('/orders', AdminTokenVerifier, HandleErrors(orderController.getOrders
 router.get('/orders/search/id/:id', AdminTokenVerifier, HandleErrors(orderController.getOrderId));
 router.get('/orders/search/product-id/:productId', AdminTokenVerifier, HandleErrors(orderController.getOrdersByProductId));
 router.get('/orders/search/ref-id/:refId', AdminTokenVerifier, HandleErrors(orderController.getOrderByRefId));
+router.get('/products/search', AdminTokenVerifier, HandleErrors(productController.searchProducts));
 
 router.post('/orders/date', AdminTokenVerifier, HandleErrors(orderController.getOrdersByDateRange));
 
@@ -151,6 +147,7 @@ router.patch('/orders/ship', AdminTokenVerifier, HandleErrors(orderController.sh
 router.get('/products', AdminTokenVerifier, HandleErrors(productController.getInventory));
 router.get('/products/product-types', AdminTokenVerifier, HandleErrors(productController.getProductTypes));
 router.get('/products/category/:id', AdminTokenVerifier, HandleErrors(productController.getProductsByCategoryId));
+router.get('/products/search', AdminTokenVerifier, HandleErrors(productController.searchProducts));
 
 router.post('/products', AdminTokenVerifier, uploadProducts.array("files"), HandleErrors(productController.create));
 router.post('/products/profiles', AdminTokenVerifier, uploadIcon.array("files"), HandleErrors(productController.createProductProfile));
@@ -185,7 +182,9 @@ router.get('/themes', AdminTokenVerifier, HandleErrors(themeController.getThemes
 router.patch('/themes/colors', AdminTokenVerifier, HandleErrors(themeController.updateThemeColorScheme));
 
 // Users
+router.get('/user/account', ContributorTokenVerifier, HandleErrors(userController.getAccountById));
 
+router.post('/user/accounts', AdminTokenVerifier, HandleErrors(userController.adminCreateAccount));
 router.post('/admin', AdminTokenVerifier, HandleErrors(userController.createAdmin));
 router.get('/admin', AdminTokenVerifier, HandleErrors(userController.getAdmin));
 
@@ -199,7 +198,6 @@ router.get('/users', AdminTokenVerifier, HandleErrors(userController.getUsers));
 router.get('/user/:id', AdminTokenVerifier, HandleErrors(userController.getUserById));
 router.get('/users/search', AdminTokenVerifier, HandleErrors(userController.searchUsers));
 
-// TODO make admin patch function
 router.patch('/users', AdminTokenVerifier, HandleErrors(userController.updateAdminUser));
 
 router.delete('/users', AdminTokenVerifier, HandleErrors(userController.deleteUser));

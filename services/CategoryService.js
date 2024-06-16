@@ -1,4 +1,5 @@
 import fs from 'fs';
+import { sequelize } from "../db.js";
 import { compressImage } from '../tools/images.js';
 
 import { Category, Inventory, Product, ProductImage } from '../models/Associations.js';
@@ -51,6 +52,33 @@ export default class CategoryService {
         } catch (err) {
             console.log('Get Category by name Error: ', err);
             throw Error('There was an error getting category by name');
+        }
+    }
+
+    searchCategories = async (keyword, page, size) => {
+        try {
+            const getCount = await sequelize.query(`
+            select *
+            from  ${process.env.PG_SCHEMA_NAME}."Categories" as "Category"
+            where ("Category".name ilike '%${keyword}%' or "Category".description ilike '%${keyword}%' or "Category"."type" ilike '%${keyword}%')
+            `);
+
+            const currentPage = page * size;
+            const res = await sequelize.query(`
+            select *
+            from  ${process.env.PG_SCHEMA_NAME}."Categories" as "Category"
+            where ("Category".name ilike '%${keyword}%' or "Category".description ilike '%${keyword}%' or "Category"."type" ilike '%${keyword}%')
+            LIMIT ${size}
+            OFFSET ${currentPage}
+            `);
+
+            return {
+                count: getCount[1].rowCount,
+                rows: res[0]
+            };
+        } catch (err) {
+            console.log('Search Users Error: ', err);
+            throw Error('There was an error searching Users');
         }
     }
 

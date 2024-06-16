@@ -52,6 +52,26 @@ class CategoryRepository {
         }
     }
 
+    async getCategoriesByPage(page, size) {
+        try {
+            const currentPage = page * size;
+            const res = await Category.findAndCountAll({
+                limit: size,
+                offset: currentPage,
+                include: [
+                    {
+                        model: Product
+                    }
+                ]
+            });
+
+            return res;
+        } catch (err) {
+            console.log('GET Categories By Page Error: ', err);
+            throw Error('There was an error getting categories by page');
+        }
+    }
+
     // UPDATE
 
     async updateCategory(id, data) {
