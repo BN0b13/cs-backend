@@ -128,12 +128,12 @@ export default class ProductService {
         }
     }
 
-    searchProducts = async (keyword, page, size) => {
+    searchProducts = async ({ search = '', page, size, sortKey, sortDirection }) => {
         try {
             const getCount = await sequelize.query(`
             select *
             from  ${process.env.PG_SCHEMA_NAME}."Products" as "Product"
-            where ("Product".name ilike '%${keyword}%' or "Product".description ilike '%${keyword}%' or "Product".details->>'mother' ilike '%${keyword}%' or "Product".details->>'father' ilike '%${keyword}%')
+            where ("Product".name ilike '%${search}%' or "Product".description ilike '%${search}%' or "Product".details->>'mother' ilike '%${search}%' or "Product".details->>'father' ilike '%${search}%')
             `);
 
             const currentPage = page * size;
@@ -152,7 +152,8 @@ export default class ProductService {
                 from  ${process.env.PG_SCHEMA_NAME}."Products" as "Product"
                 inner join ${process.env.PG_SCHEMA_NAME}."Categories" as "Category" on
                     "Product"."categoryId" = "Category"."id"
-                where ("Product".name ilike '%${keyword}%' or "Product".description ilike '%${keyword}%' or "Product".details->>'mother' ilike '%${keyword}%' or "Product".details->>'father' ilike '%${keyword}%')
+                where ("Product".name ilike '%${search}%' or "Product".description ilike '%${search}%' or "Product".details->>'mother' ilike '%${search}%' or "Product".details->>'father' ilike '%${search}%')
+                ORDER BY "Product"."${sortKey}" ${sortDirection}
                 LIMIT ${size}
                 OFFSET ${currentPage}
                 `);

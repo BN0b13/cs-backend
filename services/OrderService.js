@@ -28,6 +28,34 @@ export default class OrderService {
 
     // Read
 
+    searchOrders = async ({ search = '', page, size, sortKey, sortDirection }) => {
+        try {
+            const getCount = await sequelize.query(`
+            select *
+            from  ${process.env.PG_SCHEMA_NAME}."Orders" as "Order"
+            where ("Order"."refId" ilike '%${search}%' or "Order".status ilike '%${search}%' or "Order".tracking ilike '%${search}%')
+            `);
+
+            const currentPage = page * size;
+            const res = await sequelize.query(`
+            SELECT *
+            FROM  ${process.env.PG_SCHEMA_NAME}."Orders" AS "Order"
+            WHERE ("Order"."refId" ilike '%${search}%' OR "Order".status ilike '%${search}%' or "Order".tracking ilike '%${search}%')
+            ORDER BY "Order"."${sortKey}" ${sortDirection}
+            LIMIT ${size}
+            OFFSET ${currentPage}
+            `);
+
+            return {
+                count: getCount[1].rowCount,
+                rows: res[0]
+            };
+        } catch (err) {
+            console.log('Search Orders Error: ', err);
+            throw Error('There was an error searching Orders');
+        }
+    }
+
     checkUserCreditAmount = async (userId, credit, total) => {
         let updatedCredit = credit;
 

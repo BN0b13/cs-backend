@@ -55,19 +55,20 @@ export default class CategoryService {
         }
     }
 
-    searchCategories = async (keyword, page, size) => {
+    searchCategories = async ({ search = '', page, size, sortKey, sortDirection }) => {
         try {
             const getCount = await sequelize.query(`
             select *
             from  ${process.env.PG_SCHEMA_NAME}."Categories" as "Category"
-            where ("Category".name ilike '%${keyword}%' or "Category".description ilike '%${keyword}%' or "Category"."type" ilike '%${keyword}%')
+            where ("Category".name ilike '%${search}%' or "Category".description ilike '%${search}%' or "Category"."type" ilike '%${search}%')
             `);
 
             const currentPage = page * size;
             const res = await sequelize.query(`
             select *
             from  ${process.env.PG_SCHEMA_NAME}."Categories" as "Category"
-            where ("Category".name ilike '%${keyword}%' or "Category".description ilike '%${keyword}%' or "Category"."type" ilike '%${keyword}%')
+            where ("Category".name ilike '%${search}%' or "Category".description ilike '%${search}%' or "Category"."type" ilike '%${search}%')
+            ORDER BY "Category"."${sortKey}" ${sortDirection}
             LIMIT ${size}
             OFFSET ${currentPage}
             `);

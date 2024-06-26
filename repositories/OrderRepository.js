@@ -9,7 +9,7 @@ class OrderRepository {
 
     // READ
 
-    async getOrders() {
+    async getOrders({ sortKey = 'createdAt', sortDirection = 'ASC', size = 10, page = 0 }) {
         try {
             const res = await Order.findAndCountAll({
                 include: [
@@ -19,11 +19,16 @@ class OrderRepository {
                     { 
                         model: Sale
                     }
-                ]
+                ],
+                order: [
+                    [sortKey, sortDirection],
+                ],
+                limit: size,
+                offset: page,
             });
             return res;
         } catch (err) {
-            console.log('Get Orders Messages Error: ', err);
+            console.log('Get Orders Error: ', err);
             throw Error('There was an error getting all orders');
         }
     }

@@ -17,19 +17,20 @@ const userTools = new UserTools();
 export default class UserService {
     // READ
 
-    searchUsers = async (keyword, page, size) => {
+    searchUsers = async ({ search, page, size, sortKey, sortDirection }) => {
         try {
             const getCount = await sequelize.query(`
             select *
             from  ${process.env.PG_SCHEMA_NAME}."Users" as "User"
-            where ("User".email ilike '%${keyword}%' or "User".username ilike '%${keyword}%' or "User"."firstName" ilike '%${keyword}%' or "User"."lastName" ilike '%${keyword}%')
+            where ("User".email ilike '%${search}%' or "User".username ilike '%${search}%' or "User"."firstName" ilike '%${search}%' or "User"."lastName" ilike '%${search}%')
             `);
 
             const currentPage = page * size;
             const res = await sequelize.query(`
-            select *
-            from  ${process.env.PG_SCHEMA_NAME}."Users" as "User"
-            where ("User".email ilike '%${keyword}%' or "User".username ilike '%${keyword}%' or "User"."firstName" ilike '%${keyword}%' or "User"."lastName" ilike '%${keyword}%')
+            SELECT *
+            FROM  ${process.env.PG_SCHEMA_NAME}."Users" AS "User"
+            WHERE ("User".email ilike '%${search}%' OR "User".username ilike '%${search}%' OR "User"."firstName" ilike '%${search}%' OR "User"."lastName" ilike '%${search}%')
+            ORDER BY "User"."${sortKey}" ${sortDirection}
             LIMIT ${size}
             OFFSET ${currentPage}
             `);

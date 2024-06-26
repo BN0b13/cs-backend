@@ -4,32 +4,19 @@ class CategoryRepository {
 
     // READ
 
-    async getCategories() {
+    async getCategories({ sortKey = 'createdAt', sortDirection = 'ASC', size = 10, page = 0 }) {
         try {
             const res = await Category.findAndCountAll({
-                include: [
-                    {
-                        model: Product
-                    }
-                ]
+                order: [
+                    [sortKey, sortDirection],
+                ],
+                limit: size,
+                offset: page,
             });
-
-            const productIds = res.rows
-
             return res;
         } catch (err) {
-            console.log('Get Categories Messages Error: ', err);
-            throw Error('There was an error getting categories');
-        }
-    }
-
-    async getCategoriesWithoutAssociations() {
-        try {
-            const res = await Category.findAndCountAll();
-            return res;
-        } catch (err) {
-            console.log('Get Categories Without Associations Error: ', err);
-            throw Error('There was an error getting categories with out associations');
+            console.log('Get Categories Error: ', err);
+            throw Error('There was an error getting all categories');
         }
     }
 
@@ -49,26 +36,6 @@ class CategoryRepository {
         } catch (err) {
             console.log('Get Category by id Messages Error: ', err);
             throw Error('There was an error getting category by id');
-        }
-    }
-
-    async getCategoriesByPage(page, size) {
-        try {
-            const currentPage = page * size;
-            const res = await Category.findAndCountAll({
-                limit: size,
-                offset: currentPage,
-                include: [
-                    {
-                        model: Product
-                    }
-                ]
-            });
-
-            return res;
-        } catch (err) {
-            console.log('GET Categories By Page Error: ', err);
-            throw Error('There was an error getting categories by page');
         }
     }
 

@@ -36,7 +36,29 @@ class OrderController {
     // READ
     
     async getOrders(req, res) {
-        const data = await orderRepository.getOrders();
+        const { 
+            search = null, 
+            page = 0, 
+            size = 10,
+            sortKey = 'createdAt',
+            sortDirection = 'ASC'
+        } = req.query;
+
+        const params = {
+            sortKey,
+            sortDirection,
+            page,
+            size
+        };
+
+        if(search === null) {
+            const data = await orderRepository.getOrders(params);
+            return res.send(data);
+        }
+
+        params.search = search;
+
+        const data = await orderService.searchOrders(params);
         res.send(data);
     }
     

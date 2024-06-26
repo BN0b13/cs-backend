@@ -256,6 +256,78 @@ module.exports = {
       createdAt: new Date(),
       updatedAt: new Date()
     },
+    {
+      email: 'zellybelly@gmail.com',
+      emailOriginal: 'zellybelly@gmail.com',
+      password: '$2b$10$hy7nBdBl81u9N.qBJnILNuC3zoiVWA.AlrJWVS4Z4EDSeL5iEW8/m',
+      roleId: 5,
+      firstName: 'Zelda',
+      lastName: 'Psychopants',
+      phone: '9515062534',
+      billingAddress: JSON.stringify({
+        firstName: 'Zelda',
+        lastName: 'Psychopants',
+        addressOne: '33579 Canyon Ranch Road',
+        addressTwo: '',
+        city: 'Wildomar',
+        state: 'CA',
+        zipCode: 92595
+      }),
+      shippingAddress: JSON.stringify({
+        firstName: 'Zelda',
+        lastName: 'Psychopants',
+        addressOne: '33579 Canyon Ranch Road',
+        addressTwo: '',
+        city: 'Wildomar',
+        state: 'CA',
+        zipCode: 92595
+      }),
+      favorites: [0],
+      subscriptions: [0],
+      emailVerified: true,
+      emailToken: null,
+      passwordToken: null,
+      credit: 0,
+      themeId: 1,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    },
+    {
+      email: 'cashyroo@gmail.com',
+      emailOriginal: 'cashyroo@gmail.com',
+      password: '$2b$10$hy7nBdBl81u9N.qBJnILNuC3zoiVWA.AlrJWVS4Z4EDSeL5iEW8/m',
+      roleId: 6,
+      firstName: 'Cash',
+      lastName: 'Adoggy',
+      phone: '9515062534',
+      billingAddress: JSON.stringify({
+        firstName: 'Cash',
+        lastName: 'Adoggy',
+        addressOne: '33579 Canyon Ranch Road',
+        addressTwo: '',
+        city: 'Wildomar',
+        state: 'CA',
+        zipCode: 92595
+      }),
+      shippingAddress: JSON.stringify({
+        firstName: 'Cash',
+        lastName: 'Adoggy',
+        addressOne: '33579 Canyon Ranch Road',
+        addressTwo: '',
+        city: 'Wildomar',
+        state: 'CA',
+        zipCode: 92595
+      }),
+      favorites: [0],
+      subscriptions: [0],
+      emailVerified: true,
+      emailToken: null,
+      passwordToken: null,
+      credit: 0,
+      themeId: 1,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    },
   ], { schema: process.env.PG_SCHEMA_NAME });
   },
 
