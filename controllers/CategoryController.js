@@ -67,7 +67,29 @@ class CategoryController {
     // READ
     
     async getCategories(req, res) {
-        const data = await categoryRepository.getCategories();
+        const { 
+            search = null, 
+            page = 0, 
+            size = 10,
+            sortKey = 'createdAt',
+            sortDirection = 'ASC'
+        } = req.query;
+
+        const params = {
+            sortKey,
+            sortDirection,
+            page,
+            size
+        };
+
+        if(search === null) {
+            const data = await categoryRepository.getCategories(params);
+            return res.send(data);
+        }
+
+        params.search = search;
+
+        const data = await categoryService.searchCategories(params);
         res.send(data);
     }
 
@@ -83,28 +105,9 @@ class CategoryController {
         res.send(data);
     }
     
-    async getCategoriesWithoutAssociations(req, res) {
-        const data = await categoryRepository.getCategoriesWithoutAssociations();
-        res.send(data);
-    }
-    
     async getCategoryById(req, res) {
         const { id } = req.params;
         const data = await categoryRepository.getCategoryById(id);
-        res.send(data);
-    }
-
-    async searchCategories(req, res) {
-        const { search = null, 
-                page = 0, 
-                size = 10, 
-        } = req.query;
-
-        if(search === null) {
-            const data = await categoryRepository.getCategoriesByPage(page, size);
-            return res.send(data);
-        }
-        const data = await categoryService.searchCategories(search, page, size);
         res.send(data);
     }
 

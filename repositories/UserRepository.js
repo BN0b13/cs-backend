@@ -142,26 +142,19 @@ class UserRepository {
         return await User.findByPk(id);
     }
 
-    async getUsers() {
+    async getUsers({ sortKey = 'createdAt', sortDirection = 'ASC', size = 10, page = 0 }) {
         try {
             const res = await User.findAndCountAll({
                 include: [
                     { 
-                        model: Cart
-                    },
-                    {
-                        model: Company
-                    },
-                    {
-                        model: Giveaway
-                    },
-                    { 
-                        model: Order
-                    },
-                    { 
                         model: Role
                     }
-                ]
+                ],
+                order: [
+                    [sortKey, sortDirection],
+                ],
+                limit: size,
+                offset: page,
             });
             return res;
         } catch (err) {
@@ -284,7 +277,7 @@ class UserRepository {
         }
     }
 
-    async getUsersByPage(page, size) {
+    async getUsersByPage({ page = 0, size = 10, sortColumn = 'createdAt', sortDirection = 'ASC' }) {
         try {
             const currentPage = page * size;
             const res = await User.findAndCountAll({
@@ -300,6 +293,9 @@ class UserRepository {
                     { 
                         model: Role
                     }
+                ],
+                order: [
+                    [sortColumn, sortDirection],
                 ]
             });
 

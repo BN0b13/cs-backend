@@ -1,5 +1,5 @@
 import fs from 'fs';
-import { Op } from 'sequelize';
+import { sequelize } from "../db.js";
 
 import { compressImage } from '../tools/images.js';
 
@@ -8,6 +8,34 @@ import { Giveaway, Company, User } from '../models/Associations.js';
 export default class CompanyService {
 
     // READ
+
+    searchCompanies = async ({ search = '', page, size, sortKey, sortDirection }) => {
+        try {
+            const getCount = await sequelize.query(`
+            select *
+            from  ${process.env.PG_SCHEMA_NAME}."Companies" as "Company"
+            where ("Company".name ilike '%${search}%' or "Company".bio ilike '%${search}%')
+            `);
+
+            const currentPage = page * size;
+            const res = await sequelize.query(`
+            SELECT *
+            FROM  ${process.env.PG_SCHEMA_NAME}."Companies" AS "Company"
+            WHERE ("Company".name ilike '%${search}%' OR "Company".bio ilike '%${search}%')
+            ORDER BY "Company"."${sortKey}" ${sortDirection}
+            LIMIT ${size}
+            OFFSET ${currentPage}
+            `);
+
+            return {
+                count: getCount[1].rowCount,
+                rows: res[0]
+            };
+        } catch (err) {
+            console.log('Search Companies Error: ', err);
+            throw Error('There was an error searching Companies');
+        }
+    }
 
     async getCompanies(id) {
         const user = await User.findOne({

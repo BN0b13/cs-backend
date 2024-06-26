@@ -6,6 +6,35 @@ class ProductRepository {
 
     // READ
 
+    async getProducts({ sortKey = 'createdAt', sortDirection = 'ASC', size = 10, page = 0 }) {
+        try {
+            const res = await Product.findAndCountAll({
+                include: [
+                    { 
+                        model: Category,
+                        required: true
+                    },
+                    { 
+                        model: Inventory,
+                        required: true
+                    },
+                    { 
+                        model: ProductImage
+                    },
+                ],
+                order: [
+                    [sortKey, sortDirection],
+                ],
+                limit: size,
+                offset: page,
+            });
+            return res;
+        } catch (err) {
+            console.log('Get Products Error: ', err);
+            throw Error('There was an error getting all products');
+        }
+    }
+
     async getProducts() {
         try {
             const res = await Product.findAndCountAll({

@@ -24,6 +24,7 @@ import CompanyController from '../controllers/CompanyController.js';
 import ConfigurationController from '../controllers/ConfigurationController.js';
 import CouponController from '../controllers/CouponController.js';
 import GiveawayController from '../controllers/GiveawayController.js';
+import GRServerController from '../controllers/GRServerController.js';
 import MessageController from '../controllers/MessageController.js';
 import InventoryController from '../controllers/InventoryController.js';
 import OrderController from '../controllers/OrderController.js';
@@ -41,6 +42,7 @@ const companyController = new CompanyController();
 const configurationController = new ConfigurationController();
 const couponController = new CouponController();
 const giveawayController = new GiveawayController();
+const gRServerController = new GRServerController();
 const inventoryController = new InventoryController();
 const messageController = new MessageController();
 const orderController = new OrderController();
@@ -58,8 +60,7 @@ router.get('/carts', AdminTokenVerifier, HandleErrors(cartController.getCartsWit
 
 // Categories
 
-router.get('/categories', AdminTokenVerifier, HandleErrors(categoryController.getCategoriesWithoutAssociations));
-router.get('/categories/search', AdminTokenVerifier, HandleErrors(categoryController.searchCategories));
+router.get('/categories', AdminTokenVerifier, HandleErrors(categoryController.getCategories));
 
 router.post('/categories', AdminTokenVerifier, uploadCategory.array('files'), HandleErrors(categoryController.create));
 
@@ -70,7 +71,8 @@ router.delete('/categories', AdminTokenVerifier, HandleErrors(categoryController
 
 // Companies
 
-router.get('/companies', ContributorTokenVerifier, HandleErrors(companyController.getCompanies));
+router.get('/companies', AdminTokenVerifier, HandleErrors(companyController.getCompanies));
+router.get('/company', ContributorTokenVerifier, HandleErrors(companyController.getCompany));
 router.get('/companies/:id', AdminTokenVerifier, HandleErrors(companyController.getCompanyById));
 
 router.post('/companies', ContributorTokenVerifier, HandleErrors(companyController.createCompany));
@@ -105,6 +107,11 @@ router.post('/giveaways', ContributorTokenVerifier, HandleErrors(giveawayControl
 router.patch('/giveaways', ContributorTokenVerifier, HandleErrors(giveawayController.updateGiveaway));
 
 router.delete('/giveaways', ContributorTokenVerifier, HandleErrors(giveawayController.deleteGiveaway));
+
+// GR Server
+
+router.get('/gr-server', AdminTokenVerifier, HandleErrors(gRServerController.health));
+router.get('/gr-server/pumps', AdminTokenVerifier, HandleErrors(gRServerController.activatePumps));
 
 // Inventory
 
@@ -144,7 +151,7 @@ router.patch('/orders/ship', AdminTokenVerifier, HandleErrors(orderController.sh
 
 // Products
 
-router.get('/products', AdminTokenVerifier, HandleErrors(productController.getInventory));
+router.get('/products', AdminTokenVerifier, HandleErrors(productController.getProducts));
 router.get('/products/product-types', AdminTokenVerifier, HandleErrors(productController.getProductTypes));
 router.get('/products/category/:id', AdminTokenVerifier, HandleErrors(productController.getProductsByCategoryId));
 router.get('/products/search', AdminTokenVerifier, HandleErrors(productController.searchProducts));
@@ -182,19 +189,23 @@ router.get('/themes', AdminTokenVerifier, HandleErrors(themeController.getThemes
 router.patch('/themes/colors', AdminTokenVerifier, HandleErrors(themeController.updateThemeColorScheme));
 
 // Users
+
+// GET - ALL, By ID, Search
+// Used to GET users for table on admin site
+router.get('/users', AdminTokenVerifier, HandleErrors(userController.getUsers));
+
+
+
 router.get('/user/account', ContributorTokenVerifier, HandleErrors(userController.getAccountById));
 
 router.post('/user/accounts', AdminTokenVerifier, HandleErrors(userController.adminCreateAccount));
 router.post('/admin', AdminTokenVerifier, HandleErrors(userController.createAdmin));
 router.get('/admin', AdminTokenVerifier, HandleErrors(userController.getAdmin));
 
-router.post('/employees', AdminTokenVerifier, HandleErrors(userController.createEmployee));
-router.get('/employees', AdminTokenVerifier, HandleErrors(userController.getEmployees));
-
 router.post('/customers/date', AdminTokenVerifier, HandleErrors(userController.getCustomersByDateRange));
 router.get('/customers', AdminTokenVerifier, HandleErrors(userController.getCustomers));
 
-router.get('/users', AdminTokenVerifier, HandleErrors(userController.getUsers));
+// router.get('/users', AdminTokenVerifier, HandleErrors(userController.getUsers));
 router.get('/user/:id', AdminTokenVerifier, HandleErrors(userController.getUserById));
 router.get('/users/search', AdminTokenVerifier, HandleErrors(userController.searchUsers));
 

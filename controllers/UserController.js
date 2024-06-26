@@ -326,16 +326,11 @@ class UserController {
         res.send(data);
     }
 
-    async getEmployees(req, res) {
-        const data = await userRepository.getEmployees();
-        res.send(data);
-    }
-
     async getCustomers(req, res) {
         const data = await userRepository.getCustomers();
         res.send(data);
     }
-
+    
     async getUser(req, res) {
         const { id } = req.userData;
         const data = await userRepository.getUser(id);
@@ -368,7 +363,29 @@ class UserController {
     }
     
     async getUsers(req, res) {
-        const data = await userRepository.getUsers();
+        const { 
+            search = null, 
+            page = 0, 
+            size = 10,
+            sortKey = 'createdAt',
+            sortDirection = 'ASC'
+        } = req.query;
+
+        const params = {
+            sortKey,
+            sortDirection,
+            page,
+            size
+        };
+
+        if(search === null) {
+            const data = await userRepository.getUsers(params);
+            return res.send(data);
+        }
+
+        params.search = search;
+
+        const data = await userService.searchUsers(params);
         res.send(data);
     }
 
@@ -384,14 +401,23 @@ class UserController {
     async searchUsers(req, res) {
         const { search = null, 
                 page = 0, 
-                size = 10, 
+                size = 10,
+                sortColumn = 'createdAt',
+                sortDirection = 'ASC'
         } = req.query;
 
+        const params = {
+            page,
+            size,
+            sortColumn,
+            sortDirection
+        };
+
         if(search === null) {
-            const data = await userRepository.getUsersByPage(page, size);
+            const data = await userRepository.getUsersByPage(params);
             return res.send(data);
         }
-        const data = await userService.searchUsers(search, page, size);
+        const data = await userService.searchUsers(params);
         res.send(data);
     }
 

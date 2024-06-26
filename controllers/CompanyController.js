@@ -1,5 +1,7 @@
+import CompanyRepository from "../repositories/CompanyRepository.js";
 import CompanyService from "../services/CompanyService.js";
 
+const companyRepository = new CompanyRepository();
 const companyService = new CompanyService();
 
 class CompanyController {
@@ -7,8 +9,36 @@ class CompanyController {
     // Read
 
     async getCompanies(req, res) {
+        const { 
+            search = null, 
+            page = 0, 
+            size = 10,
+            sortKey = 'createdAt',
+            sortDirection = 'ASC'
+        } = req.query;
+
+        const params = {
+            sortKey,
+            sortDirection,
+            page,
+            size
+        };
+
+        if(search === null) {
+            const data = await companyRepository.getCompanies(params);
+            return res.send(data);
+        }
+
+        params.search = search;
+
+        const data = await companyService.searchCompanies(params);
+        res.send(data);
+    }
+
+    async getCompany(req, res) {
         const { id } = req.userData;
-        const data = await companyService.getCompanies(id);
+
+        const data = await companyRepository.getCompanyByUserId(id);
         res.send(data);
     }
 

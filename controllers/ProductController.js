@@ -10,7 +10,29 @@ class ProductController {
     // READ
     
     async getProducts(req, res) {
-        const data = await productRepository.getProducts();
+        const { 
+            search = null, 
+            page = 0, 
+            size = 10,
+            sortKey = 'createdAt',
+            sortDirection = 'ASC'
+        } = req.query;
+
+        const params = {
+            sortKey,
+            sortDirection,
+            page,
+            size
+        };
+
+        if(search === null) {
+            const data = await productRepository.getProducts(params);
+            return res.send(data);
+        }
+
+        params.search = search;
+
+        const data = await productService.searchProducts(params);
         res.send(data);
     }
     
