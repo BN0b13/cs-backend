@@ -111,8 +111,11 @@ router.delete('/giveaways', ContributorTokenVerifier, HandleErrors(giveawayContr
 // GR Server
 
 router.get('/gr-server', AdminTokenVerifier, HandleErrors(gRServerController.health));
+router.get('/gr-server/logs', AdminTokenVerifier, HandleErrors(gRServerController.getLogs));
 router.get('/gr-server/outlet-status', AdminTokenVerifier, HandleErrors(gRServerController.outletStatus));
 router.get('/gr-server/cycle-outlet/on-off', AdminTokenVerifier, HandleErrors(gRServerController.cycleOutletOnOff));
+
+router.delete('/gr-server/logs/:id', AdminTokenVerifier, HandleErrors(gRServerController.deleteLogById));
 
 // Inventory
 
