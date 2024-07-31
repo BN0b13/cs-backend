@@ -505,7 +505,8 @@ class UserController {
 
         const {
             id,
-            username,
+            roleId = null,
+            username = null,
             password = null,
             firstName = null,
             lastName = null,
@@ -516,7 +517,10 @@ class UserController {
             credit = null
         } = req.body;
 
+        console.log('REQ body: ', req.body);
+
         const params = {
+            roleId,
             username,
             password,
             firstName,
@@ -529,6 +533,8 @@ class UserController {
         };
 
         Object.keys(params).forEach(param => params[param] == null && delete params[param]);
+
+        console.log('Params: ', params);
 
         const data = await userService.updateUser(id, params);
         res.send(data);

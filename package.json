@@ -11,7 +11,8 @@
     "destroy": "docker-compose -f ./docker-compose.yml -p cosmic_strains down -v --remove-orphans",
     "migrate": "sequelize-cli db:migrate",
     "migrate:down": "sequelize-cli db:migrate:undo",
-    "seed": "npx sequelize-cli db:seed:all",
+    "seed": "npx sequelize-cli db:seed:all --seeders-path seeders/prod",
+    "seed:dev": "npx sequelize-cli db:seed:all --seeders-path seeders/dev",
     "redis": "docker-compose -f ./redis.docker-compose.yml -p order_queue up -d"
   },
   "repository": {
@@ -42,10 +43,12 @@
     "mongoose": "^7.0.1",
     "multer": "^1.4.5-lts.1",
     "node-cron": "^3.0.2",
+    "node-fetch": "^3.3.2",
     "path": "^0.12.7",
     "pg": "^8.10.0",
     "sequelize": "^6.30.0",
     "sharp": "^0.33.2",
+    "socket.io": "^4.7.5",
     "square": "^25.1.0",
     "uuid": "^9.0.0"
   },

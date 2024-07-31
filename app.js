@@ -2,6 +2,8 @@ import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
+import { createServer } from "http";
+import { Server } from "socket.io";
 
 import routes from './routes/index.js';
 
@@ -19,6 +21,7 @@ cron.backup();
 cron.handleScheduledGiveaways();
 
 const app = express();
+
 const port = process.env.PORT;
 
 app.use(express.json());
@@ -33,9 +36,9 @@ app.use(
 );
 
 // Prod
-app.use(cors({
-  origin: ['https://cosmicstrains.com', 'https://www.cosmicstrains.com', 'https://admin.cosmicstrains.com']
-}));
+// app.use(cors({
+//   origin: ['https://cosmicstrains.com', 'https://www.cosmicstrains.com', 'https://admin.cosmicstrains.com']
+// }));
 
 
 // Local
@@ -43,10 +46,20 @@ app.use(cors({
 //   origin: ['http://localhost:5050', 'http://localhost:3000' ]
 // }));
 
-// app.use(cors({ origin: '*' }));
+app.use(cors({ origin: '*' }));
 
 app.disable('x-powered-by');
 
+const httpServer = createServer(app);
+
+const io = new Server(httpServer, {
+  
+});
+
+io.on('connection', (socket) => {
+  socket.emit('connect', {message: 'a new client connected'});
+});
+
 app.use('/', routes);
 
-app.listen(port, () => console.log(`Cosmic Strains Backend listening on port ${port}.`));
+httpServer.listen(port, () => console.log(`Cosmic Strains Backend listening on port ${port}.`));

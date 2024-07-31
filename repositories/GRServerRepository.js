@@ -1,4 +1,5 @@
 import 'dotenv/config';
+import fetch from 'node-fetch';
 
 class GRServerRepository {
 
@@ -18,6 +19,7 @@ class GRServerRepository {
             return data;
         } catch (err) {
             console.log('There was an error getting GR Server Health: ', err);
+            throw Error('There was an error getting GR Server Health');
         }
     }
 

@@ -1,5 +1,5 @@
 'use strict';
-const seederHelper = require('../services/SeederHelper.cjs');
+const seederHelper = require('../SeederHelper.cjs');
 const table = { schema: process.env.PG_SCHEMA_NAME, tableName: 'Inventories' };
 const inventory = seederHelper.inventory;
 /** @type {import('sequelize-cli').Migration} */

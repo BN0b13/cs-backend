@@ -24,7 +24,7 @@ class OrderRepository {
                     [sortKey, sortDirection],
                 ],
                 limit: size,
-                offset: page,
+                offset: (page * size),
             });
             return res;
         } catch (err) {
