@@ -19,6 +19,7 @@ export default class UserService {
 
     searchUsers = async ({ search, page, size, sortKey, sortDirection }) => {
         try {
+            console.log('Search Users hit');
             const getCount = await sequelize.query(`
             select *
             from  ${process.env.PG_SCHEMA_NAME}."Users" as "User"
