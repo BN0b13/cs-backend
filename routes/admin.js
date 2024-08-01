@@ -71,11 +71,11 @@ router.delete('/categories', AdminTokenVerifier, HandleErrors(categoryController
 
 // Companies
 
-router.get('/companies', AdminTokenVerifier, HandleErrors(companyController.getCompanies));
+router.get('/companies', ContributorTokenVerifier, HandleErrors(companyController.getCompanies));
 router.get('/company', ContributorTokenVerifier, HandleErrors(companyController.getCompany));
 router.get('/companies/:id', AdminTokenVerifier, HandleErrors(companyController.getCompanyById));
 
-router.post('/companies', ContributorTokenVerifier, HandleErrors(companyController.createCompany));
+router.post('/company', ContributorTokenVerifier, HandleErrors(companyController.createCompany));
 router.post('/companies/logo', ContributorTokenVerifier,uploadCompany.array('files'), HandleErrors(companyController.createCompanyLogo));
 
 router.patch('/companies', ContributorTokenVerifier, HandleErrors(companyController.updateCompany));
